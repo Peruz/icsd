@@ -235,13 +235,13 @@ class iCSD2d_Class():
                 self.iCSD()
                 print(min(self.x.x), max(self.x.x))
                 self.plotCSD()
-                pdf.savefig(self.path2save + self.f)
+                pdf.savefig(self.f)
                 plt.close(self.f)
 
                 self.ResidualAnalysis()
 
             self._plotPareto_()
-            pdf.savefig(self.path2save+self.p)
+            pdf.savefig(self.p)
             plt.close(self.p)
     ### PLOT 
 

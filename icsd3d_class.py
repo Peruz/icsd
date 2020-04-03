@@ -13,6 +13,7 @@ from matplotlib.ticker import MultipleLocator
 from kneed import KneeLocator
 from scipy.interpolate import griddata as gd
 from mpl_toolkits.mplot3d import Axes3D
+import pyvista as pv
 
 import sys
 from numpy import linalg as LA
@@ -54,8 +55,10 @@ class iCSD3d_Class():
         self.x0_prior=False #  relative smallness regularization as a prior criterion for the inversion; i.ethe algorithm minimizes ||m−m0||2
         self.x0_ini_guess=False # initial guess
         self.knee=False # L-curve knee automatic detection
-        self.RegMesh='strc' # strc or unstrc
-        
+        self.KneeWr=[]
+        self.regMesh='strc' # strc or unstrc
+        self.plotElecs=False # strc or unstrc
+
         
     def icsd_init(self):
         """ these functions are called only once, even for pareto,
@@ -65,6 +68,8 @@ class iCSD3d_Class():
         self.load_coord()
         self.load_obs()
         self.load_sim()
+        if self.plotElecs==True:
+            self.load_geom() # geometry file containing electrodes position includinf remotes 
         # check vector sizes
         self.check_nVRTe()
         # # reshape VRTe vector into matrix A 
@@ -85,9 +90,9 @@ class iCSD3d_Class():
         if self.type=='2d':
             self.regularize_A()
         else:
-            if self.RegMesh=='strc':
+            if self.regMesh=='strc':
                 self.regularize_A_3d() # working for structured mesh
-            else:
+            elif self.regMesh=='unstrc':
                 self.regularize_A_UnstructuredMesh3d() # working for unstructured mesh
 
         self.regularize_b()
@@ -104,7 +109,89 @@ class iCSD3d_Class():
         
 # NEW FUNCTIONS COMPARE TO the 2d case    
 
+    def load_geom(self):
+        geom_files = [f for f in os.listdir(self.path2load) if f.endswith('.geom')]
+        if len(geom_files) != 1:
+            raise ValueError('should be only one geom file in the current directory')
+
+        fileNameElec = geom_files[0]
+        #fileNameElec= '*.geom'
+        # RemLineNb= search_string_in_file(fileNameElec, '#Remote')
+
+        line_number = 0
+        line_of_results = []
+        # Open the file in read only mode
+        with open(self.path2load + fileNameElec, 'r') as read_obj:
+            # Read all lines in the file one by one
+            for line in read_obj:
+                # For each line, check if line contains the string
+                line_number += 1
+                if ('#Remote') in line:
+                    # If yes, then add the line number & line as a tuple in the list
+                    line_of_results.append((line_number))
+        self.RemLineNb= int(line_of_results[0])-1
+
+        self.coordE = np.loadtxt(self.path2load+ fileNameElec)
+        self.pointsE= np.vstack(self.coordE[:self.RemLineNb,1:4])
+
+    def plotCSD3d_pyvista(self):
+
+        filename = self.path2load + 'ExportSol.dat'
+        data_2_plot =np.genfromtxt(filename)
+        coord_x= data_2_plot[:,0]
+        coord_y= data_2_plot[:,1]
+        coord_z= data_2_plot[:,2]
+        step=(max(coord_x)-min(coord_x))/10
+        num =10
+        opacity = [0, 0, 0.1, 0.3, 0.6, 0.9, 1]
+
+        grid = pv.UniformGrid()
+        spc=(max(coord_x)-min(coord_x))/10
+        # spc=1
+        xdim = int(round((max(coord_x)-min(coord_x))/spc))
+        ydim = int(round((max(coord_y)-min(coord_y))/spc))
+        zdim = int(round((max(coord_z)-min(coord_z))/spc))
+        grid.dimensions = (xdim, ydim, zdim)
+        grid.dimensions = np.array(grid.dimensions) +1
+        grid.origin = (min(coord_x), min(coord_y), min(coord_z)) # The bottom left corner of the data set
+        grid.spacing = (spc, spc,spc) # These are the cell sizes along each axis
+        
+        coord= data_2_plot[:,:-1]
+        pv.set_plot_theme('document')
+        poly = pv.PolyData(coord)
+        pvfig = pv.Plotter(notebook=False,window_size=[600, 600])
+        pvfig.add_mesh(poly, point_size=15.0, scalars=data_2_plot[:,3], opacity=opacity, render_points_as_spheres=True,cmap='jet')
+        print('inter='+ str(spc))
+        interpolated = grid.interpolate(poly, radius=0.2)
+        cmap = plt.cm.get_cmap('jet',10)
+        contours = interpolated.contour()
+        # pvfig.add_mesh(interpolated, show_scalar_bar=False, cmap=cmap,opacity=0.3)
+        pvfig.add_mesh(contours, show_scalar_bar=False, opacity= opacity,cmap='jet')
+        pvfig.show_bounds(bounds=[min(coord_x), max(coord_x), 
+                                        min(coord_y),max(coord_y),
+                                        min(coord_z), 0],font_size=16)
+        pvfig.add_axes()
+        pvfig.show_axes()
+        pvfig.add_scalar_bar('Normalized Current density',width=0.25,vertical=False,position_x=0.3)
+        # pvfig.update_scalar_bar_range([minTs, cbarmax])  
+        if self.plotElecs==True:
+            pvfig.add_points(self.pointsE)
+            # p.add_point_labels(pointsE,coordE[:RemLineNb,0].astype(int), point_size=15, font_size=35,
+            #     shape_opacity=0.01, margin=4.)
+            pvfig.add_point_labels(self.pointsE,self.coordE[:self.RemLineNb,0].astype(int), point_size=15, font_size=15,
+                shape_opacity=0.01, margin=4.)
+        pvfig.show(auto_close=True)  
+        if self.knee==True:
+           if self.wr==self.KneeWr:
+               # pvfig.screenshot('Pts_iCSD_knee'+ str(self.ObsName) + '.png')
+                pvfig.screenshot(self.path2save+ 'Pts_iCSD_knee_wr'+ str(self.KneeWr) + '.png')
+        else:
+                pvfig.screenshot(self.path2save+ 'Pts_iCSD_wr'+ str(self.wr) + '.png')
+
+        
     def plotCSD3d(self):
+        self.f = plt.figure('volume')
+
         step=(max(self.coord_x)-min(self.coord_x))/10
 
         xlin=np.arange(min(self.coord_x),max(self.coord_x),step)
@@ -116,18 +203,21 @@ class iCSD3d_Class():
         #interpolate "data.v" on new grid "inter_mesh"
         # V = gd((self.coord_x,self.coord_y,self.coord_z), data_2_plot, (X,Y,Z), method='linear')
         
-        fig = plt.figure()
-        ax=fig.gca(projection='3d')
+        ax=self.f.gca(projection='3d')
         sc=ax.scatter(self.coord_x, self.coord_y, self.coord_z, c=data_2_plot, cmap ='coolwarm', s=data_2_plot*1e4,
-                  vmin=0, vmax=np.percentile(data_2_plot,95))
+                 )
         cbar = plt.colorbar(sc)
         cbar.set_label('# current density')
-        ax.view_init(azim=-101, elev=35)
-        # plt.legend(sc,'Test1')
+        # ax.view_init(azim=-101, elev=35)
         title= 'Scattered current sources density' 
         plt.title(title)
         plt.savefig(self.path2save+ 'icsd_scatter', dpi=550,bbox_inches='tight',pad_inches = 0)
+
+        if self.knee==True:
+           if self.wr==self.KneeWr:
+               plt.savefig(self.path2save+ 'icsd_knee_scatter'+ str(self.KneeWr) + '.png',dpi=550,bbox_inches='tight',pad_inches = 0)
         plt.show()
+
       
     def DetectKneePt(self):
         self.kn = KneeLocator(self.pareto_list_FitRes,self.pareto_list_RegRes, 
@@ -160,38 +250,41 @@ class iCSD3d_Class():
     def plotmisfitF1(self):
         fig, axs = plt.subplots(nrows=1, ncols=2, sharex=True)
         ax = axs[0]
-        points = np.column_stack((self.coord_x, self.coord_y))
-        grid = griddata(points, self.norm_F1, (self.XI, self.YI), method = 'linear') # grid is a np array
-        im1 = ax.imshow(grid,norm=LogNorm(vmin=0.3, vmax=0.7), extent = (min (self.coord_x), max(self.coord_x), min(self.coord_y), max(self.coord_y)),
-        aspect = 'auto', origin = 'lower', cmap= 'jet')
-        ax.set_ylabel('y [m]',fontsize=15)
-        ax.set_xlabel('x [m]',fontsize=15)
-        ax.set_title('F1 misfit',fontsize=15)
+        if self.type=='2d':
+            points = np.column_stack((self.coord_x, self.coord_y))
+            grid = griddata(points, self.norm_F1, (self.XI, self.YI), method = 'linear') # grid is a np array
+            im1 = ax.imshow(grid,norm=LogNorm(vmin=0.3, vmax=0.7), extent = (min (self.coord_x), max(self.coord_x), min(self.coord_y), max(self.coord_y)),
+            aspect = 'auto', origin = 'lower', cmap= 'jet')
+            ax.set_ylabel('y [m]',fontsize=15)
+            ax.set_xlabel('x [m]',fontsize=15)
+            ax.set_title('F1 misfit',fontsize=15)
 
-        #axes = plt.gca()
-        #axes.set_xlim([0,0.53])
-        #axes.set_ylim([0,0.52])
-        ax.tick_params(axis='both', which='major', labelsize=15)
-        #ax.set_tight_layout()
-        ax.set_aspect(1.0)
-        cbar1 = plt.colorbar(im1,ax=ax, format="%.2f",fraction=0.046, pad=0.04)
-        cbar1.set_label('Normalised misfit', labelpad = 5, fontsize=14)
-
-        ax = axs[1]
-        grid = griddata(points, self.x0F1, (self.XI, self.YI), method = 'linear') # grid is a np array
-        im2 = ax.imshow(grid,norm=LogNorm(vmin=0.3, vmax=0.7), extent = (min (self.coord_x), max(self.coord_x), min(self.coord_y), max(self.coord_y)),
-        aspect = 'auto', origin = 'lower', cmap= 'jet')
-        ax.set_ylabel('y [m]',fontsize=15)
-        ax.set_xlabel('x [m]',fontsize=15)
-        ax.set_title('x0 solution',fontsize=15)
-        #axes = plt.gca()
-        #axes.set_xlim([0,0.53])
-        #axes.set_ylim([0,0.52])
-        ax.tick_params(axis='both', which='major', labelsize=15)
-        ax.set_aspect(1.0)
-        cbar2 = plt.colorbar(im2,ax=ax, format="%.3f",fraction=0.046, pad=0.04)
-        cbar2.set_label('x0 solution', labelpad = 5, fontsize=14)
-
+            #axes = plt.gca()
+            #axes.set_xlim([0,0.53])
+            #axes.set_ylim([0,0.52])
+            ax.tick_params(axis='both', which='major', labelsize=15)
+            #ax.set_tight_layout()
+            ax.set_aspect(1.0)
+            cbar1 = plt.colorbar(im1,ax=ax, format="%.2f",fraction=0.046, pad=0.04)
+            cbar1.set_label('Normalised misfit', labelpad = 5, fontsize=14)
+    
+            ax = axs[1]
+            grid = griddata(points, self.x0F1, (self.XI, self.YI), method = 'linear') # grid is a np array
+            im2 = ax.imshow(grid,norm=LogNorm(vmin=0.3, vmax=0.7), extent = (min (self.coord_x), max(self.coord_x), min(self.coord_y), max(self.coord_y)),
+            aspect = 'auto', origin = 'lower', cmap= 'jet')
+            ax.set_ylabel('y [m]',fontsize=15)
+            ax.set_xlabel('x [m]',fontsize=15)
+            ax.set_title('x0 solution',fontsize=15)
+            #axes = plt.gca()
+            #axes.set_xlim([0,0.53])
+            #axes.set_ylim([0,0.52])
+            ax.tick_params(axis='both', which='major', labelsize=15)
+            ax.set_aspect(1.0)
+            cbar2 = plt.colorbar(im2,ax=ax, format="%.3f",fraction=0.046, pad=0.04)
+            cbar2.set_label('x0 solution', labelpad = 5, fontsize=14)
+        else:
+            print('3d case to write')
+            
         # fig.suptitle(self.ObsName, y=0.80)
         fig.tight_layout()
         # fig.savefig('F1_x0F1'+ self.ObsName, dpi = 450, bbox_inches='tight')
@@ -374,10 +467,10 @@ class iCSD3d_Class():
         
     def regularize_b(self):
         if self.x0_prior==False:
-            """append 0's to b"""
+            print("""append 0's to b""")
             self.reg_b = np.zeros(self.reg_A.shape[0])
         else:
-            """append 1's to b"""
+            print("""append 1's to b""")
             self.reg_b = np.ones(self.reg_A.shape[0])
 
 
@@ -460,7 +553,7 @@ class iCSD3d_Class():
 
         self.pareto_list_FitRes = []
         self.pareto_list_RegRes = []
-        with PdfPages('iCSD_pareto.pdf') as pdf:
+        with PdfPages(self.path2save+ 'iCSD_pareto.pdf') as pdf:
             for self.wr in self.pareto_weights:              
                 if self.wr== self.pareto_weights[0]:
                     if self.x0_prior==True:
@@ -475,33 +568,38 @@ class iCSD3d_Class():
                 self.prepare4iCSD()
                 self.iCSD()
                 print(min(self.x.x), max(self.x.x))
-                self.plotCSD()
+                if self.type=="2d":
+                    self.plotCSD()
+                else:
+                    self.plotCSD3d()
+                    # self.plotCSD3d_pyvista()
+
                 pdf.savefig(self.f)
                 plt.close(self.f)
 
                 self.ResidualAnalysis()
 
             
-            
+            self.DetectKneePt()
+            self.wr=float(self.pareto_weights[self.IdPtkneew])
+            print('Knee detected for wr=' + str(self.wr))
             self._plotPareto_()
             pdf.savefig(self.p)
             plt.close(self.p)
 
             if self.knee==True:
-                self.plot_knee_icsd()
-                
+               self.plot_knee_icsd()
+               
     ### PLOT
     def plot_knee_icsd(self):
-        self.DetectKneePt()
-        self.wr=float(self.pareto_weights[self.IdPtkneew])
+        self.KneeWr=self.wr
+        # self.wr=float(self.pareto_weights[self.IdPtkneew])
         self.kn.plot_knee_normalized()
-        # self.p.savefig('Lc', dpi = 450)
+        # self.kn.savefig('Lc', dpi = 450)
         # pdf.savefig(self.p)
         # plt.close(self.p)
 
         self.run_single()
-        self.f.savefig(self.path2save+'iK', dpi = 450,
-            bbox_inches='tight',pad_inches = 0)
         #self.f.savefig('iK'+ str("{:02d}".format(int(ObsName.translate({ord(i): None for i in 'OW'})))), dpi = 450,
         #    bbox_inches='tight',pad_inches = 0)
         plt.show()
@@ -575,7 +673,14 @@ class iCSD3d_Class():
             self._plotFIT_()
 
     def _plotPareto_(self):
-        self.p = plt.figure('pareto', figsize=(10,4))
+        self.p, self.ax = plt.subplots()
+        # self.p = plt.figure('pareto', figsize=(10,4))
+        self.ax.annotate('Wr=' + str(int(self.wr)), xy=(float(np.asarray(self.pareto_list_FitRes)[self.IdPtkneew]), 
+                                         float(np.asarray(self.pareto_list_RegRes)[self.IdPtkneew])), 
+                                      xytext=(float(np.asarray(self.pareto_list_FitRes)[self.IdPtkneew])+max(self.pareto_list_FitRes)/3, 
+                                         float(np.asarray(self.pareto_list_RegRes)[self.IdPtkneew])+max(self.pareto_list_RegRes)/3),
+                                      arrowprops=dict(facecolor='black', shrink=0.05))
+        plt.plot(float(np.asarray(self.pareto_list_FitRes)[self.IdPtkneew]), float(np.asarray(self.pareto_list_RegRes)[self.IdPtkneew]), 'og')
         plt.plot(self.pareto_list_FitRes, self.pareto_list_RegRes, 'or')
         ax = plt.gca()
         ax.tick_params(axis = 'both', which = 'both', direction = 'out')
@@ -602,9 +707,14 @@ class iCSD3d_Class():
         plt.show()
 
     def writeFIT(self):
-        np.savetxt('inverted.txt', self.x.fun[:204] + self.b_w[:204])
-        np.savetxt('truemodel.txt', self.b_w[:204])
-        
+        print('write FIT')
+        np.savetxt(self.path2load+'invertedR.txt', self.x.fun[:] + self.b_w[:])
+        np.savetxt(self.path2load+'truemodelR.txt', self.b_w[:])
+        # np.savetxt(self.path2load+'Ap.txt', self.A_w[:])
+        np.savetxt(self.path2load+'b_w.txt', self.b_w[:])
+        np.savetxt(self.path2load+'b_s.txt', self.b_s[:])
+        np.savetxt(self.path2load+'reg_b.txt', self.reg_b[:])
+        # np.savetxt(self.path2load+'b_s.txt', self.b_s[:])
         
     def run_single(self):
         self.prepare4iCSD()
@@ -620,6 +730,7 @@ class iCSD3d_Class():
         else:
             print('3d case to plot using pyvista')
             self.plotCSD3d()
+            self.plotCSD3d_pyvista()
             return
         self.writeFIT()
         self.f.savefig(self.path2save+'iCSD', dpi = 600)

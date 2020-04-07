@@ -50,6 +50,7 @@ class iCSD3d_Class():
         self.pareto_MaxErr=1
         self.pareto_nSteps=10
         self.obs_err='const' # choose between constant weight and w = 1/sqrt(abs(obs))
+        # IMPLEMENT obs_err based on reciprocal analysis i.e. estimated standard deviation of the data errors;                         % estimated standard deviation of the traveltime data errors
         self.k=4  # For each point, find the k closest current sources
         self.TL=False # Time lapse inversion
         self.x0_prior=False #  relative smallness regularization as a prior criterion for the inversion; i.ethe algorithm minimizes ||m−m0||2
@@ -58,8 +59,13 @@ class iCSD3d_Class():
         self.KneeWr=[]
         self.regMesh='strc' # strc or unstrc
         self.plotElecs=False # strc or unstrc
+        self.alphax0=1 # weight on model smallness relative to m0
+        self.alphaSxy=False # weight on model smoothness in z-direction [TO IMPLEMENT]
+        self.alphaSx=1 # weight on model smoothness in x-direction [TO IMPLEMENT]
+        self.alphaSy=1 # weight on model smoothness in y-direction [TO IMPLEMENT]
+        self.alphaSz=1 # weight on model smoothness in z-direction [TO IMPLEMENT]
+        self.mesh=None # weight on model smoothness in z-direction [TO IMPLEMENT]
 
-        
     def icsd_init(self):
         """ these functions are called only once, even for pareto,
         as they do not depend on the regularization weight"""
@@ -88,13 +94,24 @@ class iCSD3d_Class():
         self.mkGrid_XI_YI()
         # # append spatial regularization
         if self.type=='2d':
-            self.regularize_A()
+            if self.regMesh=='strc':
+                if self.alphaSxy==True:
+                    self.regularize_A_x_y()
+                else:
+                    self.regularize_A()
+                # self.regularize_A_UnstructuredMesh3d()
+                np.savetxt(self.path2load+'reg_A.txt',self.reg_A)
+            else:
+                self.regularize_A_UnstructuredMesh3d()
         else:
             if self.regMesh=='strc':
-                self.regularize_A_3d() # working for structured mesh
+                # self.regularize_A_3d() # working for structured mesh
+                self.regularize_A_UnstructuredMesh3d()
             elif self.regMesh=='unstrc':
                 self.regularize_A_UnstructuredMesh3d() # working for unstructured mesh
 
+        if self.x0_prior==True:
+            self.smallnessX0()
         self.regularize_b()
         # # stack data, constrain, and regularization 
         self.stack_A()
@@ -156,10 +173,18 @@ class iCSD3d_Class():
         grid.origin = (min(coord_x), min(coord_y), min(coord_z)) # The bottom left corner of the data set
         grid.spacing = (spc, spc,spc) # These are the cell sizes along each axis
         
+
         coord= data_2_plot[:,:-1]
         pv.set_plot_theme('document')
         poly = pv.PolyData(coord)
         pvfig = pv.Plotter(notebook=False,window_size=[600, 600])
+        
+        if self.mesh!=None:
+            print('plot mesh.vtk')
+            ModelVtk = pv.read(self.path2load + self.mesh)
+            cmap = plt.cm.get_cmap('viridis', 2)
+            pvfig.add_bounding_box()
+            pvfig.add_mesh(cmap=cmap,mesh=ModelVtk,scalars='rhomap', opacity=0.2)    # add a dataset to the scene
         pvfig.add_mesh(poly, point_size=15.0, scalars=data_2_plot[:,3], opacity=opacity, render_points_as_spheres=True,cmap='jet')
         print('inter='+ str(spc))
         interpolated = grid.interpolate(poly, radius=0.2)
@@ -184,7 +209,7 @@ class iCSD3d_Class():
         if self.knee==True:
            if self.wr==self.KneeWr:
                # pvfig.screenshot('Pts_iCSD_knee'+ str(self.ObsName) + '.png')
-                pvfig.screenshot(self.path2save+ 'Pts_iCSD_knee_wr'+ str(self.KneeWr) + '.png')
+                pvfig.screenshot(self.path2save+ 'Pts_iCSD_knee_wr'+ self.obs +  str(self.KneeWr) + '.png')
         else:
                 pvfig.screenshot(self.path2save+ 'Pts_iCSD_wr'+ str(self.wr) + '.png')
 
@@ -235,17 +260,22 @@ class iCSD3d_Class():
     ### Individual Misfit  
     def normF1(self):
         self.F1=[]
+        print('shapeb=' + str(np.shape(self.b)))
+        print('shapeA=' + str(np.shape(self.A)))
         for i in range(np.shape(self.A)[1]):
             F1i = LA.norm((self.b-self.A[:,i]))
             self.F1.append(F1i)
         self.norm_F1 = (self.F1 - min(self.F1)) / (max(self.F1) - min(self.F1))
+        print('normF1='+ str(len(self.norm_F1)))
 
     def misfit_2_initialX0(self):
-        alpha=1
         self.x0F1=1./((self.norm_F1+1)*(self.norm_F1+1))
-        self.x0F1_sum= alpha*self.x0F1/sum(self.x0F1)
+        print(len(self.x0F1))
+        self.x0F1_sum= self.x0F1/sum(self.x0F1) # normlize such as sum equal to 1
+        # self.x0F1_sum=np.ones(self.x0F1_sum.shape)*0.1
         #print('max x0F1_sum =' + str(max(self.x0F1_sum)))
         #print('sum x0F1_sum =' + str(sum(self.x0F1_sum)))
+        # print('x0F1_sum='+ str(self.x0F1_sum.shape))
 
     def plotmisfitF1(self):
         fig, axs = plt.subplots(nrows=1, ncols=2, sharex=True)
@@ -307,30 +337,34 @@ class iCSD3d_Class():
             row = np.zeros(self.nVRTe) # add a line to the regularisation A with k non-null coefficients
             #row[Ind]= -1/k # ponderate coeff for k closest current sources
             knorm = dist[closest[1:k+1]]/dist[closest[1:k+1]].sum(axis=0,keepdims=1)
-            row[Ind]= knorm
+            row[Ind]= -knorm
+            print(knorm)
             row[VRTEnb]= 1 # = one for the actual current source
             reg.append(row)
             test=[1]
             mask = np.in1d(test, VRTEnb)
             #print(mask)
             if mask.any()==True: 
-                self.fc = plt.figure('TEST regularisation')
-                ax = self.fc.add_subplot(111, projection='3d')
-                ax.scatter(self.coord[VRTEnb,0], self.coord[VRTEnb,1], self.coord[VRTEnb,2], linewidths=12,
-                           facecolor = 'green', edgecolor = 'green')
-                ax.scatter(self.coord[Ind,0], self.coord[Ind,1], self.coord[Ind,2], linewidths=12,
-                           facecolor = 'red', edgecolor = 'red')
-                ax.set_xlim([min(self.coord_x),max(self.coord_x)])
-                ax.set_ylim([min(self.coord_y),max(self.coord_y)])
-                ax.set_zlim([min(self.coord_z),max(self.coord_z)])
-                self.fc.savefig(self.path2save+ 'TEST regularisation', dpi = 600)
-                #plt.show()
-                #plt.close()
+                print('nll')
+                # self.fc = plt.figure('TEST regularisation')
+                # ax = self.fc.add_subplot(111, projection='3d')
+                # ax.scatter(self.coord[VRTEnb,0], self.coord[VRTEnb,1], self.coord[VRTEnb,2], linewidths=12,
+                #            facecolor = 'green', edgecolor = 'green')
+                # ax.scatter(self.coord[Ind,0], self.coord[Ind,1], self.coord[Ind,2], linewidths=12,
+                #            facecolor = 'red', edgecolor = 'red')
+                # ax.set_xlim([min(self.coord_x),max(self.coord_x)])
+                # ax.set_ylim([min(self.coord_y),max(self.coord_y)])
+                # ax.set_zlim([min(self.coord_z),max(self.coord_z)])
+                # self.fc.savefig(self.path2save+ 'TEST regularisation', dpi = 600)
+                # #plt.show()
+                # #plt.close()
         self.reg_A = np.array(reg)
-        
+        print('shapereg_unstr=' + str(self.reg_A.shape))
+
         
     def regularize_A_3d(self):
         """create and append rows for spacial regularization to A"""
+        print(self.nVRTe)
         reg = []
         vrte = range(1, self.nVRTe + 1)
         vrte = np.reshape(vrte,(self.ny, self.nx, self.nz))
@@ -422,7 +456,9 @@ class iCSD3d_Class():
         elif self.obs_err == 'sqrt':
             self.obs_w = 1 / np.sqrt(np.abs(self.b))
             self.obs_w[self.obs_w >= self.errRmin] = 1    
-    
+        elif self.obs_err == 'reciprocals': #[TO IMPLEMENT]
+            self.obs_w = 1 / np.sqrt(np.abs(self.sd_rec))
+
     ### CONSTRAIN 
 
     def con_A_f(self):
@@ -443,7 +479,8 @@ class iCSD3d_Class():
         # print(self.nx, self.ny)
 
     def regularize_A(self):
-        """create and append rows for spacial regularization to A"""
+        """create and append rows for spatial regularization to A"""
+        print('Reg A (Luca''s implementation)')
         reg = []
         vrte = range(1, self.nVRTe + 1)
         vrte = np.reshape(vrte,(self.ny, self.nx))
@@ -465,50 +502,139 @@ class iCSD3d_Class():
         self.reg_A = np.array(reg)
         # print(len(self.reg_A))
         
-    def regularize_b(self):
-        if self.x0_prior==False:
-            print("""append 0's to b""")
-            self.reg_b = np.zeros(self.reg_A.shape[0])
+    def regularize_A_x_y(self):
+        """create and append rows for spatial regularization to A"""
+        print('regularize_A_x_y')
+        # reg = []
+        # nx=17
+        # ny=18
+        ncells = self.nx*self.ny;
+        
+        from scipy.sparse import diags
+        Dx=diags([1, -2, 1], [-1, 0, 1], shape=(ncells, ncells)).todense()
+        idx=np.arange(0,len(Dx)-1,self.nx)
+        Dx[idx,:] = 0;
+        idx2=np.arange(self.nx,len(Dx)-1,self.nx)
+        Dx[idx2,:] = 0;
+        
+        Dy=diags([1, -2, 1], [-self.nx, 0, self.nx], shape=(ncells, ncells)).todense()
+        idy=np.arange(0,self.nx-1)
+        Dy[idy,:] = 0;
+        idy2=np.arange(((self.ny-2)*self.nx),(self.nx-1)*(self.ny-1))
+        Dy[idy2,:] = 0;
+        
+        if self.alphaSxy==True:
+            self.reg_A = np.array(Dx)
         else:
-            print("""append 1's to b""")
-            self.reg_b = np.ones(self.reg_A.shape[0])
+            self.reg_A = np.array(Dy)
+
+        print('shapereg=' + str(self.reg_A.shape))
+        print('nxny' + str(self.ny) + str(self.nx))
+
+    ### RELATIVE SMALLNESS conditions (m-m0)
+        
+    def smallnessX0(self):
+        print('Reg smallnessX0')
+        self.reg_smallx0 = np.ones(self.reg_A.shape)*self.alphax0
+        # self.reg_smallx0 = np.ones(self.x0F1_sum.shape)*self.alphax0
+
+        
+    def regularize_b(self):
+        print('Reg b - append 0''s to b')
+        if self.x0_prior==False:
+            print("""append 0's to b""") # to set the spatial reg differences equal to 0
+            self.reg_b = np.zeros(self.reg_A.shape[0])
+        if self.x0_prior==True:
+            # print("""append 0's to b""") # to set the spatial reg differences equal to 0
+            reg_b_spatial = np.zeros(self.reg_A.shape[0])
+            reg_b_smallness = np.zeros(self.reg_smallx0.shape[0])
+            self.reg_b_x0 = np.concatenate((reg_b_spatial, reg_b_smallness))
+            # self.reg_b_x0 = reg_b_spatial
 
 
     def regularize_w(self):
         """create vector with weights, the length is determined by the number of regul rows in A"""
         self.reg_w = np.ones(self.reg_A.shape[0]) * self.wr
+        if self.x0_prior==True:
+            print('Reg Wm (smallness + spatial reg)')
+            reg_w_0_small_b = np.ones(self.reg_smallx0.shape[0]) * self.wr * self.x0F1_sum
+            reg_w_0_small_A = np.ones(self.reg_smallx0.shape[0]) * self.wr
+            reg_w_0_b = np.ones(self.reg_A.shape[0]) * self.x0F1_sum * self.wr
+            reg_w_0_A = np.ones(self.reg_A.shape[0])* self.wr
+            self.reg_w_x0_b = np.concatenate((reg_w_0_small_b,reg_w_0_b))
+            # self.reg_w_x0_b = reg_w_0_small_b+reg_w_0_b
+            self.reg_w_x0_A = np.concatenate((reg_w_0_small_A,reg_w_0_A))
+            # self.reg_w_x0_A = reg_w_0_small_A+ reg_w_0_A
 
+            
     ### VERTICAL STACK EQUATIONS
-
     def stack_A(self):
         self.A_s = np.vstack((self.A, self.con_A, self.reg_A))
+        if self.x0_prior==True:
+            self.A_s = np.vstack((self.A, self.con_A, self.reg_A,self.reg_smallx0))
+            # self.A_s = np.vstack((self.A, self.con_A, self.reg_A))
+            print('A=' + str(np.shape(self.A)))
+            print('con_A=' + str(np.shape(self.con_A)))
+            print('reg_A=' + str(np.shape(self.reg_A)))
+            print('reg_smallx0=' + str(np.shape(self.reg_smallx0)))
+            print('A_s=' + str(np.shape(self.A_s)))
 
     def stack_b(self):
-        self.b_s = np.concatenate((self.b, self.con_b, self.reg_b))
+        if self.x0_prior==True:
+            self.b_s = np.concatenate((self.b, self.con_b, self.reg_b_x0))
+        else:
+            self.b_s = np.concatenate((self.b, self.con_b, self.reg_b))
 
     def stack_w(self):
         """create vector with weights for observation, constrain, and regularization
-        then use it as diagonal for the weight matrix"""
+        then use it as diagonal for the weight matrix"""     
+        # print('reg_w=' + str(np.shape(self.reg_w)))
+        # print('con_w=' + str(np.shape(self.con_w)))
+        # print('obs_w=' + str(np.shape(self.obs_w)))
         w = np.concatenate((self.obs_w, self.con_w, self.reg_w))
         W = np.zeros((w.shape[0], w.shape[0]))
         np.fill_diagonal(W, w)
         self.W_s = W
+        
+        if self.x0_prior==True:
+            #add lines for relative smallness 
+            wa = np.concatenate((self.obs_w, self.con_w, self.reg_w_x0_A))
+            wb = np.concatenate((self.obs_w, self.con_w, self.reg_w_x0_b))
+            W = np.zeros((wa.shape[0], wa.shape[0]))
+        # print('w=' + str(np.shape(w)))
+            np.fill_diagonal(W, wa)
+            self.W_s_A = W
+            np.fill_diagonal(W, wb)
+            self.W_s_b = W
 
     ### APPLY WEIGHTS 
 
     def weight_A(self):
         """Apply the weights to A"""
-        self.A_w = np.matmul(self.W_s, self.A_s)
-
+        if self.x0_prior==True:
+            print('W_s_A=' + str(np.shape(self.W_s_A)))
+            self.A_w = np.matmul(self.W_s_A, self.A_s)
+        else:
+            print('A_s=' + str(np.shape(self.A_s)))
+            print('W_s=' + str(np.shape(self.W_s)))
+            self.A_w = np.matmul(self.W_s, self.A_s)
+            
     def weight_b(self):
         """Apply the weights to b"""
-        self.b_w = np.matmul(self.b_s, self.W_s)
-
+        if self.x0_prior==True:
+            self.b_w = np.matmul(self.b_s,  self.W_s_b)
+        else:
+            self.b_w = np.matmul(self.b_s,  self.W_s)
+    
     ### PREPARE FOR ICSD
 
     def prepare4iCSD(self):
         """ this fucntion are called for each weight, keep them separated for pareto"""
         # create regularization part of the weight matrix
+        if self.x0_ini_guess==True:
+            self.run_misfitF1()
+        elif self.x0_prior==True:
+            self.run_misfitF1()
         self.regularize_w()
         self.stack_w()
         # apply weights with matrix multiplication
@@ -651,19 +777,29 @@ class iCSD3d_Class():
             # plt.clim(0,0.12)
             cbar.set_label('Fraction of Current Source', labelpad = 10)
         # else:
-        #     print('3d case to write')            
-
+        #     print('3d case to write')   
+        if self.mesh!=None:
+            print('to write')
+            # print('plot mesh.vtk')
+            # ModelVtk = pv.read(self.path2load + self.mesh)
+            # mesh=pg.load(path2files+ icsd3d_TL_RWU.mesh)
+            # pg.show(mesh,data=rhomap,label='rhomap')
+            
     def _fig_Axis_Labels_(self):
         plt.ylabel('y [m]',fontsize=12)
         plt.xlabel('x [m]',fontsize=12)
         axes = plt.gca()
-        axes.set_xlim([0,0.53])
-        axes.set_ylim([0,0.52])
+        # axes.set_xlim([0,0.53])
+        # axes.set_ylim([0,0.52])
         plt.tick_params(axis='both', which='major')
         plt.tight_layout()
-
+        axes.set_aspect('equal')
+        
     def plotCSD(self):
         self.f = plt.figure('surface')
+        if self.mesh!=None:
+            self.f, ax = plt.subplots('surface',nrows=2)
+
         self._fig_Interpolation_()
         self._fig_VRTe_()
         self._fig_RealSources_()
@@ -713,17 +849,16 @@ class iCSD3d_Class():
         # np.savetxt(self.path2load+'Ap.txt', self.A_w[:])
         np.savetxt(self.path2load+'b_w.txt', self.b_w[:])
         np.savetxt(self.path2load+'b_s.txt', self.b_s[:])
-        np.savetxt(self.path2load+'reg_b.txt', self.reg_b[:])
+        # np.savetxt(self.path2load+'reg_b.txt', self.reg_b[:])
         # np.savetxt(self.path2load+'b_s.txt', self.b_s[:])
+        if self.x0_prior==True:
+            np.savetxt(self.path2load+'x0F1_sum.wtxt', self.x0F1_sum)
+        np.savetxt(self.path2load+'reg_A.txt',self.reg_A)
+
+
         
     def run_single(self):
-        self.prepare4iCSD()
-        
-        if self.x0_ini_guess==True:
-            self.run_misfitF1()
-        elif self.x0_prior==True:
-            self.run_misfitF1()        
-            
+        self.prepare4iCSD()            
         self.iCSD()
         if self.type=='2d':
             self.plotCSD()
@@ -731,7 +866,6 @@ class iCSD3d_Class():
             print('3d case to plot using pyvista')
             self.plotCSD3d()
             self.plotCSD3d_pyvista()
-            return
         self.writeFIT()
         self.f.savefig(self.path2save+'iCSD', dpi = 600)
         plt.show()

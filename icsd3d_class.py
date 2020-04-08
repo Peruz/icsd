@@ -14,6 +14,7 @@ from kneed import KneeLocator
 from scipy.interpolate import griddata as gd
 from mpl_toolkits.mplot3d import Axes3D
 import pyvista as pv
+from scipy.sparse import diags
 
 import sys
 from numpy import linalg as LA
@@ -28,13 +29,10 @@ class iCSD3d_Class():
     wr : float, optional
         Weight regularization
     wc : float, optional
-        The height of the instrument above the ground. Can be specified per coil
-        in the .csv.
     """
     def __init__(self,dirName):
-        """ these functions are called only once, even for pareto,
-        as they do not depend on the regularization weight"""
         self.dirName = dirName
+        self.clim = []
        # load
         self.type='3d'
         self.sim='VRTeSim.txt'
@@ -49,7 +47,7 @@ class iCSD3d_Class():
         self.pareto_MinErr=0.001
         self.pareto_MaxErr=1
         self.pareto_nSteps=10
-        self.obs_err='const' # choose between constant weight and w = 1/sqrt(abs(obs))
+        self.obs_err='const' #const or sqrt - choose between constant weight and w = 1/sqrt(abs(obs))
         # IMPLEMENT obs_err based on reciprocal analysis i.e. estimated standard deviation of the data errors;                         % estimated standard deviation of the traveltime data errors
         self.k=4  # For each point, find the k closest current sources
         self.TL=False # Time lapse inversion
@@ -93,25 +91,34 @@ class iCSD3d_Class():
             self.nx_ny_nz()
         self.mkGrid_XI_YI()
         # # append spatial regularization
-        if self.type=='2d':
+        if self.type=='2d': # 2D CASE -----------------------------------------
             if self.regMesh=='strc':
                 if self.alphaSxy==True:
                     self.regularize_A_x_y()
+                    if self.x0_prior==True:
+                        self.regularize_smallnessX0() #add smallness regularisation
+                    self.regularize_sum_AX0()
                 else:
-                    self.regularize_A()
-                # self.regularize_A_UnstructuredMesh3d()
-                np.savetxt(self.path2load+'reg_A.txt',self.reg_A)
+                    if self.x0_prior==True:
+                        raise ValueError('#### dimensions of matrices do not agree - change regularisation types')
+                    else:
+                        self.regularize_A()
             else:
                 self.regularize_A_UnstructuredMesh3d()
-        else:
+        else:              # 3D CASE -----------------------------------------
             if self.regMesh=='strc':
-                # self.regularize_A_3d() # working for structured mesh
-                self.regularize_A_UnstructuredMesh3d()
+                if self.x0_prior==True:
+                        raise ValueError('### dimensions of matrices do not agree - change regularisation type')
+                else:
+                    self.regularize_A_3d() # working for structured mesh
             elif self.regMesh=='unstrc':
                 self.regularize_A_UnstructuredMesh3d() # working for unstructured mesh
-
-        if self.x0_prior==True:
-            self.smallnessX0()
+                if self.x0_prior==True:
+                    self.regularize_smallnessX0() #add smallness regularisation
+            elif self.alphaSxy==True:
+                if self.x0_prior==True:
+                    self.regularize_smallnessX0() #add smallness regularisation
+                self.regularize_sum_AX0()
         self.regularize_b()
         # # stack data, constrain, and regularization 
         self.stack_A()
@@ -186,8 +193,8 @@ class iCSD3d_Class():
             pvfig.add_bounding_box()
             pvfig.add_mesh(cmap=cmap,mesh=ModelVtk,scalars='rhomap', opacity=0.2)    # add a dataset to the scene
         pvfig.add_mesh(poly, point_size=15.0, scalars=data_2_plot[:,3], opacity=opacity, render_points_as_spheres=True,cmap='jet')
-        print('inter='+ str(spc))
-        interpolated = grid.interpolate(poly, radius=0.2)
+        print('interpolation spacing='+ str(spc))
+        interpolated = grid.interpolate(poly, radius=spc)
         cmap = plt.cm.get_cmap('jet',10)
         contours = interpolated.contour()
         # pvfig.add_mesh(interpolated, show_scalar_bar=False, cmap=cmap,opacity=0.3)
@@ -260,22 +267,16 @@ class iCSD3d_Class():
     ### Individual Misfit  
     def normF1(self):
         self.F1=[]
-        print('shapeb=' + str(np.shape(self.b)))
-        print('shapeA=' + str(np.shape(self.A)))
         for i in range(np.shape(self.A)[1]):
             F1i = LA.norm((self.b-self.A[:,i]))
             self.F1.append(F1i)
         self.norm_F1 = (self.F1 - min(self.F1)) / (max(self.F1) - min(self.F1))
-        print('normF1='+ str(len(self.norm_F1)))
 
     def misfit_2_initialX0(self):
         self.x0F1=1./((self.norm_F1+1)*(self.norm_F1+1))
-        print(len(self.x0F1))
         self.x0F1_sum= self.x0F1/sum(self.x0F1) # normlize such as sum equal to 1
         # self.x0F1_sum=np.ones(self.x0F1_sum.shape)*0.1
-        #print('max x0F1_sum =' + str(max(self.x0F1_sum)))
-        #print('sum x0F1_sum =' + str(sum(self.x0F1_sum)))
-        # print('x0F1_sum='+ str(self.x0F1_sum.shape))
+
 
     def plotmisfitF1(self):
         fig, axs = plt.subplots(nrows=1, ncols=2, sharex=True)
@@ -338,7 +339,6 @@ class iCSD3d_Class():
             #row[Ind]= -1/k # ponderate coeff for k closest current sources
             knorm = dist[closest[1:k+1]]/dist[closest[1:k+1]].sum(axis=0,keepdims=1)
             row[Ind]= -knorm
-            print(knorm)
             row[VRTEnb]= 1 # = one for the actual current source
             reg.append(row)
             test=[1]
@@ -359,12 +359,10 @@ class iCSD3d_Class():
                 # #plt.show()
                 # #plt.close()
         self.reg_A = np.array(reg)
-        print('shapereg_unstr=' + str(self.reg_A.shape))
 
         
     def regularize_A_3d(self):
         """create and append rows for spacial regularization to A"""
-        print(self.nVRTe)
         reg = []
         vrte = range(1, self.nVRTe + 1)
         vrte = np.reshape(vrte,(self.ny, self.nx, self.nz))
@@ -391,7 +389,6 @@ class iCSD3d_Class():
         self.nx = np.unique(np.round(self.coord[:, 0], 3)).shape[0]
         self.ny = np.unique(np.round(self.coord[:, 1], 3)).shape[0]
         self.nz = np.unique(np.round(self.coord[:, 2], 3)).shape[0]
-        # print(self.nx, self.ny)
 
     def Export_sol(self):
         fileName= self.path2load+ 'ExportSol.dat'
@@ -437,7 +434,8 @@ class iCSD3d_Class():
     def load_sim(self):
         print('Load simulations')
         self.A = np.loadtxt(self.path2load+ self.sim)
-        
+        print('*'*36)
+
     ### MAKE LINEAR SYSTEM 
 
     def check_nVRTe(self):
@@ -476,7 +474,6 @@ class iCSD3d_Class():
         """find number of nodes in each direction, has to be a regular grid"""
         self.nx = np.unique(np.round(self.coord[:, 0], 3)).shape[0]
         self.ny = np.unique(np.round(self.coord[:, 1], 3)).shape[0]
-        # print(self.nx, self.ny)
 
     def regularize_A(self):
         """create and append rows for spatial regularization to A"""
@@ -500,17 +497,11 @@ class iCSD3d_Class():
                         row[plus -1] = + 1
                         reg.append(row)
         self.reg_A = np.array(reg)
-        # print(len(self.reg_A))
         
     def regularize_A_x_y(self):
         """create and append rows for spatial regularization to A"""
         print('regularize_A_x_y')
-        # reg = []
-        # nx=17
-        # ny=18
-        ncells = self.nx*self.ny;
-        
-        from scipy.sparse import diags
+        ncells = self.nx*self.ny;       
         Dx=diags([1, -2, 1], [-1, 0, 1], shape=(ncells, ncells)).todense()
         idx=np.arange(0,len(Dx)-1,self.nx)
         Dx[idx,:] = 0;
@@ -523,74 +514,52 @@ class iCSD3d_Class():
         idy2=np.arange(((self.ny-2)*self.nx),(self.nx-1)*(self.ny-1))
         Dy[idy2,:] = 0;
         
-        if self.alphaSxy==True:
-            self.reg_A = np.array(Dx)
-        else:
-            self.reg_A = np.array(Dy)
-
-        print('shapereg=' + str(self.reg_A.shape))
-        print('nxny' + str(self.ny) + str(self.nx))
+        self.reg_Ax = self.alphaSx*np.array(Dx.transpose()*Dx)
+        self.reg_Ay = self.alphaSy*np.array(Dy.transpose()*Dy)
 
     ### RELATIVE SMALLNESS conditions (m-m0)
         
-    def smallnessX0(self):
-        print('Reg smallnessX0')
-        self.reg_smallx0 = np.ones(self.reg_A.shape)*self.alphax0
+    def regularize_smallnessX0(self):
+        print('reg smallnessX0')
+        if self.alphaSxy==True:
+            self.reg_smallx0 = np.ones(self.reg_Ax.shape)*self.alphax0
+        else:
+            self.reg_smallx0 = np.ones(self.reg_A.shape)*self.alphax0
         # self.reg_smallx0 = np.ones(self.x0F1_sum.shape)*self.alphax0
-
         
+    def regularize_sum_AX0(self):
+        """sum smallness and spatial regularisation"""
+        if (self.alphaSxy==True and self.x0_prior==True):
+            print("""sum small x0, reg Ax, reg Ay""") 
+            self.reg_A= self.reg_smallx0 + self.reg_Ax + self.reg_Ay
+        elif (self.alphaSxy==True and self.x0_prior==False):
+            print("""sum reg Ax, reg Ay""") 
+            self.reg_A= self.reg_Ax + self.reg_Ay
+        elif (self.alphaSxy==False and self.x0_prior==True):
+            print("""reg_A= reg_A + small x0""") 
+            self.reg_A= self.reg_A + self.reg_smallx0
+            
     def regularize_b(self):
-        print('Reg b - append 0''s to b')
-        if self.x0_prior==False:
-            print("""append 0's to b""") # to set the spatial reg differences equal to 0
-            self.reg_b = np.zeros(self.reg_A.shape[0])
-        if self.x0_prior==True:
-            # print("""append 0's to b""") # to set the spatial reg differences equal to 0
-            reg_b_spatial = np.zeros(self.reg_A.shape[0])
-            reg_b_smallness = np.zeros(self.reg_smallx0.shape[0])
-            self.reg_b_x0 = np.concatenate((reg_b_spatial, reg_b_smallness))
-            # self.reg_b_x0 = reg_b_spatial
-
+        self.reg_b = np.zeros(self.reg_A.shape[0])
 
     def regularize_w(self):
         """create vector with weights, the length is determined by the number of regul rows in A"""
         self.reg_w = np.ones(self.reg_A.shape[0]) * self.wr
         if self.x0_prior==True:
-            print('Reg Wm (smallness + spatial reg)')
-            reg_w_0_small_b = np.ones(self.reg_smallx0.shape[0]) * self.wr * self.x0F1_sum
-            reg_w_0_small_A = np.ones(self.reg_smallx0.shape[0]) * self.wr
-            reg_w_0_b = np.ones(self.reg_A.shape[0]) * self.x0F1_sum * self.wr
-            reg_w_0_A = np.ones(self.reg_A.shape[0])* self.wr
-            self.reg_w_x0_b = np.concatenate((reg_w_0_small_b,reg_w_0_b))
-            # self.reg_w_x0_b = reg_w_0_small_b+reg_w_0_b
-            self.reg_w_x0_A = np.concatenate((reg_w_0_small_A,reg_w_0_A))
-            # self.reg_w_x0_A = reg_w_0_small_A+ reg_w_0_A
-
+            print('reg Wm (smallness + spatial reg) * lambda=' + str(self.wr))
+            self.reg_w_0_b = np.ones(self.reg_A.shape[0]) * self.x0F1_sum * self.wr
+            self.reg_w_0_A = np.ones(self.reg_A.shape[0])* self.wr
             
     ### VERTICAL STACK EQUATIONS
     def stack_A(self):
         self.A_s = np.vstack((self.A, self.con_A, self.reg_A))
-        if self.x0_prior==True:
-            self.A_s = np.vstack((self.A, self.con_A, self.reg_A,self.reg_smallx0))
-            # self.A_s = np.vstack((self.A, self.con_A, self.reg_A))
-            print('A=' + str(np.shape(self.A)))
-            print('con_A=' + str(np.shape(self.con_A)))
-            print('reg_A=' + str(np.shape(self.reg_A)))
-            print('reg_smallx0=' + str(np.shape(self.reg_smallx0)))
-            print('A_s=' + str(np.shape(self.A_s)))
 
     def stack_b(self):
-        if self.x0_prior==True:
-            self.b_s = np.concatenate((self.b, self.con_b, self.reg_b_x0))
-        else:
-            self.b_s = np.concatenate((self.b, self.con_b, self.reg_b))
+        self.b_s = np.concatenate((self.b, self.con_b, self.reg_b))
 
     def stack_w(self):
         """create vector with weights for observation, constrain, and regularization
         then use it as diagonal for the weight matrix"""     
-        # print('reg_w=' + str(np.shape(self.reg_w)))
-        # print('con_w=' + str(np.shape(self.con_w)))
-        # print('obs_w=' + str(np.shape(self.obs_w)))
         w = np.concatenate((self.obs_w, self.con_w, self.reg_w))
         W = np.zeros((w.shape[0], w.shape[0]))
         np.fill_diagonal(W, w)
@@ -598,10 +567,9 @@ class iCSD3d_Class():
         
         if self.x0_prior==True:
             #add lines for relative smallness 
-            wa = np.concatenate((self.obs_w, self.con_w, self.reg_w_x0_A))
-            wb = np.concatenate((self.obs_w, self.con_w, self.reg_w_x0_b))
+            wa = np.concatenate((self.obs_w, self.con_w, self.reg_w_0_A))
+            wb = np.concatenate((self.obs_w, self.con_w, self.reg_w_0_b))
             W = np.zeros((wa.shape[0], wa.shape[0]))
-        # print('w=' + str(np.shape(w)))
             np.fill_diagonal(W, wa)
             self.W_s_A = W
             np.fill_diagonal(W, wb)
@@ -612,11 +580,8 @@ class iCSD3d_Class():
     def weight_A(self):
         """Apply the weights to A"""
         if self.x0_prior==True:
-            print('W_s_A=' + str(np.shape(self.W_s_A)))
             self.A_w = np.matmul(self.W_s_A, self.A_s)
         else:
-            print('A_s=' + str(np.shape(self.A_s)))
-            print('W_s=' + str(np.shape(self.W_s)))
             self.A_w = np.matmul(self.W_s, self.A_s)
             
     def weight_b(self):
@@ -683,7 +648,6 @@ class iCSD3d_Class():
             for self.wr in self.pareto_weights:              
                 if self.wr== self.pareto_weights[0]:
                     if self.x0_prior==True:
-                        print('smallness x0 regularisation')
                         self.run_misfitF1()
                     if self.x0_ini_guess==True:
                         print('initial x0 guess')
@@ -693,7 +657,6 @@ class iCSD3d_Class():
                 print('Pareto mode, running new iCSDwith regularizaiton weight: ', self.wr)
                 self.prepare4iCSD()
                 self.iCSD()
-                print(min(self.x.x), max(self.x.x))
                 if self.type=="2d":
                     self.plotCSD()
                 else:
@@ -774,7 +737,9 @@ class iCSD3d_Class():
                        extent = (min (self.coord_x), max(self.coord_x), min(self.coord_y), max(self.coord_y)),
                        aspect = 'auto', origin = 'lower', cmap= 'jet')
             cbar = plt.colorbar()
-            # plt.clim(0,0.12)
+            # plt.clim(0,np.percentile(self.x.x, 80))
+            if self.clim:
+                plt.clim(self.clim[0],self.clim[1])
             cbar.set_label('Fraction of Current Source', labelpad = 10)
         # else:
         #     print('3d case to write')   

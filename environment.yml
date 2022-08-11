@@ -4,14 +4,21 @@ channels:
     - defaults
 dependencies:
     - python=3.8
-     # Test
+    - pip
+    # Build
+    - setuptools>=45
+    # Test
     - matplotlib
     - pytest
     - pytest-cov
     - pytest-mpl
     - coverage
+    # Optional requirements
+    - pyvista
     # Documentation
     - sphinx==4.5.*
     # Style
     - black
     - isort
+    - pip:
+        - kneed

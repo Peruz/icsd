@@ -1,4 +1,4 @@
-from icsd3d import iCSD3d
+from icsd.icsd3d import iCSD3d
 
 
 

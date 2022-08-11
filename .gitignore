@@ -1,0 +1,14 @@
+*.pyc
+*~
+*.pyd
+.pytest_cache/
+build/
+dist/
+.coverage
+doc/_build
+doc/api/generated
+doc/gallery
+doc/sample_data
+.ipynb_checkpoints
+*.egg-info
+.coverage.*

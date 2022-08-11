@@ -70,7 +70,6 @@ pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-rep
 ```
 
 
-
 ## Dependencies
 
 `iCSD`'s dependencies are: `?`, `?`

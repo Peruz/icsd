@@ -10,8 +10,8 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from scipy.interpolate import griddata
 
-from icsd3d.importers.read import *
-from icsd3d.gridder.mkgrid import mkGrid_XI_YI 
+from icsd.importers.read import *
+from icsd.gridder.mkgrid import mkGrid_XI_YI 
 
        
 def _fig_Interpolation_(ax,f,coord,data,**kwargs):

@@ -8,18 +8,18 @@ from matplotlib.backends.backend_pdf import PdfPages
 from kneed import KneeLocator
 
 import matplotlib.pyplot as plt
-from lib.plotters.mpl_plot import (plotCSD3d, plotCSD2d, 
+from .plotters.mpl_plot import (plotCSD3d, plotCSD2d, 
                                 scatter3d, scatter2d, 
                                 plotContour2d, plotPareto, 
                                 plot_knee_icsd,labels)
 
-from lib.plotters.pv_plot import plotCSD3d_pv
-from inversion.regularize import *
-from inversion.priorM0 import *
-from inversion.solve import *
-from importers.read import *
-from exporters.save import * 
-from gridder.mkgrid import mkGrid_XI_YI 
+from .plotters.pv_plot import plotCSD3d_pv
+from .inversion.regularize import *
+from .inversion.priorM0 import *
+from .inversion.solve import *
+from .importers.read import *
+from .exporters.save import * 
+from .gridder.mkgrid import mkGrid_XI_YI 
 
 from copy import copy, deepcopy
 

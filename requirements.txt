@@ -1,0 +1,10 @@
+numpy
+scipy
+pyvista
+matplotlib
+jupyter
+sphinx
+sphinx-gallery
+sphinx_bootstrap_theme
+numpydoc
+kneed

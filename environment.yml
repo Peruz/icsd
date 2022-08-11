@@ -1,0 +1,17 @@
+name: icsd
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.8
+     # Test
+    - matplotlib
+    - pytest
+    - pytest-cov
+    - pytest-mpl
+    - coverage
+    # Documentation
+    - sphinx==4.5.*
+    # Style
+    - black
+    - isort

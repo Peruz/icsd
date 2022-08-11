@@ -1,1 +1,0 @@
-simple working example of a 3d inversion interpolated and plotted in 2d

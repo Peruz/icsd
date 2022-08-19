@@ -1,0 +1,12 @@
+https://packaging.python.org/en/latest/tutorials/packaging-projects/
+
+
+Now run this command from the same directory where pyproject.toml is located:
+
+
+python3 -m build
+python3 -m twine upload --repository testpypi dist/*
+
+
+BenjM
+f@EZ6xU4US6h5@@

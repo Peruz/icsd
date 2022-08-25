@@ -145,8 +145,11 @@ def dataImport(SimFile=None,ObsFile=None):
     
     if fileExt=='*.data':
         print('pygimli format import')
-    if fileExt=='*.data':
+        A, b = load_pg_data(SimFile=None,ObsFile=None)
+    if fileExt=='*.dat':
         print('resipy format import') 
+        A, b = load_resipy_data(SimFile=None,ObsFile=None)
+
         
 def loadTDIPSurvey(fname_obs,fname_sim, Vp_norm=True):
     """Data importer for common data files (Gimli)
@@ -166,7 +169,6 @@ def loadTDIPSurvey(fname_obs,fname_sim, Vp_norm=True):
     if isinstance(fname_obs, str):
         if '.dat' in fname_obs:
             i=0 
-            print('import obs')
             tdip_obs = pg.load(fname_obs)
             Vs.append(((tdip_obs['r'])).array())
             # print(np.shape(Vs))

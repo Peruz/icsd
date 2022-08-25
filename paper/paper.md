@@ -5,10 +5,11 @@ tags:
   - geophysic
 authors:
   - name: Benjamin Mary
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0001-7199-2885
     equal-contrib: true
     affiliation: "1, 2" # (Multiple affiliations must be quoted)
   - name: Luca Peruzzo
+    orcid: 0000-0002-4065-8910
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: 2
 affiliations:
@@ -27,24 +28,106 @@ aas-journal: Astrophysical Journal <- The name of the AAS journal.
 
 # Summary
 
-Summary here
+<! Begin your paper with a summary of the high-level functionality of your software for a non-specialist reader. Avoid jargon in this section.
+The paper should be between 250-1000 words
+A Statement of need section that clearly illustrates the research purpose of the software and places it in the context of related work.
+
+For a quick reference, the following citation commands can be used:
+- `@author:2001`    "Author et al. (2001)"
+- `[@author:2001]`  "(Author et al., 2001)"
+- `[@author1:2001; @author2:2001]`  "(Author1 et al., 2001; Author2 et al., 2002)"
+
+-->
+
+Most of the inversion algoritm available for the interpretation of geoelectrical survey focuse on the inversion of the soil electrical resistivity. For specific cases with a direct excitation of the a conductive body (or mass) it is more relevant to map the electrical current density within the subsurface. `icsd` is an open-source generic algorithm to invert for current source density. It targets the geophysical community in primary  provide readers and parser for two of the most widely used libraries for forward modelling of geopelectrical data i.e. pygimli and resipy. `icsd` keep the dependencies to the bare minimum to encourage other libraries to depend on. The technique is a logical extension of the work of `[@binley_detecting_1997; @binley_detecting_1999]`. The mathematical formulation is heaviliy borrowed from the neurosciences community
+
 
 # Statement of need
 
-`icsd` is a current source density inversion Python package for geophysicists. 
+**Background**
 
-# Mathematics
+The method which consist in injecting the current directly into the mass is call from the French "Mise-à-la-masse".
+In this manuscript we employed the broader definition from  i.e. Electrical Current Imaging (ECI).
+The fundamentals of the ECI are describe in Parasnis 1973, Schlumberger, Stierman 1984. 
+Current density increases within conductive regions, and decreases within resistive regions. 
+Charges build up at interfaces between regions of different electrical conductivity. 
+Variations in charge distribution are detected as variations in distribution of potential, or voltage, at the surface. 
+Originally this method was developed for mining prospection but is now used for a variety of target including: Deposit: (Bhattacharya et al., 2001), environemental leakage monitoring `[@binley_detecting_1997; @binley_detecting_1999, @Colucci]`, tracer injection/ contamination plume delineation: (Perri et al.), civil engenering (Lindsey casing), Karst monitoring (Guérin et al., 2009), (Beasley and Ward, n.d.), (Chalikakis et al., 2011) and more recently Roots imaging MALM `[@mary_time-lapse_2020; @mary_assessing_2019,@mary_small-scale_2018, @author4:peruzzo_imaging_2020]` and geothermal energy. 
+Other non geohysical application exists. For instance, the current source density inversion is applied in the neurosciences in order to identify ?.  
 
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
+
+**Existing approaches for MALM interpretation and inversion**
+
+
+Although the large adoption of the method, very few codes are available for the quick interpretation. 
+The `icsd` algorithm is part of the familly of mathematical minimisation problem and follow the same mechanism than other methods i.e. linerisation of the problem, least square optimisation. 
+For the mathematical formulation of the problem the reader must refer to `@author4:peruzzo_imaging_2020`. 
+
+Compare to classical inversion of ERT (Kemna), the current source inversion looks to minimize the measured voltage with Green functions (solution of for a user-defined grid of current sources distributed in the subsurface) with the inverted ERT values as a background initial resistivity.
+Also one additionnal constraints must be accounted for such as conservation of the current (sum equal to 1). 
+Authors used custum procedure to interpret ECI data, varying from simple qualitative analysis to classical : (Shao et al., 2018), (Binley et al., 1997), (Colucci et al., n.d.), (Binley et al., 1999), (Wondimu et al., 2018), (Hatanaka et al., n.d.), (Ling et al., 2019b, 2019a)
+(Ronczka et al., 2015) and (Heagy, 2018): explores using simulations the relation between the conductivity, the distribution of current density, the charge density and the electric field distribution for direct current resistivity with steel-cased wells Figure 4.14 (see also https://em.geosci.xyz/index.html). 
+Current density is infer analytically (?). 
+
+The inversion of streaming potentials (SP) another well know goephysical methods also generally search to infer the distribution of current density generated by the naturally. (Soueid Ahmed et al., 2013) propose an algortim to 
+In this methods, the data are assumed to be represented by a linear combination of the Green’s functions. 
+Similary (Shao et al., 2018) developed a similar approach has been develop for the inversion of current in Time Domain Induced Polarization (TDIP, without injection into the body). 
+(Boissevain, 1982) introduce some fundamentals of MALM IP but despite the progress on IP techniques there has been a dearth of reports concerning it.
+    
+
+<!
+
+    • Topography correction: (Oppliger, n.d.)
+    • Correction en 1/r ?
+    • Model appraisal: (Binley and Kemna, 2005), gars cours venice , (Ren and Kalscheuer, 2020)
+-->
+
+
+**Potential**
+
+The potential of such a procedure is big knowing that current methods to interpret ECI data are limited to a qualitive observation of the shape of the voltage data. 
+ECI is a ill problem meaning that several models can produce the resulting shapes. 
+For a quantitative interpretation inversion is required. 
+Morevover, the potential of the `icsd` algortim can be multiplied considering possible extension such as the use of a-priori information in the form of Model depth-weighting: (Cella and Fedi, 2012), (Oldenburg and Li, n.d.), refined optimisation spatial procedure taking into account the anisotropy (de Villiers et al., 2019), or even time lapse inversion. 
+
 
 # Example Usage 
 
+To start with the analysis we recommand a simple preliminary visualisation of the ECI data. 
 
+Furthermore, depending the nature of the problem, the user could rapidly approximate using Binely's approach.   
+
+
+For a full use of the package it has to be coupled with a forward geoelectrical model ERT: (Blanchy et al., 2020), (Cockett et al., 2015) (Rücker et al., 2017). Typical procedure steps are:
+1. Import and filter survey data (ERT and ECI)
+2. Invert the ERT data
+3. Calculate Green functions (solution of for a user-defined grid of current sources distributed in the subsurface) with the inverted ERT values as a background initial resistivity.
+
+After the three previous steps, the icsd code can be used to invert for current source density (see the following examples)
+
+In the current literature, the `icsd` code has been used mainly for plant roots prospection `[@mary_time-lapse_2020; @peruzzo_imaging_2020]`. 
+We nevertheless provide a variety of synthetic example in the documentation targeting varying disciplines of the geophysics.
+- Case of a synthetic landfill leakage
+
+<!
+Figures can be included like this:
+![Caption for example figure.\label{fig:example}](figure.png)
+and referenced from text using \autoref{fig:example}.
+
+Figure sizes can be customized by adding an optional second parameter:
+![Caption for example figure.](figure.png){ width=20% }
+-->
+
+        
 # Related Software Packages
+
+The neurosciences community developed similar algortim applied for medical imaging. 
+There is a MATLAB scripts for the 2D current-source density analysis together with a GUI toolbox can be downloaded here based on the article published in Neuroinformatics, doi:10.1007/s12021-011-9111-4. 
+That iCSD has been generalized, the new kernel Current Source Density (Neural Computation 24 (2012) 541-575. doi:10.1162/NECO_a_00236) takes care of noise and allows reconstruction from arbitrary distribution of electrodes with a Python code available.
 
 
 # Acknowledgements
 
-We acknowledge contributions from ?.
+Benjamin Mary acknowledges the financial support from European Union’s Horizon 2020 research and innovation programme under a Marie Sklodowska-Curie grant agreement (Grant no. 842922).
 
 # References 

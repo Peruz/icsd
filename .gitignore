@@ -12,3 +12,4 @@ doc/sample_data
 .ipynb_checkpoints
 *.egg-info
 .coverage.*
+paper/3_Article_MALM_ICSD_CompAndGeo_Joss

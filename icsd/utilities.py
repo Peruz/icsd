@@ -1,6 +1,7 @@
 import os
 import sys
 
+
 class iCSD3d_Utilities():
     """ Connect to fwd modelling codes
     - read pymgimli formats

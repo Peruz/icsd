@@ -13,9 +13,9 @@ authors:
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: 2
 affiliations:
- - name: UNIPD
+ - name: Department of Geosciences, University of Padua, Padua, Italy
    index: 1
- - name: LBLN
+ - name: Earth and Environmental Sciences Area, Lawrence Berkeley National Laboratory, Berkeley, CA, United States
    index: 2
 date: 13 August 2022
 bibliography: paper.bib
@@ -38,6 +38,7 @@ For a quick reference, the following citation commands can be used:
 - `[@author1:2001; @author2:2001]`  "(Author1 et al., 2001; Author2 et al., 2002)"
 
 -->
+
 
 Most of the codes available for the interpretation of geoelectrical survey focus on revovering the subsurface electrical resistivity. 
 For some specific cases, when a direct excitation of the a conductive body (or mass) is applied, it is more relevant to map the electrical current density within the subsurface. 
@@ -62,15 +63,18 @@ Originally this method was developed for mining prospection but is now used for 
 Other non geohysical application exists. For instance, the current source density inversion is applied in the neurosciences for medical imaging.  
 
 
-**Existing approaches for MALM interpretation and inversion**
+**Existing approaches for ECI interpretation and inversion**
 
 
-Although the large adoption of the method, very few codes are available for the quick interpretation. 
+Although the large adoption of the method, very few codes are available. 
 The `icsd` algorithm is part of the familly of mathematical minimisation problem and follow the same mechanism than other methods i.e. linerisation of the problem, least square optimisation. 
 For the mathematical formulation of the problem the reader must refer to @peruzzo_imaging_2020. 
 Compare to classical inversion of ERT [@rubin_dc_2005], the current source inversion looks to minimize the measured voltage with Green functions (solution of for a user-defined grid of current sources distributed in the subsurface) with the inverted ERT values as a background initial resistivity. Also one additionnal constraints must be accounted for the conservation of the current (sum equal to 1). 
 Authors used custum procedure to interpret ECI data, varying from simple qualitative analysis to classical. 
-[@binley_detecting_1997; @binley_detecting_1999, colucci_locating_1999] approach is akin to the genetic inversion algoritm. An initial distribution of current source is created on a regular grid and is then sequentially perturbated, evaluated and improved by minimizing a the standart deviation data misfit. 
+[@binley_detecting_1997; @binley_detecting_1999, colucci_locating_1999] approach is akin to the genetic inversion algoritm. 
+<!-- An initial distribution of current source is created on a regular grid and is then sequentially perturbated, evaluated and improved by minimizing a the standart deviation data misfit. 
+-->
+
 @shao_finding_2018, 
 [@wondimu_3d_2018,@hatanaka_three-dimensional_2005]
 @ling_leakage_2019
@@ -102,13 +106,15 @@ The potential of such a procedure is big knowing that current methods to interpr
 ECI is a ill problem meaning that several models can produce the resulting shapes. 
 For a quantitative interpretation inversion is required. 
 The current implementation allows for: 
+
 - A 2d and 3d inversion of current sources with respective spatial regularizations schemes
 - L-curve analysis to choose the best tradeoff between data and model regularization
 - Unconstrainsted inversion VS Constrainsted inversion with a variety of strategy for the initial model. 
 
+<!--
 Quality of the result is evaluate using RMS. 
 Morevover, the potential of the `icsd` algortim can be extended to all the inclusion of a-priori information in the form of model depth-weighting [@cella_inversion_2012], (Oldenburg and Li, n.d.), refined optimisation spatial procedure taking into account the anisotropy (de Villiers et al., 2019), or even time lapse inversion. 
-
+-->
 
 # Example Usage 
 

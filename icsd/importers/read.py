@@ -6,15 +6,7 @@ Created on Mon May 11 15:18:31 2020
 """
 
 import os
-
 import numpy as np
-
-# import pybert as pb
-# from pybert import tdip
-# import pygimli as pg
-
-#%% LOAD from ICSD3d format: .txt file tab separated
-
 
 def load_coord(path, filename, dim):
     """load coordinates of the virtual current sources
@@ -41,14 +33,7 @@ def load_obs(path, filename, index=None):
     """
     if filename.endswith(".data"):  # TDIP data importer
         bfile = pg.load(filename)
-        # b = (bfile['m'+str(index)]).array()
-        # # print(str(index)+str(b[0]))
-        # import matplotlib.pyplot as plt
-        # fig, ax = plt.subplots()
-        # ax.plot(b)
         b = (bfile["m" + str(index)] / bfile["k"]).array()
-        # fig, ax = plt.subplots()
-        # ax.plot(b)
 
     else:
         b = np.loadtxt(path + filename)
@@ -149,16 +134,6 @@ def dataImport(SimFile=None, ObsFile=None):
     ----------
 
     """
-<<<<<<< Updated upstream
-    
-    if fileExt=='*.data':
-        print('pygimli format import')
-    if fileExt=='*.data':
-        print('resipy format import') 
-        
-def loadTDIPSurvey(fname_obs,fname_sim, Vp_norm=True):
-=======
-
     if fileExt == "*.data":
         print("pygimli format import")
         A, b = load_pg_data(SimFile=None, ObsFile=None)
@@ -168,7 +143,6 @@ def loadTDIPSurvey(fname_obs,fname_sim, Vp_norm=True):
 
 
 def loadTDIPSurvey(fname_obs, fname_sim, Vp_norm=True):
->>>>>>> Stashed changes
     """Data importer for common data files (Gimli)
     Import and parse observation files, simulated green fct file
 
@@ -184,14 +158,8 @@ def loadTDIPSurvey(fname_obs, fname_sim, Vp_norm=True):
     Vs = []
     Vs_green = []
     if isinstance(fname_obs, str):
-<<<<<<< Updated upstream
-        if '.dat' in fname_obs:
-            i=0 
-            print('import obs')
-=======
         if ".dat" in fname_obs:
             i = 0
->>>>>>> Stashed changes
             tdip_obs = pg.load(fname_obs)
             Vs.append(((tdip_obs["r"])).array())
             # print(np.shape(Vs))

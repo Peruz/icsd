@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>inversion.priorM0 &mdash; ICSD 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> ICSD
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ICSD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../content/started/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/started/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/started/install.html">Which Python?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/started/install.html#dependencies">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/started/install.html#optionnal-third-party-packages">Optionnal Third party packages</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../content/doc/documentation.html">The Mise-à-la-masse method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery of examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../content/api_core/api.html">API reference: The <code class="docutils literal notranslate"><span class="pre">icsd3d</span></code> package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ICSD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>inversion.priorM0</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for inversion.priorM0</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon May 11 16:22:08 2020</span>
+<span class="sd">@author: Benjamin</span>
+<span class="sd">Estimation of initial model based on the physical assumption that a single source current</span>
+<span class="sd">can describe the pattern of the masse anomaly</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linalg</span> <span class="k">as</span> <span class="n">LA</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span>
+
+
+<span class="c1">### Individual Misfit</span>
+<span class="k">def</span> <span class="nf">_normF1</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;compute the norm between observation data and individual green functions&quot;&quot;&quot;</span>
+    <span class="n">F1</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">F1i</span> <span class="o">=</span> <span class="n">LA</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+        <span class="p">)</span>  <span class="c1"># norm between observation and simulated current source i</span>
+        <span class="n">F1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F1i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">F1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="misfitF1_2_initialX0"><a class="viewcode-back" href="../../content/api_core/api.html#inversion.priorM0.misfitF1_2_initialX0">[docs]</a><span class="k">def</span> <span class="nf">misfitF1_2_initialX0</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transform the misfit F1 (punctual source inversion) to an initial solution M0</span>
+<span class="sd">    using a 1/x^2 transformation&quot;&quot;&quot;</span>
+
+    <span class="n">norm_F1</span> <span class="o">=</span> <span class="n">_normF1</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">x0F1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">norm_F1</span>  <span class="c1"># Inverse misfit using a 1/x^2 transformation</span>
+    <span class="n">x0F1_sum</span> <span class="o">=</span> <span class="n">x0F1</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x0F1</span><span class="p">)</span>  <span class="c1"># normalize such as sum equal to 1</span>
+    <span class="n">M0</span> <span class="o">=</span> <span class="n">x0F1_sum</span>
+    <span class="k">return</span> <span class="n">norm_F1</span><span class="p">,</span> <span class="n">M0</span></div>
+
+
+<div class="viewcode-block" id="product_moment"><a class="viewcode-back" href="../../content/api_core/api.html#inversion.priorM0.product_moment">[docs]</a><span class="k">def</span> <span class="nf">product_moment</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the product moment correlation after Binley et al. 1999</span>
+<span class="sd">    .. math::</span>
+
+<span class="sd">        r_{k}= \frac{\sum_{i}(D_{I}-\overline{D})(F_{i}(I_{k})-\overline{F}(I_{k}))}{\sqrt{\sum_{i}(D_{I}-\overline{D})^{2}}\sum_{i}(F_{i}(I_{k})-\overline{F}(I_{k}))^{2}}</span>
+<span class="sd">    where $D_{i}$ is the $i^{th}$ measured transfer resistance and $F_{i}(I_{k})$ is the $i^{th}$  transfer resistance computed to unit current at location k.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># self.icsd_init()</span>
+    <span class="c1"># Estimate a covariance matrix, given data observation and weights and tranfert resitances measured.</span>
+    <span class="n">rpearson</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">corr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">rpearson</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+    <span class="c1"># M0=rpearson</span>
+    <span class="c1"># print(np.isnan(rpearson))</span>
+    <span class="n">M0</span> <span class="o">=</span> <span class="n">rpearson</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rpearson</span><span class="p">)</span>  <span class="c1"># normalize such as sum equal to 1</span>
+    <span class="n">TranslateMIN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">M0</span><span class="p">)</span>
+    <span class="n">M0</span> <span class="o">=</span> <span class="n">M0</span> <span class="o">-</span> <span class="n">TranslateMIN</span>  <span class="c1"># translate, then transform */</span>
+    <span class="c1"># check if sum equal to 1 and bounds between 0 and 1</span>
+    <span class="c1"># print(np.sum(rpearson))</span>
+    <span class="k">return</span> <span class="n">M0</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Benjamin Mary.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

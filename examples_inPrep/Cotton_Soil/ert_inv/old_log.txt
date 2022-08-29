@@ -1,0 +1,250 @@
+[1;30m# Executing:  dcinv -vvv -S -J -n2 -c1 -i20 -l20 -p mesh/mesh.bms td_10112018Avg.data [0m
+Sensors: 64, Data: 1524
+SensorIdx: a b m n  Data: err i ip iperr k r rhoa u valid 
+ParaMesh:		Nodes: 3708	Cells: 10569	Boundaries: 24841
+Found: export BERTTHREADS=2
+ModellingBase::setMesh() copying new mesh ... Found topography for surface=0 : -0.02
+Found neumann domain. Setting topography=1.
+Found datafile: 64 electrodes
+Found: 64 node-electrodes
+Found: 1 reference electrode node.
+Found: 1 calibration node.
+0.063 s
+FOP updating mesh dependencies ... 0 s
+Debug: Set amount of threads to 2
+Reset region parameter
+RegionManager copying mesh ...0.072 s 
+create NeighbourInfos ... 0.182 s 
+analysing mesh ... 1 regions.
+Recounted parameter: 10569
+creating para domain ... 0.24 s
+Found topography for surface=0 : -0.02
+Found neumann domain. Setting topography=1.
+Found datafile: 64 electrodes
+Found: 64 node-electrodes
+Found: 1 reference electrode node.
+Found: 1 calibration node.
+Found topography for surface=0 : -0.02
+Found neumann domain. Setting topography=1.
+Found datafile: 64 electrodes
+Found: 64 node-electrodes
+Found: 1 reference electrode node.
+Found: 1 calibration node.
+Secmesh:		Nodes: 21687	Cells: 84552	Boundaries: 99364
+ParaDomain:		Nodes: 3708	Cells: 10569	Boundaries: 24841
+Data min = 14.6032 Ohmm max = 64209 Ohmm
+Data error: min = 10% max = 10.004%
+Starting resistivity = 3043.99 Ohmm.
+min/max(dweight) = 9.99596/9.99999
+min/max(dweight) = 9.99596/9.99999
+Building constraints matrix
+constraint matrix of size(nBounds x nModel) 17435 x 10569
+C:/msys64/home/Guenther.T/src/gimli/gimli/src/inversion.h: 986		const GIMLI::Vector<ValueType2>& GIMLI::Inversion<ModelValType>::run() [with ModelValType = double]  Fixing constraintsH.size()
+0 -> 17435
+calculating jacobian matrix ...Calculate subpotentials analytical for createJacobian:(top: 1|cem: 0|het: 4.96153e-010)0
+Allocate memory for primary potential...... 0
+
+No primary potential for secondary field calculation with topography 
+create P2-Primmesh:		Nodes: 142737	Cells: 84552	Boundaries: 183916
+Found: export BERTTHREADS=2
+ModellingBase::setMesh() copying new mesh ... Found topography for surface=0 : -0.02
+Found neumann domain. Setting topography=1.
+Found datafile: 64 electrodes
+Found: 64 node-electrodes
+Found: 1 reference electrode node.
+Found: 1 calibration node.
+1.419 s
+FOP updating mesh dependencies ... 0 s
+assemble matrix ... Factorize (CHOLMOD) matrix ... CHOLMOD sparse:  A:  142737-by-142737, nz 3582491, upper.  OK
+Cholmod analyze .. preordering: 2
+CHOLMOD factor:  L:  142737-by-142737  supernodal, LL'.  nz 34824127  OK
+ 0 (5.454s) 1 (0.09s) 2 (0.073s) 3 (0.075s) 4 (0.085s) 5 (0.077s) 6 (0.074s) 7 (0.074s) 8 (0.072s) 9 (0.074s) 10 (0.069s) 11 (0.069s) 12 (0.075s) 13 (0.064s) 14 (0.079s) 15 (0.085s) 16 (0.062s) 17 (0.077s) 18 (0.078s) 19 (0.064s) 20 (0.08s) 21 (0.076s) 22 (0.066s) 23 (0.078s) 24 (0.063s) 25 (0.082s) 26 (0.067s) 27 (0.06s) 28 (0.082s) 29 (0.062s) 30 (0.08s) 31 (0.072s) 32 (0.061s) 33 (0.079s) 34 (0.07s) 35 (0.075s) 36 (0.059s) 37 (0.076s) 38 (0.078s) 39 (0.065s) 40 (0.074s) 41 (0.058s) 42 (0.075s) 43 (0.077s) 44 (0.07s) 45 (0.07s) 46 (0.074s) 47 (0.067s) 48 (0.073s) 49 (0.059s) 50 (0.082s) 51 (0.053s) 52 (0.075s) 53 (0.083s) 54 (0.063s) 55 (0.077s) 56 (0.069s) 57 (0.058s) 58 (0.086s) 59 (0.057s) 60 (0.084s) 61 (0.071s) 62 (0.068s) 63 (0.075s)Forward: time: 10.15s
+interpolate to secmesh
+
+1 	/ 642 	/ 643 	/ 644 	/ 645 	/ 646 	/ 647 	/ 648 	/ 649 	/ 6410 	/ 6411 	/ 6412 	/ 6413 	/ 6414 	/ 6415 	/ 6416 	/ 6417 	/ 6418 	/ 6419 	/ 6420 	/ 6421 	/ 6422 	/ 6423 	/ 6424 	/ 6425 	/ 6426 	/ 6427 	/ 6428 	/ 6429 	/ 6430 	/ 6431 	/ 6432 	/ 6433 	/ 6434 	/ 6435 	/ 6436 	/ 6437 	/ 6438 	/ 6439 	/ 6440 	/ 6441 	/ 6442 	/ 6443 	/ 6444 	/ 6445 	/ 6446 	/ 6447 	/ 6448 	/ 6449 	/ 6450 	/ 6451 	/ 6452 	/ 6453 	/ 6454 	/ 6455 	/ 6456 	/ 6457 	/ 6458 	/ 6459 	/ 6460 	/ 6461 	/ 6462 	/ 6463 	/ 6464 	/ 64
+Forward: time: 19.98s
+S(4/2-boost::mt): 0.075:time: 3.281s
+sens sum: median = 16.266 min = -9.87292 max = 300.77
+... 24.666 s
+C size: 10569 x 17435
+min data = 14.6032 max data = 64209 (1524)
+min error = 0.1 max error = 0.10004 (1524)
+min response = 3043.99 max response = 3043.99 (1524)
+min reference model = 3043.99 max reference model = 3043.99 (10569)
+0: rms/rrms(data, response) = 4767.94/566.682%
+0: chi^2(data, response, error, log) = 76.3227
+0: Phi = 116316 + 0 * 20 = 116316
+Iter: 0
+recalculating jacobian matrix ...S(4/2-boost::mt): 0.024:time: 3.21s
+sens sum: median = 16.266 min = -9.87292 max = 300.77
+3.331 s
+min model:  = 3043.99 max model:  = 3043.99 (10569)
+min reference model = 3043.99 max reference model = 3043.99 (10569)
+min data = 14.6032 max data = 64209 (1524)
+min dW = 9.99596 max dW = 9.99999 (1524)
+min dd = -5.33968 max dd = 3.04898 (1524)
+min dm = 0 max dm = 0 (10569)
+min cW = 1 max cW = 1 (17435)
+min mW = 1 max mW = 1 (10569)
+min mod = 3043.99 max mod = 3043.99 (10569)
+min resp = 3043.99 max resp = 3043.99 (1524)
+min constraintsH = 0 max constraintsH = 0 (17435)
+solve CGLSCDWWtrans with lambda = 20
+[ 200/59971.6]	
+min dm = -1.58486 max dm = 1.64189 (10569)
+Calculate response for model: min = 623.945 max = 15721.9
+Forward: time: 3.037s
+found neg. resp, save and abort.
+1 -30267.1 -30106.7
+0 3 2 5
+Response: min = -30267.1 max = 906648
+Reciprocity rms(modelReciprocity) 3.99202%, max: 66.8559%
+1: LS newModel: min = 623.945; max = 15721.9
+1: LS newResponse: min = 307.07; max = 911522
+1: rms/rrms(data, LS newResponse) = 85321.5/1694.74%
+1: chi^2(data, LS newResponse, error, log) = 765.524
+1: Phi = 1.16666e+006+174.814*20=1.17015e+006
+Linesearch tau = 0.05
+Calculate response for model: min = 2812.08 max = 3304.43
+Forward: time: 3.055s
+found neg. resp, save and abort.
+1 -30153.2 -30147.9
+0 3 2 5
+Response: min = -30153.2 max = 913612
+Reciprocity rms(modelReciprocity) 0.162917%, max: 2.91741%
+1: Model: min = 2812.08; max = 3304.43
+1: Response: min = 815.385; max = 913946
+1: rms/rrms(data, Response) = 90974.4/1971.38%
+1: chi^2(data, Response, error, log) = 814.834
+1: Phi = 1.24181e+006+0.437034*20=1.24182e+006
+Iter: 1
+recalculating jacobian matrix ...S(4/2-boost::mt): 0.028:time: 3.346s
+sens sum: median = 16.2726 min = -9.87504 max = 300.823
+3.435 s
+min model:  = 2812.08 max model:  = 3304.43 (10569)
+min reference model = 3043.99 max reference model = 3043.99 (10569)
+min data = 14.6032 max data = 64209 (1524)
+min dW = 9.99596 max dW = 9.99999 (1524)
+min dd = -5.13856 max dd = 1.3318 (1524)
+min dm = -0 max dm = -0 (10569)
+min cW = 1 max cW = 1 (17435)
+min mW = 1 max mW = 1 (10569)
+min mod = 2812.08 max mod = 3304.43 (10569)
+min resp = 815.385 max resp = 913946 (1524)
+min constraintsH = 0 max constraintsH = 0 (17435)
+solve CGLSCDWWtrans with lambda = 20
+[ 124/0.487178]	
+min dm = -4.3908 max dm = -0.185631 (10569)
+Calculate response for model: min = 38.8633 max = 2565.14
+Forward: time: 3.038s
+found neg. resp, save and abort.
+1 -2500.47 -2089.36
+0 3 2 5
+Response: min = -2812.14 max = 94218.7
+Reciprocity rms(modelReciprocity) 2.81885%, max: 85.5784%
+2: LS newModel: min = 38.8633; max = 2565.14
+2: LS newResponse: min = 4.00663; max = 93291.9
+2: rms/rrms(data, LS newResponse) = 1743.47/31.4749%
+2: chi^2(data, LS newResponse, error, log) = 5.97501
+2: Phi = 9105.91+57.4254*20=10254.4
+Linesearch tau = 0.94
+Calculate response for model: min = 50.5571 max = 2593.87
+Forward: time: 2.94s
+found neg. resp, save and abort.
+1 -3046.22 -2611.65
+0 3 2 5
+Response: min = -3130.12 max = 109827
+Reciprocity rms(modelReciprocity) 4.63582%, max: 168.823%
+2: Model: min = 50.5571; max = 2593.87
+2: Response: min = 1.44312; max = 108800
+2: rms/rrms(data, Response) = 1799.58/31.0319%
+2: chi^2(data, Response, error, log) = 2.86203
+2: Phi = 4361.73+50.7822*20=5377.37
+Iter: 2
+recalculating jacobian matrix ...S(4/2-boost::mt): 0.029:time: 3.222s
+sens sum: median = 27.458 min = -26.7007 max = 614.867
+3.315 s
+min model:  = 50.5571 max model:  = 2593.87 (10569)
+min reference model = 3043.99 max reference model = 3043.99 (10569)
+min data = 14.6032 max data = 64209 (1524)
+min dW = 9.99596 max dW = 9.99999 (1524)
+min dd = -2.45374 max dd = 2.31443 (1524)
+min dm = -0 max dm = -0 (10569)
+min cW = 1 max cW = 1 (17435)
+min mW = 1 max mW = 1 (10569)
+min mod = 50.5571 max mod = 2593.87 (10569)
+min resp = 1.44312 max resp = 108800 (1524)
+min constraintsH = 0 max constraintsH = 0 (17435)
+solve CGLSCDWWtrans with lambda = 20
+[ 91/0.558848]	
+min dm = -1.09872 max dm = 1.52507 (10569)
+Calculate response for model: min = 47.0603 max = 1527.13
+Forward: time: 3.159s
+found neg. resp, save and abort.
+1 -375.374 -40.9164
+0 3 2 5
+Response: min = -555.227 max = 90746.1
+Reciprocity rms(modelReciprocity) 4.67666%, max: 160.685%
+3: LS newModel: min = 47.0603; max = 1527.13
+3: LS newResponse: min = 2.3281; max = 90540.8
+3: rms/rrms(data, LS newResponse) = 931.085/8.03949%
+3: chi^2(data, LS newResponse, error, log) = 1.48387
+3: Phi = 2261.42+21.0754*20=2682.93
+Linesearch tau = 0.87
+Calculate response for model: min = 47.7189 max = 1457.64
+Forward: time: 3.464s
+found neg. resp, save and abort.
+1 -836.034 -476.793
+0 3 2 5
+Response: min = -904.214 max = 93936.3
+Reciprocity rms(modelReciprocity) 2.02391%, max: 54.7278%
+3: Model: min = 47.7189; max = 1457.64
+3: Response: min = 2.26194; max = 93587.4
+3: rms/rrms(data, Response) = 1046.91/10.4804%
+3: chi^2(data, Response, error, log) = 1.15414
+3: Phi = 1758.9+22.3613*20=2206.13
+Iter: 3
+recalculating jacobian matrix ...S(4/2-boost::mt): 0.025:time: 3.431s
+sens sum: median = 29.2748 min = -31.6863 max = 722.626
+3.534 s
+min model:  = 47.7189 max model:  = 1457.64 (10569)
+min reference model = 3043.99 max reference model = 3043.99 (10569)
+min data = 14.6032 max data = 64209 (1524)
+min dW = 9.99596 max dW = 9.99999 (1524)
+min dd = -1.35635 max dd = 1.99282 (1524)
+min dm = -0 max dm = -0 (10569)
+min cW = 1 max cW = 1 (17435)
+min mW = 1 max mW = 1 (10569)
+min mod = 47.7189 max mod = 1457.64 (10569)
+min resp = 2.26194 max resp = 93587.4 (1524)
+min constraintsH = 0 max constraintsH = 0 (17435)
+solve CGLSCDWWtrans with lambda = 20
+[ 93/0.151322]	
+min dm = -0.480558 max dm = 0.284568 (10569)
+Calculate response for model: min = 47.2139 max = 1813.52
+Forward: time: 3.375s
+found neg. resp, save and abort.
+204 -324.094 -588.631
+4 7 5 8
+Response: min = -1164.93 max = 84384.5
+Reciprocity rms(modelReciprocity) 3.83149%, max: 22.8861%
+4: LS newModel: min = 47.2139; max = 1813.52
+4: LS newResponse: min = 1.42467; max = 84654.4
+4: rms/rrms(data, LS newResponse) = 834.722/11.8608%
+4: chi^2(data, LS newResponse, error, log) = 1.38225
+4: Phi = 2106.55+22.8745*20=2564.04
+Linesearch tau = 0.15
+Calculate response for model: min = 47.6428 max = 1504.35
+Forward: time: 3.294s
+found neg. resp, save and abort.
+1 -695.189 -348.045
+0 3 2 5
+Response: min = -949.058 max = 92516.1
+Reciprocity rms(modelReciprocity) 2.24023%, max: 66.5514%
+4: Model: min = 47.6428; max = 1504.35
+4: Response: min = 1.7178; max = 92262.1
+4: rms/rrms(data, Response) = 1010.66/10.6761%
+4: chi^2(data, Response, error, log) = 1.18872
+4: Phi = 1811.61+22.1481*20=2254.57
+Reached data fit criteria (delta phi < 2%). Stop.
+IP min=0 max=0

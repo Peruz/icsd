@@ -11,19 +11,19 @@ import datetime
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# sys.path.append(os.path.relpath('../src/icsd3d'))
-# sys.path.insert(0, os.path.abspath('../src/icsd3d'))
+sys.path.append(os.path.relpath('../icsd/'))
+sys.path.insert(0, os.path.abspath('../icsd/'))
 # sys.path.append(os.path.relpath('../icsd3d'))
 # sys.path.insert(0, os.path.abspath('../icsd3d'))
 
-sys.path.insert(0, os.path.abspath("../icsd3d/"))
-sys.path.insert(0, os.path.abspath("../icsd3d/gridder/"))
-sys.path.insert(0, os.path.abspath("../icsd3d/exporters/"))
-sys.path.insert(0, os.path.abspath("../icsd3d/importers/"))
-sys.path.insert(0, os.path.abspath("../icsd3d/inversion/"))
-sys.path.insert(0, os.path.abspath("../icsd3d/plotters/"))
+#sys.path.insert(0, os.path.abspath("../icsd3d/"))
+#sys.path.insert(0, os.path.abspath("../icsd3d/gridder/"))
+#sys.path.insert(0, os.path.abspath("../icsd3d/exporters/"))
+#sys.path.insert(0, os.path.abspath("../icsd3d/importers/"))
+#sys.path.insert(0, os.path.abspath("../icsd3d/inversion/"))
+#sys.path.insert(0, os.path.abspath("../icsd3d/plotters/"))
 
-sys.path.append(os.path.pardir)
+#sys.path.append(os.path.pardir)
 
 
 # import sys
@@ -52,7 +52,7 @@ sys.path.append(os.path.pardir)
 
 
 #sys.path.append(os.path.abspath('..{}'.format(os.path.sep)))
-from icsd3d.icsd3d_class import iCSD3d_Class
+# from icsd.icsd3d import iCSD3d_Class
 # from icsd3d.gridder.mkgrid import *
 # from icsd3d.inversion.priorM0 import *
 
@@ -138,7 +138,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

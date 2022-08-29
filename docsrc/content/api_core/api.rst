@@ -2,7 +2,7 @@
 API reference: The ``icsd3d`` package
 =======================================
 
-.. automodule:: icsd3d.icsd3d_class_dev
+.. automodule:: icsd3d
    :members:
 
 
@@ -17,7 +17,7 @@ Prior model
 
 Smoothing
 """""""""
-.. automodule:: inversion.smoothing
+.. automodule:: inversion.regularize
    :members:
 
 Solver

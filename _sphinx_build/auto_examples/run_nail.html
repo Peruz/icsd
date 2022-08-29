@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inversion of current source density apply to a roots imaging &mdash; ICSD 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API reference: The icsd3d package" href="../content/api_core/api.html" />
+    <link rel="prev" title="Gallery of example" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ICSD
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ICSD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../content/started/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/started/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/started/install.html">Which Python?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/started/install.html#dependencies">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/started/install.html#optionnal-third-party-packages">Optionnal Third party packages</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../content/doc/documentation.html">The Mise-à-la-masse method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery of examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Gallery of example</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Inversion of current source density apply to a roots imaging</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../content/api_core/api.html">API reference: The <code class="docutils literal notranslate"><span class="pre">icsd3d</span></code> package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ICSD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Gallery of example</a> &raquo;</li>
+      <li>Inversion of current source density apply to a roots imaging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/auto_examples/run_nail.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-run-nail-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="inversion-of-current-source-density-apply-to-a-roots-imaging">
+<span id="sphx-glr-auto-examples-run-nail-py"></span><h1>Inversion of current source density apply to a roots imaging<a class="headerlink" href="#inversion-of-current-source-density-apply-to-a-roots-imaging" title="Permalink to this heading"></a></h1>
+<div class="sphx-glr-script-out highlight-pytb notranslate"><div class="highlight"><pre><span></span><span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;/home/ben/Documents/GitHub/icsd/examples/run_nail.py&quot;</span>, line <span class="m">90</span>, in <span class="n">&lt;module&gt;</span>
+    <span class="n">icsd</span><span class="o">.</span><span class="n">run_pareto</span><span class="p">()</span>
+  File <span class="nb">&quot;/home/ben/Documents/GitHub/icsd/icsd/icsd3d.py&quot;</span>, line <span class="m">574</span>, in <span class="n">run_pareto</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">wr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pareto_weights</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">IdPtkneew</span><span class="p">])</span>
+<span class="gr">AttributeError</span>: <span class="n">&#39;iCSD3d&#39; object has no attribute &#39;IdPtkneew&#39;</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># import numpy as np</span>
+
+<span class="c1"># maindir=&#39;E:/Padova/Software/SourceInversion/icsd_dev/&#39;</span>
+<span class="c1"># os.chdir(maindir)</span>
+
+<span class="c1"># -----------------------------------#</span>
+<span class="c1"># Exemple cotton</span>
+<span class="c1"># -----------------------------------#</span>
+<span class="c1"># path2files=&quot;examples/Cotton_Soil/Nail1/&quot;</span>
+<span class="n">path2files</span><span class="o">=</span><span class="s2">&quot;./Cotton_Soil/nail1/&quot;</span>
+
+<span class="c1"># path2files = os.path.join(os.path.dirname(&#39;__file__&#39;), &#39;/Cotton_Soil/Nail1/&#39;)</span>
+<span class="c1"># cwd=os.getcwd()</span>
+
+<span class="c1"># path2files= &#39;../examples/nail1/&#39;</span>
+<span class="c1"># DIR= cwd + path2files</span>
+
+<span class="c1"># os.chdir(DIR)</span>
+<span class="c1"># path2files =</span>
+<span class="c1"># fname = os.path.join(cwd, path2files)</span>
+
+<span class="c1"># from icsd2d_class import iCSD2d_Class as i2d</span>
+<span class="c1"># icsd=i2d(dirName=path2files)</span>
+<span class="c1"># icsd.icsd_init()</span>
+
+<span class="c1"># #</span>
+<span class="c1"># icsd.wr=1 #weight regularization</span>
+<span class="c1"># icsd.run_single()</span>
+<span class="c1"># icsd.run_pareto()</span>
+
+<span class="c1"># -----------------------------------#</span>
+<span class="c1"># apply here a smallness contrainst to the regularisation</span>
+
+<span class="kn">from</span> <span class="nn">icsd.icsd3d</span> <span class="kn">import</span> <span class="n">iCSD3d</span> <span class="k">as</span> <span class="n">i3d</span>
+<span class="kn">from</span> <span class="nn">icsd.plotters</span> <span class="kn">import</span> <span class="n">mpl_plot</span>
+
+<span class="c1"># mpl_plot.showObs2d(path2files)</span>
+
+
+<span class="c1"># import iCSD3d_Class as i3d</span>
+
+<span class="n">icsd</span><span class="o">=</span><span class="n">i3d</span><span class="p">(</span><span class="n">dirName</span><span class="o">=</span><span class="n">path2files</span><span class="p">)</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;2d&#39;</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">obs_err</span><span class="o">=</span><span class="s1">&#39;sqrt&#39;</span> <span class="c1"># choose between constant weight and w = 1/sqrt(abs(obs))</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">wr</span><span class="o">=</span><span class="mi">1</span> <span class="c1">#weight regularization</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">alphaSxy</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">x0_prior</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">x0_ini_guess</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># initial guess</span>
+<span class="c1">#icsd.icsd_init()</span>
+
+<span class="n">icsd</span><span class="o">.</span><span class="n">createSurvey</span><span class="p">(</span><span class="n">fname_obs</span><span class="o">=</span><span class="s1">&#39;ObsData.txt&#39;</span><span class="p">,</span><span class="n">fname_sim</span><span class="o">=</span><span class="s1">&#39;VRTeSim.txt&#39;</span><span class="p">)</span>
+<span class="c1"># icsd.plotElecs=False</span>
+
+<span class="n">m0</span> <span class="o">=</span> <span class="n">icsd</span><span class="o">.</span><span class="n">estimateM0</span><span class="p">(</span><span class="n">method_m0</span><span class="o">=</span><span class="s1">&#39;F1&#39;</span><span class="p">,</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">m0</span> <span class="o">=</span> <span class="n">icsd</span><span class="o">.</span><span class="n">estimateM0</span><span class="p">(</span><span class="n">method_m0</span><span class="o">=</span><span class="s1">&#39;Pearson&#39;</span><span class="p">,</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># icsd.clim=[0,0.1]</span>
+<span class="c1"># icsd.run_single()</span>
+
+<span class="n">sol</span><span class="o">=</span> <span class="n">icsd</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">x0_prior</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">wr</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># icsd.invert(pareto=True, regMesh=&#39;strc&#39;,x0_prior=True,</span>
+<span class="c1">#             pareto_MinErr=1, pareto_MaxErr=100)</span>
+
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.3</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">showResults</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="c1"># fig, ax = plt.subplots()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="n">icsd</span><span class="o">.</span><span class="n">showResults</span><span class="p">()</span>
+
+<span class="c1"># icsd.ModelResolution(jacMi=305)</span>
+
+<span class="c1"># run pareto</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">pareto_MinErr</span><span class="o">=</span><span class="mf">0.01</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">pareto_MaxErr</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">pareto_nSteps</span><span class="o">=</span><span class="mi">10</span>
+
+<span class="n">icsd</span><span class="o">.</span><span class="n">knee</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">icsd</span><span class="o">.</span><span class="n">run_pareto</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.309 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-run-nail-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/4d242bfe32562319c71eba5255ff0852/run_nail.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">run_nail.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/f68fabc8335cb3ce6db4c184d216266c/run_nail.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">run_nail.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Gallery of example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../content/api_core/api.html" class="btn btn-neutral float-right" title="API reference: The icsd3d package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Benjamin Mary.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+t0/OMALMtimeReg0_synt.txt	t0/SMALMtimeReg0.txt
+t1/OMALMtimeReg1_synt.txt	t0/SMALMtimeReg1.txt
+t2/OMALMtimeReg2_synt.txt	t0/SMALMtimeReg2.txt
+t3/OMALMtimeReg3_synt.txt	t0/SMALMtimeReg3.txt
+t4/OMALMtimeReg4_synt.txt	t0/SMALMtimeReg4.txt

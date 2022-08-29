@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API reference: The icsd3d package &mdash; ICSD 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Inversion of current source density apply to a roots imaging" href="../../auto_examples/run_nail.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> ICSD
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ICSD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../started/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../started/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../started/install.html">Which Python?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../started/install.html#dependencies">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../started/install.html#optionnal-third-party-packages">Optionnal Third party packages</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doc/documentation.html">The Mise-à-la-masse method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery of examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API reference: The <code class="docutils literal notranslate"><span class="pre">icsd3d</span></code> package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#icsd3d-inversion-inversion-scheme"><code class="docutils literal notranslate"><span class="pre">icsd3d.inversion</span></code>: inversion scheme</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-inversion.priorM0">Prior model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-inversion.regularize">Smoothing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-inversion.solve">Solver</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-plotters.mpl_plot"><code class="docutils literal notranslate"><span class="pre">icsd3d.plotters</span></code>: plotters for results visualisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-gridder.mkgrid"><code class="docutils literal notranslate"><span class="pre">icsd3d.gridder</span></code>: Grid data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-importers.read"><code class="docutils literal notranslate"><span class="pre">icsd3d.importers</span></code>: wrappers to facilitate import of common ERT data</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ICSD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>API reference: The <code class="docutils literal notranslate"><span class="pre">icsd3d</span></code> package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/content/api_core/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference-the-icsd3d-package">
+<h1>API reference: The <code class="docutils literal notranslate"><span class="pre">icsd3d</span></code> package<a class="headerlink" href="#api-reference-the-icsd3d-package" title="Permalink to this heading"></a></h1>
+<section id="icsd3d-inversion-inversion-scheme">
+<h2><code class="docutils literal notranslate"><span class="pre">icsd3d.inversion</span></code>: inversion scheme<a class="headerlink" href="#icsd3d-inversion-inversion-scheme" title="Permalink to this heading"></a></h2>
+<section id="module-inversion.priorM0">
+<span id="prior-model"></span><h3>Prior model<a class="headerlink" href="#module-inversion.priorM0" title="Permalink to this heading"></a></h3>
+<p>Created on Mon May 11 16:22:08 2020
+&#64;author: Benjamin
+Estimation of initial model based on the physical assumption that a single source current
+can describe the pattern of the masse anomaly</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.priorM0.misfitF1_2_initialX0">
+<span class="sig-prename descclassname"><span class="pre">inversion.priorM0.</span></span><span class="sig-name descname"><span class="pre">misfitF1_2_initialX0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/priorM0.html#misfitF1_2_initialX0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.priorM0.misfitF1_2_initialX0" title="Permalink to this definition"></a></dt>
+<dd><p>Transform the misfit F1 (punctual source inversion) to an initial solution M0
+using a 1/x^2 transformation</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.priorM0.product_moment">
+<span class="sig-prename descclassname"><span class="pre">inversion.priorM0.</span></span><span class="sig-name descname"><span class="pre">product_moment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/priorM0.html#product_moment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.priorM0.product_moment" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt>Compute the product moment correlation after Binley et al. 1999</dt><dd><div class="math notranslate nohighlight">
+\[r_{k}=\]</div>
+</dd>
+<dt>rac{sum_{i}(D_{I}-overline{D})(F_{i}(I_{k})-overline{F}(I_{k}))}{sqrt{sum_{i}(D_{I}-overline{D})^{2}}sum_{i}(F_{i}(I_{k})-overline{F}(I_{k}))^{2}}</dt><dd><p>where $D_{i}$ is the $i^{th}$ measured transfer resistance and $F_{i}(I_{k})$ is the $i^{th}$  transfer resistance computed to unit current at location k.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-inversion.regularize">
+<span id="smoothing"></span><h3>Smoothing<a class="headerlink" href="#module-inversion.regularize" title="Permalink to this heading"></a></h3>
+<p>Created on Mon May 11 17:29:01 2020
+&#64;author: Benjamin</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.nx_ny">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">nx_ny</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#nx_ny"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.nx_ny" title="Permalink to this definition"></a></dt>
+<dd><p>find number of nodes in each direction, has to be a regular grid</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.nx_ny_nz">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">nx_ny_nz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#nx_ny_nz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.nx_ny_nz" title="Permalink to this definition"></a></dt>
+<dd><p>find number of nodes in each direction, has to be a regular grid</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.regularize_A">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">regularize_A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nVRTe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#regularize_A"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.regularize_A" title="Permalink to this definition"></a></dt>
+<dd><p>create and append rows for to A,
+for spatial regularization (simple model smoothing).
+Working only on 2d regular meshes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.regularize_A_3d">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">regularize_A_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nVRTe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#regularize_A_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.regularize_A_3d" title="Permalink to this definition"></a></dt>
+<dd><p>model smoothing consisting in creating and
+appending rows for spatial regularization to A</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.regularize_A_UnstructuredMesh2d">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">regularize_A_UnstructuredMesh2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nVRTe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#regularize_A_UnstructuredMesh2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.regularize_A_UnstructuredMesh2d" title="Permalink to this definition"></a></dt>
+<dd><p>model smoothing consisting in creating and appending rows for spatial regularization to A.
+Adapted for unstructured mesh since it uses the k_neighbors method, default k=2. Also working on regular grid 2d</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.regularize_A_UnstructuredMesh3d">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">regularize_A_UnstructuredMesh3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nVRTe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#regularize_A_UnstructuredMesh3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.regularize_A_UnstructuredMesh3d" title="Permalink to this definition"></a></dt>
+<dd><p>model smoothing consisting in creating and appending rows for spatial regularization to A.
+Adapted for unstructured mesh since it uses the k_neighbors method, default k=4. Also working on regular grid 2d</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.regularize_b">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">regularize_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#regularize_b"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.regularize_b" title="Permalink to this definition"></a></dt>
+<dd><p>initiate vector b with zeros, the length is determined by the number of regul rows in A</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.regularize.regularize_w">
+<span class="sig-prename descclassname"><span class="pre">inversion.regularize.</span></span><span class="sig-name descname"><span class="pre">regularize_w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0_prior_flag</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/regularize.html#regularize_w"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.regularize.regularize_w" title="Permalink to this definition"></a></dt>
+<dd><p>create vector with weights, the length is determined by the number of regul rows in A such as
+.. math :: A = (G’<a href="#id1"><span class="problematic" id="id2">*</span></a>Wd*G + lambda*Wm)</p>
+<blockquote>
+<div><p>b = G’<a href="#id3"><span class="problematic" id="id4">*</span></a>Wd*d + lambda*Wm*m0;</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="module-inversion.solve">
+<span id="solver"></span><h3>Solver<a class="headerlink" href="#module-inversion.solve" title="Permalink to this heading"></a></h3>
+<p>Created on Tue May 12 09:35:37 2020</p>
+<p>&#64;author: Benjamin</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.con_A_f">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">con_A_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#con_A_f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.con_A_f" title="Permalink to this definition"></a></dt>
+<dd><p>Set current conservation constrainst on A (rows of ones)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.con_b_f">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">con_b_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#con_b_f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.con_b_f" title="Permalink to this definition"></a></dt>
+<dd><p>Set current conservation constrainst on b</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.con_w_f">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">con_w_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#con_w_f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.con_w_f" title="Permalink to this definition"></a></dt>
+<dd><p>Set current conservation constrainst weight; default is wc=1e6</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.iCSD">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">iCSD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A_w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#iCSD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.iCSD" title="Permalink to this definition"></a></dt>
+<dd><p>Solve linear system, given weigted A matrix (VRTe, constrain, regul) and weigted b (observations).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x0_ini_guess</strong> (<em>*</em>) – Initial guess</p></li>
+<li><p><strong>A_w</strong> (<em>*</em>) – Kernel of green functions</p></li>
+<li><p><strong>b_w</strong> (<em>*</em>) – Weigted observations</p></li>
+<li><p><strong>dim</strong> (<em>*</em>) – Survey dimension i.e 2d or 3d</p></li>
+<li><p><strong>coord</strong> (<em>*</em>) – Coordinates of the virtual sources</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>x</strong> – Solution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1D-arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.obs_w_f">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">obs_w_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errRmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sd_rec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#obs_w_f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.obs_w_f" title="Permalink to this definition"></a></dt>
+<dd><p>weight the observations, can also ignore observations by setting w = 0</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.stack_A">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">stack_A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">con_A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#stack_A"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.stack_A" title="Permalink to this definition"></a></dt>
+<dd><p>Stack A (green fcts), constrainsts and regularisation</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.stack_b">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">stack_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">con_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#stack_b"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.stack_b" title="Permalink to this definition"></a></dt>
+<dd><p>Stack b, constrainsts and regularisation</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.stack_w">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">stack_w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs_w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">con_w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0_prior</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#stack_w"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.stack_w" title="Permalink to this definition"></a></dt>
+<dd><p>create vector with weights for observation, constrain, and regularization
+then use it as diagonal for the weight matrix</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.weight_A">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">weight_A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x0_prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_s</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#weight_A"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.weight_A" title="Permalink to this definition"></a></dt>
+<dd><p>Apply the weights to A</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inversion.solve.weight_b">
+<span class="sig-prename descclassname"><span class="pre">inversion.solve.</span></span><span class="sig-name descname"><span class="pre">weight_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x0_prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_s</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/inversion/solve.html#weight_b"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inversion.solve.weight_b" title="Permalink to this definition"></a></dt>
+<dd><p>Apply the weights to b</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="module-plotters.mpl_plot">
+<span id="icsd3d-plotters-plotters-for-results-visualisation"></span><h2><code class="docutils literal notranslate"><span class="pre">icsd3d.plotters</span></code>: plotters for results visualisation<a class="headerlink" href="#module-plotters.mpl_plot" title="Permalink to this heading"></a></h2>
+<p>Created on Mon May 11 14:44:26 2020</p>
+<p>&#64;author: Benjamin</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="plotters.mpl_plot.current_streamlines">
+<span class="sig-prename descclassname"><span class="pre">plotters.mpl_plot.</span></span><span class="sig-name descname"><span class="pre">current_streamlines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/plotters/mpl_plot.html#current_streamlines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotters.mpl_plot.current_streamlines" title="Permalink to this definition"></a></dt>
+<dd><p>Only suitable for MALM with fix potential electrodes.
+Correction of resistivity Res</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plotters.mpl_plot.labels">
+<span class="sig-prename descclassname"><span class="pre">plotters.mpl_plot.</span></span><span class="sig-name descname"><span class="pre">labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/plotters/mpl_plot.html#labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotters.mpl_plot.labels" title="Permalink to this definition"></a></dt>
+<dd><p>Parse graphical labels to plot</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plotters.mpl_plot.plotCSD2d">
+<span class="sig-prename descclassname"><span class="pre">plotters.mpl_plot.</span></span><span class="sig-name descname"><span class="pre">plotCSD2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pareto</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retElec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/plotters/mpl_plot.html#plotCSD2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotters.mpl_plot.plotCSD2d" title="Permalink to this definition"></a></dt>
+<dd><p>Plot CSD in 2d, using matplotlib and scipy interpolation</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plotters.mpl_plot.plotCSD3d">
+<span class="sig-prename descclassname"><span class="pre">plotters.mpl_plot.</span></span><span class="sig-name descname"><span class="pre">plotCSD3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KneeWr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pltRemotes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/plotters/mpl_plot.html#plotCSD3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotters.mpl_plot.plotCSD3d" title="Permalink to this definition"></a></dt>
+<dd><p>plot scattered 3d current sources density for a given regularisation weight wr
+(can be the knee location if pareto-curve mode is run)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sc</strong> (<em>sources coordinates</em>) – </p></li>
+<li><p><strong>add</strong><strong>)</strong> (<em>kwargs</em><em> (</em><em>to</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plotters.mpl_plot.plotContour2d">
+<span class="sig-prename descclassname"><span class="pre">plotters.mpl_plot.</span></span><span class="sig-name descname"><span class="pre">plotContour2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physLabel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retElec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/plotters/mpl_plot.html#plotContour2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotters.mpl_plot.plotContour2d" title="Permalink to this definition"></a></dt>
+<dd><p>Plot contour in 2d, using matplotlib and scipy interpolation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plotters.mpl_plot.plot_knee_icsd">
+<span class="sig-prename descclassname"><span class="pre">plotters.mpl_plot.</span></span><span class="sig-name descname"><span class="pre">plot_knee_icsd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/plotters/mpl_plot.html#plot_knee_icsd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotters.mpl_plot.plot_knee_icsd" title="Permalink to this definition"></a></dt>
+<dd><p>Plot CSD for the best regularisation parameter after L-curve automatic analysis using a knee-locator</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plotters.mpl_plot.showObs2d">
+<span class="sig-prename descclassname"><span class="pre">plotters.mpl_plot.</span></span><span class="sig-name descname"><span class="pre">showObs2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/plotters/mpl_plot.html#showObs2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotters.mpl_plot.showObs2d" title="Permalink to this definition"></a></dt>
+<dd><p>Plot contour in 2d, using matplotlib and scipy interpolation.
+Required surface and borehole electrode to make the 2d interpolation possible
+:param self:</p>
+</dd></dl>
+
+<span class="target" id="module-plotters.pv_plot"></span><p>Created on Mon May 11 14:44:26 2020
+&#64;author: Benjamin
+3D plots using pyvista</p>
+</section>
+<section id="module-gridder.mkgrid">
+<span id="icsd3d-gridder-grid-data"></span><h2><code class="docutils literal notranslate"><span class="pre">icsd3d.gridder</span></code>: Grid data<a class="headerlink" href="#module-gridder.mkgrid" title="Permalink to this heading"></a></h2>
+<p>Created on Mon May 11 15:58:36 2020</p>
+<p>&#64;author: Benjamin</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="gridder.mkgrid.mkGrid_XI_YI">
+<span class="sig-prename descclassname"><span class="pre">gridder.mkgrid.</span></span><span class="sig-name descname"><span class="pre">mkGrid_XI_YI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gridder/mkgrid.html#mkGrid_XI_YI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gridder.mkgrid.mkGrid_XI_YI" title="Permalink to this definition"></a></dt>
+<dd><p>Grid for interpolation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coord_x</strong> (<em>*</em>) – The x coordinates of the grid points</p></li>
+<li><p><strong>coord_y</strong> (<em>*</em>) – The y coordinate of the grid points</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>XI, YI</strong> – Meshgrid points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1D-arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-importers.read">
+<span id="icsd3d-importers-wrappers-to-facilitate-import-of-common-ert-data"></span><h2><code class="docutils literal notranslate"><span class="pre">icsd3d.importers</span></code>: wrappers to facilitate import of common ERT data<a class="headerlink" href="#module-importers.read" title="Permalink to this heading"></a></h2>
+<p>Created on Mon May 11 15:18:31 2020</p>
+<p>&#64;author: Benjamin</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="importers.read.load_coord">
+<span class="sig-prename descclassname"><span class="pre">importers.read.</span></span><span class="sig-name descname"><span class="pre">load_coord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VRTeCoord.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importers/read.html#load_coord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#importers.read.load_coord" title="Permalink to this definition"></a></dt>
+<dd><p>load coordinates of the virtual current sources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="importers.read.load_geom">
+<span class="sig-prename descclassname"><span class="pre">importers.read.</span></span><span class="sig-name descname"><span class="pre">load_geom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importers/read.html#load_geom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#importers.read.load_geom" title="Permalink to this definition"></a></dt>
+<dd><p>load the geometry of the acquisition (<a href="#id5"><span class="problematic" id="id6">*</span></a>geom file custum for Mise-à-la-masse data)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="importers.read.load_obs">
+<span class="sig-prename descclassname"><span class="pre">importers.read.</span></span><span class="sig-name descname"><span class="pre">load_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ObsData.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importers/read.html#load_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#importers.read.load_obs" title="Permalink to this definition"></a></dt>
+<dd><p>load the observations file (normalised voltages)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="importers.read.load_sim">
+<span class="sig-prename descclassname"><span class="pre">importers.read.</span></span><span class="sig-name descname"><span class="pre">load_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VRTeSim.txt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importers/read.html#load_sim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#importers.read.load_sim" title="Permalink to this definition"></a></dt>
+<dd><p>load the simulated green functions file</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../auto_examples/run_nail.html" class="btn btn-neutral float-left" title="Inversion of current source density apply to a roots imaging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Benjamin Mary.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

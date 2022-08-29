@@ -42,14 +42,3 @@ def export_sol(coord, vec_sol, dim, path=None, filename_root="Solution.dat"):
             f, ExpSOL, fmt="%1.2f %1.2f %1.2f %1.6f", delimiter="\t", header="X Y Z i"
         )  # X is an array
         f.close()
-
-
-def writeFIT(path, x0_prior, xfun, b_w, b_s, x0, reg_A, jac, saveall=False):
-    np.savetxt(path + "invertedR.txt", xfun[:] + b_w[:])
-    np.savetxt(path + "truemodelR.txt", b_w[:])
-    np.savetxt(path + "b_w.txt", b_w[:])
-    np.savetxt(path + "b_s.txt", b_s[:])
-    if x0_prior == True:
-        np.savetxt(str(x0_prior) + "x0F1_sum.wtxt", x0)
-        np.savetxt(str(x0_prior) + "reg_A.txt", reg_A)
-        np.savetxt(str(x0_prior) + "Jac.txt", jac)

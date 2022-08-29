@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 
 import matplotlib.pyplot as plt
 import numpy as np
-from kneed import KneeLocator
+#from kneed import KneeLocator
 from matplotlib.backends.backend_pdf import PdfPages
 from scipy.linalg import block_diag
 from scipy.optimize import least_squares, lsq_linear
@@ -123,11 +123,11 @@ class iCSD3d(object):
         # load virtual sources coordinates
         if self.type == "2d":
             self.coord_x, self.coord_y, survey.coord = load_coord(
-                survey.path2load, self.coord_file, self.type
+                survey.path2load, self.coord_file, dim=2,
             )
         else:
             self.coord_x, self.coord_y, self.coord_z, survey.coord = load_coord(
-                survey.path2load, self.coord_file, self.type
+                survey.path2load, self.coord_file, dim=3,
             )
 
         if self.TDIP_flag == False:
@@ -268,6 +268,8 @@ class iCSD3d(object):
         """
 
         # 2D CASE -----------------------------------------
+        
+        print(self.type == "2d")
         if self.type == "2d":
             if self.regMesh == "strc":  # structured (grid) mesh of virtual sources
                 if (
@@ -282,6 +284,7 @@ class iCSD3d(object):
                             "#### dimensions of matrices do not agree - change regularisation types"
                         )
                     else:
+                        print('Im here')
                         self.reg_A = regularize_A(survey.coord, survey.nVRTe)
             else:
                 self.reg_A = regularize_A_UnstructuredMesh3d(
@@ -306,28 +309,28 @@ class iCSD3d(object):
                     survey.coord, self.nVRTe, self.k
                 )
 
-        if self.alphaSxy == True:  # anisotropic smoothing
-            # print(self.alphax0)
-            self.reg_smallx0 = ponderate_smallnessX0(
-                self.alphaSxy, self.alphax0, reg_Ax=self.reg_Ax
-            )
-            self.reg_A = sum_smallness_smoothness(
-                self.alphaSxy,
-                self.x0_prior,
-                reg_smallx0=self.reg_smallx0,
-                reg_Ax=self.reg_Ax,
-                reg_Ay=self.reg_Ay,
-            )
-        else:
-            self.reg_smallx0 = ponderate_smallnessX0(
-                self.alphaSxy, self.alphax0, reg_A=self.reg_A
-            )
-            self.reg_A = sum_smallness_smoothness(
-                self.alphaSxy,
-                self.x0_prior,
-                reg_smallx0=self.reg_smallx0,
-                reg_A=self.reg_A,
-            )
+            if self.alphaSxy == True:  # anisotropic smoothing
+                # print(self.alphax0)
+                self.reg_smallx0 = ponderate_smallnessX0(
+                    self.alphaSxy, self.alphax0, reg_Ax=self.reg_Ax
+                )
+                self.reg_A = sum_smallness_smoothness(
+                    self.alphaSxy,
+                    self.x0_prior,
+                    reg_smallx0=self.reg_smallx0,
+                    reg_Ax=self.reg_Ax,
+                    reg_Ay=self.reg_Ay,
+                )
+            else:
+                self.reg_smallx0 = ponderate_smallnessX0(
+                    self.alphaSxy, self.alphax0, reg_A=self.reg_A
+                )
+                self.reg_A = sum_smallness_smoothness(
+                    self.alphaSxy,
+                    self.x0_prior,
+                    reg_smallx0=self.reg_smallx0,
+                    reg_A=self.reg_A,
+                )
 
         return self.reg_A
 

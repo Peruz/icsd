@@ -2,6 +2,7 @@
 *~
 *.pyd
 .pytest_cache/
+_sphinx_build/
 build/
 dist/
 .coverage

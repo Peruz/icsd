@@ -30,14 +30,6 @@ def _fig_Interpolation_(ax, f, coord, data, **kwargs):
         origin="lower",
         cmap="jet",
     )
-
-    # img = ax.matshow(grid,
-    #            extent = (min (coord_x), max(coord_x), min(coord_y), max(coord_y)),
-    #            aspect = 'auto', origin = 'lower', cmap= 'jet')
-
-    # cbar = f.colorbar(img,ax=ax,
-    #                     orientation='vertical',
-    #                     shrink=0.6)
     cbar = plt.colorbar(img, ax=ax, orientation="vertical", shrink=0.6)
 
     if kwargs.get("clim") is not None:
@@ -167,11 +159,6 @@ def plotRemotes(path, dim, pltRemotes=False):
 
 def plotPareto(wr, pareto_list_FitRes, pareto_list_RegRes, IdPtkneew, path):
     p, ax = plt.subplots()  #'L-curve'
-    # ax.annotate('Wr=' + str(int(wr)), xy=(float(np.asarray(pareto_list_FitRes)[IdPtkneew]),
-    #                                  float(np.asarray(pareto_list_RegRes)[IdPtkneew])),
-    #                               xytext=(float(np.asarray(pareto_list_FitRes)[IdPtkneew])+max(pareto_list_FitRes)/3,
-    #                                  float(np.asarray(pareto_list_RegRes)[IdPtkneew])+max(pareto_list_RegRes)/3),
-    #                               arrowprops=dict(facecolor='black', shrink=0.05))
     plt.plot(
         float(np.asarray(pareto_list_FitRes)[IdPtkneew]),
         float(np.asarray(pareto_list_RegRes)[IdPtkneew]),
@@ -192,43 +179,15 @@ def plotPareto(wr, pareto_list_FitRes, pareto_list_RegRes, IdPtkneew, path):
 
 def plot_knee_icsd(wr, kn):
     """Plot CSD for the best regularisation parameter after L-curve automatic analysis using a knee-locator
-
-    Parameters
-    ------------
-    self
     """
     KneeWr = wr
     kn.plot_knee_normalized()
-    # plt.show(kn)
-    # run_single()
-
-
-def plotFIT(b, b_w, xfun, path):
-    stopat = len(b)  # 204
-    plt.figure()
-    plt.subplot(121)
-    plt.plot(xfun[:stopat] + b_w[:stopat], "or", label="Inverted CSD")
-    plt.plot(b_w[:stopat], "ob", label="True model")
-    plt.xlabel("Measurement number")
-    plt.ylabel("R [Ohm]")
-    plt.legend()
-    plt.subplot(122)
-    plt.plot(xfun[:stopat] + b_w[:stopat], b_w[:stopat], "or")
-    plt.xlabel("Inverted CSD, R [Ohm]")
-    plt.ylabel("True model, R [Ohm]")
-    plt.tight_layout()
-    plt.savefig(path + "Fit.png", dpi=600)
-    plt.show()
 
 
 def plotCSD2d(
     coord, data_sol, b, b_w, path, pareto, retElec=None, sc=None, ax=None, **kwargs
 ):
     """Plot CSD in 2d, using matplotlib and scipy interpolation
-
-    Parameters
-    ------------
-    self
     """
 
     clim = None
@@ -492,10 +451,6 @@ def plotContour2d(
     _fig_Interpolation_(ax, f, coord, data_sol, lgd_label=physLabel)
     _fig_VRTe_(ax, coord, data_sol)
     _fig_RealSources_(ax, sc)
-    # _fig_ReturnElec_(ax,retElec)
-    # ax.set_xlabel('x [m]')
-    # ax.set_ylabel('y [m]')
-    # ax.set_aspect('equal', adjustable='box')
     _fig_Axis_Labels_(ax, title=fig_name)
 
     if kwargs.get("jac") is not None:
@@ -607,26 +562,6 @@ def current_streamlines(path, Res=1, mesh=None, **kwargs):
     cbar.set_label("V")
     ax.set_ylabel("y [m]", fontsize=15)
     ax.set_xlabel("x [m]", fontsize=15)
-
-    # if len(kwargs.get('sensors'))>0:
-    #     sensors = kwargs.get('sensors')
-    #     ax.scatter(sensors[:,0],sensors[:,1],color='k',marker='.',label='pot. elec')
-    #     for i in range(len(sensors[:,0])):
-    #            ax.annotate(str(i+1), (sensors[i,0],sensors[i,1]))
-    #     if kwargs.get('A'):
-    #         A = kwargs.get('A')
-    #         ax.scatter(sensors[A,0],sensors[A,1],color='r',marker='v',label='A. elec')
-    #     if kwargs.get('B'):
-    #         B = kwargs.get('B')
-    #         ax.scatter(sensors[B,0],sensors[B,1],color='b',marker='v',label='B. elec')
-    #     if kwargs.get('Nfix'):
-    #         Nfix = kwargs.get('Nfix')
-    #         ax.scatter(sensors[Nfix,0],sensors[Nfix,1],color='g',marker='v',label='Nfix. elec')
-
-    # if kwargs.get('gridCoarse'):
-    #     gridCoarse = pg.createGrid(x=np.linspace(min(sensors[:,0]), max(sensors[:,0]),xn/2),
-    #                      y=np.linspace(min(sensors[:,1]), max(sensors[:,1]),yn/2))
-
     drawStreams(
         ax, mesh, -pg.solver.grad(mesh, data), color="green", quiver=True, linewidth=3.0
     )

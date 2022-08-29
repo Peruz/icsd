@@ -8,7 +8,7 @@ Created on Mon May 11 15:18:31 2020
 import os
 import numpy as np
 
-def load_coord(path, filename, dim):
+def load_coord(path, filename='VRTeCoord.txt', dim=2):
     """load coordinates of the virtual current sources
 
     Parameters
@@ -16,7 +16,7 @@ def load_coord(path, filename, dim):
 
     """
     coord = np.loadtxt(path + filename)
-    if dim == "2d":
+    if dim == 2:
         coord_x, coord_y = coord[:, 0], coord[:, 1]
         return coord_x, coord_y, coord
     else:
@@ -24,7 +24,7 @@ def load_coord(path, filename, dim):
         return coord_x, coord_y, coord_z, coord
 
 
-def load_obs(path, filename, index=None):
+def load_obs(path, filename='ObsData.txt', index=None):
     """load the observations file (normalised voltages)
 
     Parameters
@@ -41,45 +41,13 @@ def load_obs(path, filename, index=None):
     return b
 
 
-def load_sim(path, data_sim, knorm=True):
+def load_sim(path, data_sim='VRTeSim.txt'):
     """load the simulated green functions file
-
-    Parameters
-    ----------
-
     """
     if isinstance(data_sim, str):
-        if ".data" in data_sim:
-            tdip_data_sim = pg.load(path + data_sim)
-            A = []
-            i = 0
-            if knorm == True:
-                while True:
-                    try:
-                        A.append(
-                            ((tdip_data_sim["m" + str(i)]) / tdip_data_sim["k"]).array()
-                        )
-                        i += 1
-                        # print(i)
-                    except:
-                        break
-            else:
-                while True:
-                    try:
-                        A.append((tdip_data_sim["m" + str(i)]).array())
-                        i += 1
-                    except:
-                        break
-
-            A = np.vstack(A)
-            A = np.transpose(A)
-
-        else:
-            A = np.loadtxt(path + data_sim)
+        A = np.loadtxt(path + data_sim)
     else:
         A = data_sim
-    print(np.shape(A))
-    print("*" * 36)
 
     return A
 
@@ -122,103 +90,3 @@ def load_geom(path):
 
     return RemLineNb, Injection, coordE, pointsE
 
-
-#%% UTILS: LOAD from gimli or resipy format
-
-
-def dataImport(SimFile=None, ObsFile=None):
-    """Data importer for common data files (Resipy and Gimli)
-    Import and parse observation files, simulated file and geometry file
-
-    Parameters
-    ----------
-
-    """
-    if fileExt == "*.data":
-        print("pygimli format import")
-        A, b = load_pg_data(SimFile=None, ObsFile=None)
-    if fileExt == "*.dat":
-        print("resipy format import")
-        A, b = load_resipy_data(SimFile=None, ObsFile=None)
-
-
-def loadTDIPSurvey(fname_obs, fname_sim, Vp_norm=True):
-    """Data importer for common data files (Gimli)
-    Import and parse observation files, simulated green fct file
-
-    Parameters
-    ----------
-    - Vp_norm: True: normalise chargeability by multiplying with Vp
-    Return
-    ----------
-    - Vs containing all gates + utlimate gate is Vp
-    - Vs_green containing all gates + utlimate gate is Vp_green
-    """
-
-    Vs = []
-    Vs_green = []
-    if isinstance(fname_obs, str):
-        if ".dat" in fname_obs:
-            i = 0
-            tdip_obs = pg.load(fname_obs)
-            Vs.append(((tdip_obs["r"])).array())
-            # print(np.shape(Vs))
-            if Vp_norm == True:
-                # print('import obs')
-                while True:
-                    try:
-                        try:
-                            Vs.append(
-                                ((tdip_obs["M" + str(i)]) * tdip_obs["r"]).array()
-                            )
-                        except:
-                            Vs.append(
-                                ((tdip_obs["m" + str(i)]) * tdip_obs["r"]).array()
-                            )
-                        i += 1
-                        # print(i)
-                        # print(np.shape(Vs))
-                    except:
-                        break
-            else:
-                while True:
-                    try:
-                        Vs.append((tdip_obs["m" + str(i)]).array())
-                        i += 1
-                    except:
-                        break
-            Vs = np.vstack(Vs)
-            Vs = np.transpose(Vs)
-
-        if ".dat" in fname_sim:
-            i = 0
-            tdip_sim = pg.load(fname_sim)
-            Vs_green.append(((tdip_sim["r"])).array())
-            if Vp_norm == True:
-                while True:
-                    try:
-                        Vs_green.append(
-                            ((tdip_sim["m" + str(i)]) * tdip_sim["r"]).array()
-                        )
-                        i += 1
-                    except:
-                        break
-            else:
-                while True:
-                    try:
-                        Vs_green.append((tdip_sim["m" + str(i)]).array())
-                        i += 1
-                    except:
-                        break
-            Vs_green = np.vstack(Vs_green)
-            Vs_green = np.transpose(Vs_green)
-            # print(np.shape(Vs_green))
-        else:
-            Vs_green = np.loadtxt(fname_sim)
-            Vs_green = Vs_green * np.ones([i + 1, np.shape(Vs_green)[0]])
-            Vs_green = np.transpose(Vs_green)
-            # print(np.shape(Vs_green))
-    else:
-        print("Can" "t import numpy array data")
-
-    return Vs, Vs_green

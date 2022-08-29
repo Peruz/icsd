@@ -37,20 +37,16 @@ def iCSD(A_w, b_w, dim, coord, path, **kwargs):
         x = lsq_linear(A_w, b_w, bounds=(0, 1), verbose=0)
         print("*" * 20)
         print("CURRENT Sum=" + str(np.sum(x.x)))
-        # TO IMPLEMENT RETURN JAC Matrice to evaluate MALM sensitivity
     else:
         # Initial guess x0 use least_squares solver
         a = A_w
         b = b_w
-
         def func(x, a, b):
             return b - np.dot(a, x)
 
         x = least_squares(
             func, x0=kwargs.get("x0"), bounds=(0, 1), args=(a, b)
         )  # Add initial guess
-        print("CURRENT Sum=" + str(np.sum(x.x)))
-
     return x
 
 
@@ -61,24 +57,12 @@ def check_nVRTe(A, b, coord):
     if A.shape[0] / b.shape[0] == coord.shape[0]:
         nVRTe = coord.shape[0]
     else:
-        print(
-            "A:"
-            + str(A.shape[0])
-            + "\n"
-            + "b:"
-            + str(b.shape[0])
-            + "\n"
-            + "coord:"
-            + str(coord.shape[0])
-        )
         raise ValueError("### dimensions of the files do not agree")
-
     return nVRTe
 
 
 def reshape_A(A, nVRTe):
     A = A.reshape((-1, nVRTe), order="F")
-
     return A
 
 
@@ -93,10 +77,6 @@ def obs_w_f(obs_err, b, errRmin, sd_rec=None):
         if (obs_w >= 10 * errRmin).any():
             print("errRmin not correctly set, adjust")
         obs_w[obs_w >= errRmin] = 1
-
-    elif obs_err == "reciprocals":  # [TO IMPLEMENT]
-        obs_w = 1 / np.sqrt(np.abs(sd_rec))
-
     return obs_w
 
 
@@ -106,21 +86,18 @@ def obs_w_f(obs_err, b, errRmin, sd_rec=None):
 def con_A_f(A):
     """Set current conservation constrainst on A (rows of ones)"""
     con_A = np.ones(A.shape[1])
-
     return con_A
 
 
 def con_b_f(b):
     """Set current conservation constrainst on b"""
     con_b = np.ones(1)
-
     return con_b
 
 
 def con_w_f(wc):
     """Set current conservation constrainst weight; default is wc=1e6"""
     con_w = np.ones(1) * wc
-
     return con_w
 
 
@@ -131,7 +108,6 @@ def stack_A(A, con_A, reg_A):
     """Stack A (green fcts), constrainsts and regularisation"""
     # con_A = _con_A_f(A)
     A_s = np.vstack((A, con_A, reg_A))
-
     return A_s
 
 
@@ -139,7 +115,6 @@ def stack_b(b, con_b, reg_b):
     """Stack b, constrainsts and regularisation"""
     # con_b = _con_b_f(b)
     b_s = np.concatenate((b, con_b, reg_b))
-
     return b_s
 
 
@@ -151,7 +126,7 @@ def stack_w(obs_w, con_w, x0_prior, **kwargs):
     reg_w_0_A = kwargs.get("reg_w_0_A")
     reg_w_0_b = kwargs.get("reg_w_0_b")
 
-    if x0_prior == True:  # if relative smallness
+    if x0_prior:  # if relative smallness
         wa = np.concatenate((obs_w, con_w, reg_w_0_A))
         wb = np.concatenate((obs_w, con_w, reg_w_0_b))
         W = np.zeros((wa.shape[0], wa.shape[0]))
@@ -159,7 +134,6 @@ def stack_w(obs_w, con_w, x0_prior, **kwargs):
         W_s_A = W
         np.fill_diagonal(W, wb)
         W_s_b = W
-
         return W_s_A, W_s_b
 
     else:
@@ -167,7 +141,6 @@ def stack_w(obs_w, con_w, x0_prior, **kwargs):
         W = np.zeros((w.shape[0], w.shape[0]))
         np.fill_diagonal(W, w)
         W_s = W
-
         return W_s
 
 
@@ -177,19 +150,17 @@ def stack_w(obs_w, con_w, x0_prior, **kwargs):
 def weight_A(x0_prior, A_s, **kwargs):
     """Apply the weights to A"""
 
-    if x0_prior == True:
+    if x0_prior:
         A_w = np.matmul(kwargs.get("W_s_A"), A_s)
     else:
         A_w = np.matmul(kwargs.get("W_s"), A_s)
-
     return A_w
 
 
 def weight_b(x0_prior, b_s, **kwargs):
     """Apply the weights to b"""
-    if x0_prior == True:
+    if x0_prior:
         b_w = np.matmul(b_s, kwargs.get("W_s_b"))
     else:
         b_w = np.matmul(b_s, kwargs.get("W_s"))
-
     return b_w

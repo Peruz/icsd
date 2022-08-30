@@ -69,6 +69,9 @@ extensions = [
     ]
 
 
+bibtex_bibfiles = ['content/refs.bib']
+bibtex_default_style = 'unsrt'
+
 # Produce pages for each class and function
 autosummary_generate = True
 autodoc_default_flags = ['members', 'inherited-members']

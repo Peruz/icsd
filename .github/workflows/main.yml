@@ -1,6 +1,6 @@
 # Make Coverage Badge
 
-name: Make Coverage Badge
+name: Make Coverage Badge based on coverage.xml
 on:
   push:
     branches: [main]

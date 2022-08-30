@@ -4,7 +4,7 @@ name: Pages
 on:
   push:
     branches:
-    - master
+    - [main, doc]
 jobs:
   build:
     runs-on: ubuntu-latest

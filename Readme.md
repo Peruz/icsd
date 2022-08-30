@@ -28,7 +28,7 @@ conda install -c conda-forge iCSD
 ```
 
 
-## Creating a new environment for icsd
+### Creating a new environment for icsd
 
 `iCSD` depends on `?`, which could make the installation sometimes tricky because of the conflicts with the current packages. Therefore, we recommend creating a new clean environment and installing the dependencies from the conda-forge channel.
 
@@ -50,7 +50,7 @@ conda install -c conda-forge iCSD
 
 
 
-## Developement environment for icsd
+### Developement environment for icsd
 
 Create a new environment:
 ```shell
@@ -72,7 +72,7 @@ Update iCSD:
 conda env update --file environment.yml --prune
 ```
 
-## Run Tests
+### Run Tests
 
 
 ```shell
@@ -87,7 +87,7 @@ pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-rep
 ## Documentation
 The official documentation is hosted on **[ReadTheDocs](?)**.
 
-## examples
+## Examples
 
 some examples of laboratory acquisitions and iCSD (based on cotton experiments)
 

@@ -56,7 +56,7 @@ clean:
 	rm -rvf $(TESTDIR) dask-worker-space 
 	
 doc: 
-	sphinx-build ./docsrc/ _sphinx_build
+	sphinx-build ./docs/ _sphinx_build
 	
 publish:
 	python3 setup.py sdist bdist_wheel

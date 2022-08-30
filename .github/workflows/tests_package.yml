@@ -44,7 +44,7 @@ jobs:
           use-mamba: true
 
       - name: Install icsd
-        run: pip install .
+        run: pip install -e .
 
       - name: Check environment
         run: |

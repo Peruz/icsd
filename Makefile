@@ -26,8 +26,9 @@ test_coverage:
 	#cd $(TESTDIR); NUMBA_DISABLE_JIT=1 MPLBACKEND='agg' pytest $(PYTEST_ARGS) $(PROJECT)
 	#cp $(TESTDIR)/.coverage* .
 	#rm -rvf $(TESTDIR)
+	#pytest -v --color yes --cov-config --cov icsd --cov-append --cov-report term-missing --cov-report xml tests
 	pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-report term-missing --cov-report xml tests
-
+	
 format: isort black
 
 check: isort-check black-check flake8

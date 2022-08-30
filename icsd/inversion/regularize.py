@@ -1,7 +1,10 @@
-# -*- coding: utf-8 -*-
+# Copyright (c) 2018 The ICSD Developers.
+# https://github.com/Peruz/icsd/graphs/contributors
+# Distributed under the terms of the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+#
 """
-Created on Mon May 11 17:29:01 2020
-@author: Benjamin
+Regularisation functions
 """
 
 import matplotlib.pyplot as plt

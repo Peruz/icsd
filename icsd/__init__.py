@@ -1,9 +1,3 @@
-import inversion
-import importers
-import plotters
-import gridder
-import exporters
-
 from .plotters.mpl_plot import (
     labels,
     plot_knee_icsd,

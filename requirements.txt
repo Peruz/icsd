@@ -1,0 +1,14 @@
+kneed
+pandas
+numpy<1.23.0,>=1.16.5
+scipy
+pyvista
+matplotlib
+jupyter
+sphinx
+sphinx-gallery
+sphinx_bootstrap_theme
+numpydoc
+icsd
+pyvista
+vtk>=9

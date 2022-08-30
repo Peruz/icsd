@@ -55,7 +55,9 @@ extensions = [
     'sphinx_gallery.gen_gallery', # to generate the gallery
     #'sphinx_nbexamples', # needs pandoc (apt-get install pandoc)
     'sphinx.ext.autosectionlabel',
-    'sphinx.ext.viewcode'
+    'sphinx.ext.viewcode',
+    "pyvista.ext.plot_directive",
+    "pyvista.ext.coverage",
 ]
 
 

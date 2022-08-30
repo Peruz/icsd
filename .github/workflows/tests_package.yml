@@ -55,8 +55,7 @@ jobs:
           pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-report term-missing --cov-report xml tests
 
   Badge:
-    name: Make Coverage Badge
+    name: Badge
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Coverage Badge
-        uses: tj-actions/coverage-badge-py@v1.8

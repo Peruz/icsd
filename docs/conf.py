@@ -1,6 +1,8 @@
 import sys
 import os
 import datetime
+import pyvista
+
 # import sphinx_rtd_theme
 # import sphinx_gallery
 # from sphinx_gallery.sorting import FileNameSortKey
@@ -57,7 +59,6 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.viewcode',
     "pyvista.ext.plot_directive",
-    "pyvista.ext.coverage",
 ]
 
 

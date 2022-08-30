@@ -1,7 +1,10 @@
+# Copyright (c) 2018 The ICSD Developers.
+# https://github.com/Peruz/icsd/graphs/contributors
+# Distributed under the terms of the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+#
 """
-Created on Mon May 11 15:58:36 2020
-
-@author: Benjamin
+Gridder
 """
 
 import numpy as np

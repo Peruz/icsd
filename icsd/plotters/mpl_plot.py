@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
+# Copyright (c) 2018 The ICSD Developers.
+# https://github.com/Peruz/icsd/graphs/contributors
+# Distributed under the terms of the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+#
 """
-Created on Mon May 11 14:44:26 2020
-
-@author: Benjamin
+Matplolib plotters
 """
-
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -14,7 +15,7 @@ from icsd.gridder.mkgrid import mkGrid_XI_YI
 from icsd.importers.read import *
 
 
-def _fig_Interpolation_(ax, f, coord, data, **kwargs):
+def _fig_Interpolation_(ax, coord, data, **kwargs):
     """plot the interpolation of the VRTe current fractions"""
 
     coord_x, coord_y = parseCoord(coord, dim="2d")
@@ -30,14 +31,6 @@ def _fig_Interpolation_(ax, f, coord, data, **kwargs):
         origin="lower",
         cmap="jet",
     )
-
-    # img = ax.matshow(grid,
-    #            extent = (min (coord_x), max(coord_x), min(coord_y), max(coord_y)),
-    #            aspect = 'auto', origin = 'lower', cmap= 'jet')
-
-    # cbar = f.colorbar(img,ax=ax,
-    #                     orientation='vertical',
-    #                     shrink=0.6)
     cbar = plt.colorbar(img, ax=ax, orientation="vertical", shrink=0.6)
 
     if kwargs.get("clim") is not None:
@@ -167,11 +160,6 @@ def plotRemotes(path, dim, pltRemotes=False):
 
 def plotPareto(wr, pareto_list_FitRes, pareto_list_RegRes, IdPtkneew, path):
     p, ax = plt.subplots()  #'L-curve'
-    # ax.annotate('Wr=' + str(int(wr)), xy=(float(np.asarray(pareto_list_FitRes)[IdPtkneew]),
-    #                                  float(np.asarray(pareto_list_RegRes)[IdPtkneew])),
-    #                               xytext=(float(np.asarray(pareto_list_FitRes)[IdPtkneew])+max(pareto_list_FitRes)/3,
-    #                                  float(np.asarray(pareto_list_RegRes)[IdPtkneew])+max(pareto_list_RegRes)/3),
-    #                               arrowprops=dict(facecolor='black', shrink=0.05))
     plt.plot(
         float(np.asarray(pareto_list_FitRes)[IdPtkneew]),
         float(np.asarray(pareto_list_RegRes)[IdPtkneew]),
@@ -192,43 +180,15 @@ def plotPareto(wr, pareto_list_FitRes, pareto_list_RegRes, IdPtkneew, path):
 
 def plot_knee_icsd(wr, kn):
     """Plot CSD for the best regularisation parameter after L-curve automatic analysis using a knee-locator
-
-    Parameters
-    ------------
-    self
     """
     KneeWr = wr
     kn.plot_knee_normalized()
-    # plt.show(kn)
-    # run_single()
-
-
-def plotFIT(b, b_w, xfun, path):
-    stopat = len(b)  # 204
-    plt.figure()
-    plt.subplot(121)
-    plt.plot(xfun[:stopat] + b_w[:stopat], "or", label="Inverted CSD")
-    plt.plot(b_w[:stopat], "ob", label="True model")
-    plt.xlabel("Measurement number")
-    plt.ylabel("R [Ohm]")
-    plt.legend()
-    plt.subplot(122)
-    plt.plot(xfun[:stopat] + b_w[:stopat], b_w[:stopat], "or")
-    plt.xlabel("Inverted CSD, R [Ohm]")
-    plt.ylabel("True model, R [Ohm]")
-    plt.tight_layout()
-    plt.savefig(path + "Fit.png", dpi=600)
-    plt.show()
 
 
 def plotCSD2d(
     coord, data_sol, b, b_w, path, pareto, retElec=None, sc=None, ax=None, **kwargs
 ):
     """Plot CSD in 2d, using matplotlib and scipy interpolation
-
-    Parameters
-    ------------
-    self
     """
 
     clim = None
@@ -248,7 +208,7 @@ def plotCSD2d(
         f = plt.figure("CSD 2d")
         ax = plt.subplot()
 
-    _fig_Interpolation_(ax, f, coord, data_sol, clim=clim)
+    _fig_Interpolation_(ax, coord, data_sol, clim=clim)
     _fig_VRTe_(ax, coord, data_sol, clim=clim)
     _fig_RealSources_(ax, sc)
     _fig_ReturnElec_(ax, retElec)
@@ -294,65 +254,35 @@ def plotCSD3d(
     """
 
     coord_x, coord_y, coord_z = parseCoord(coord, dim="3d")
-
+    f = plt.figure("volume")
     if ax == None:
-        print("no Axis")
-        # ax = plt.gca()
-        f = plt.figure("volume")
         ax = f.gca(projection="3d")
-
     step = (max(coord_x) - min(coord_x)) / 10
-
     xlin = np.arange(min(coord_x), max(coord_x), step)
     ylin = np.arange(min(coord_y), max(coord_y), step)
     zlin = np.arange(min(coord_z), max(coord_z), step)
     # generate new grid
     X, Y, Z = np.meshgrid(xlin, ylin, zlin)
-
-    data_2_plot = data
-    # fig = plt.figure()
-    # ax = fig.add_subplot(projection='3d')
-
-    # fig = plt.figure()
-    # ax = fig.add_subplot(projection='3d')
-
-    # sc=ax.scatter(coord_x, coord_y, coord_z, c=data_2_plot, cmap ='coolwarm', s=data_2_plot*1e4,
-    #           )
     sc = ax.scatter(
         coord_x,
         coord_y,
         coord_z,
-        c=data_2_plot,
+        c=data,
         cmap="coolwarm",
         s=10,
     )
     ax.view_init(azim=0, elev=90)
-
-    # sc=ax.scatter(coord_x, coord_y, coord_z, c=data_2_plot, cmap ='coolwarm', s=data_2_plot*1e4,
-    #           )
-    # if self.clim is None:
-    #     print('none clim')
-    # sc.set_clim(self.clim)
     cbar = plt.colorbar(sc, ax=ax)
-    # self.labels()
-    # cbar.set_label(self.physLabel)
-    # ax.set_zlim([-10,0])
-
-    # label=kwargs.get('label_nor', 'normal')
-
     for key, value in kwargs.items():
         print("{0} = {1}".format(key, value))
 
         if key == "zlim":
             ax.set_zlim([kwargs.get(key)[0], kwargs.get(key)[1]])
-
     plotRemotes(path, dim="3d", pltRemotes=False)  # plot remotes and injection position
-
     if title == None:
         title = "Scattered current sources density, wr=" + str(wr)
     else:
         title = title + ", wr=" + str(wr)
-    # plt.legend()
     ax.set_ylabel("y [m]", fontsize=12)
     ax.set_xlabel("x [m]", fontsize=12)
     ax.set_title(title)
@@ -362,7 +292,6 @@ def plotCSD3d(
         bbox_inches="tight",
         pad_inches=0,
     )
-
     if knee == True:
         if wr == KneeWr:
             plt.savefig(
@@ -373,7 +302,6 @@ def plotCSD3d(
             )
 
     plt.show()
-
     return f, ax
 
 
@@ -381,15 +309,9 @@ def plotCSD3d(
 
 
 def scatter2d(coord, data, label, path, filename, pltRemotes=False, ax=None, **kwargs):
-
     coord_x, coord_y = parseCoord(coord, dim="2d")
-
-    # f = plt.figure('volume')
-
     if ax == None:
         f = plt.figure("volume")
-        print("ax = None")
-
     step = (max(coord_x) - min(coord_x)) / 10
     xlin = np.arange(min(coord_x), max(coord_x), step)
     ylin = np.arange(min(coord_y), max(coord_y), step)
@@ -401,11 +323,8 @@ def scatter2d(coord, data, label, path, filename, pltRemotes=False, ax=None, **k
     cbar.set_label(label)
     ax.set_ylabel("y [m]", fontsize=15)
     ax.set_xlabel("x [m]", fontsize=15)
-
     plotRemotes(path, dim="2d", pltRemotes=False)  # plot remotes and injection position
-
     plt.legend()
-    # plt.title(title)
     plt.savefig(
         path + filename + "_icsd_scatter.png",
         dpi=550,
@@ -413,20 +332,14 @@ def scatter2d(coord, data, label, path, filename, pltRemotes=False, ax=None, **k
         pad_inches=0,
     )
     plt.show()
-
     return ax
 
 
 def scatter3d(coord, data, label, path, filename, pltRemotes=False, ax=None, **kwargs):
-
     coord_x, coord_y, coord_z = parseCoord(coord, dim="3d")
-
     f = plt.figure("volume")
-
     if ax == None:
-        print("no Axis")
         ax = plt.gca()
-    # ax=f.gca(projection='3d')
     fig = plt.figure()
     ax = fig.add_subplot(projection="3d")
 
@@ -440,11 +353,7 @@ def scatter3d(coord, data, label, path, filename, pltRemotes=False, ax=None, **k
     cbar.set_label(label)
     ax.set_ylabel("y [m]", fontsize=15)
     ax.set_xlabel("x [m]", fontsize=15)
-
     plotRemotes(path, dim="3d", pltRemotes=False)  # plot remotes and injection position
-
-    # plt.legend()
-    # plt.title(title)
     plt.savefig(
         path + filename + "_icsd_scatter.png",
         dpi=550,
@@ -452,8 +361,7 @@ def scatter3d(coord, data, label, path, filename, pltRemotes=False, ax=None, **k
         pad_inches=0,
     )
     plt.show()
-
-    return f
+    return ax, f
 
 
 def labels(method):
@@ -469,33 +377,20 @@ def labels(method):
 def plotContour2d(
     coord, data_sol, physLabel, path, retElec=None, sc=None, ax=None, **kwargs
 ):
-    """Plot contour in 2d, using matplotlib and scipy interpolation
-
-    Parameters
-    ------------
-    self
-    """
-
+    """Plot contour in 2d, using matplotlib and scipy interpolation"""
     if kwargs.get("fig_name") is not None:
         fig_name = kwargs.get("fig_name")
     else:
         fig_name = "2d"
-
     if kwargs.get("index") is not None:
         fig_name += "  T" + str(kwargs.get("index"))
-        # print(fig_name)
-
     if ax == None:
         f = plt.figure(fig_name)
         ax = plt.gca()
 
-    _fig_Interpolation_(ax, f, coord, data_sol, lgd_label=physLabel)
+    _fig_Interpolation_(ax, coord, data_sol, lgd_label=physLabel)
     _fig_VRTe_(ax, coord, data_sol)
     _fig_RealSources_(ax, sc)
-    # _fig_ReturnElec_(ax,retElec)
-    # ax.set_xlabel('x [m]')
-    # ax.set_ylabel('y [m]')
-    # ax.set_aspect('equal', adjustable='box')
     _fig_Axis_Labels_(ax, title=fig_name)
 
     if kwargs.get("jac") is not None:
@@ -508,7 +403,7 @@ def plotContour2d(
     return ax, f
 
 
-def showObs2d(path, ax=None, **kwargs):
+def showObs2d(path, coords_elecs, ax=None, **kwargs):
     """Plot contour in 2d, using matplotlib and scipy interpolation.
     Required surface and borehole electrode to make the 2d interpolation possible
     Parameters
@@ -530,13 +425,16 @@ def showObs2d(path, ax=None, **kwargs):
     else:
         index = 0
 
-    RemLineNb, Injection, coordE, pointsE = load_geom(
-        path
-    )  # geometry file containing electrodes position includinf remotes
+
+    # try:
+    # RemLineNb, Injection, coordE, pointsE = load_geom(
+    #     path
+    # )  # geometry file containing electrodes position includinf remotes
     data_obs = load_obs(path, filename, index)
 
-    _fig_Interpolation_(ax, pointsE, data_obs, lgd_label="U/I", clim=clim)
-    _fig_VRTe_(ax, pointsE, data_obs)
+
+    _fig_Interpolation_(ax, coords_elecs, data_obs, lgd_label="U/I", clim=clim)
+    _fig_VRTe_(ax, coords_elecs, data_obs)
     # _fig_RealSources_(ax,sc=None)
     # _fig_ReturnElec_(ax,retElec=None)
     _fig_Axis_Labels_(ax, title="Obs T=" + str(index))
@@ -555,24 +453,17 @@ def current_streamlines(path, Res=1, mesh=None, **kwargs):
     filename = "ObsData.txt"
     f = plt.figure("ObsData")
     ax = plt.gca()
-
     if kwargs.get("filename") is not None:
         filename = kwargs.get("filename")
 
     RemLineNb, Injection, coordE, pointsE = load_geom(
         path
     )  # geometry file containing electrodes position includinf remotes
-    # print(path)
-    # print(path)
-
     data_obs = load_obs(path, filename)
-
     xn = 30
     yn = 30
-
     xx = np.linspace(min(coordE[:, 1]), max(coordE[:, 1]), xn)
     yy = np.linspace(min(coordE[:, 2]), max(coordE[:, 2]), yn)
-
     xx, yy = np.meshgrid(xx, yy)
     points = np.transpose(np.vstack((coordE[:, 1], coordE[:, 2])))
     u_interp = interpolate.griddata(points, data_obs, (xx, yy), method="cubic")
@@ -589,12 +480,10 @@ def current_streamlines(path, Res=1, mesh=None, **kwargs):
         vmin = kwargs.get("vmin")
     else:
         vmin = min(Obs)
-
     if kwargs.get("vmax"):
         vmax = kwargs.get("vmax")
     else:
         vmax = max(Obs)
-
     if kwargs.get("ax"):
         ax = kwargs.get("ax")
     else:
@@ -607,26 +496,6 @@ def current_streamlines(path, Res=1, mesh=None, **kwargs):
     cbar.set_label("V")
     ax.set_ylabel("y [m]", fontsize=15)
     ax.set_xlabel("x [m]", fontsize=15)
-
-    # if len(kwargs.get('sensors'))>0:
-    #     sensors = kwargs.get('sensors')
-    #     ax.scatter(sensors[:,0],sensors[:,1],color='k',marker='.',label='pot. elec')
-    #     for i in range(len(sensors[:,0])):
-    #            ax.annotate(str(i+1), (sensors[i,0],sensors[i,1]))
-    #     if kwargs.get('A'):
-    #         A = kwargs.get('A')
-    #         ax.scatter(sensors[A,0],sensors[A,1],color='r',marker='v',label='A. elec')
-    #     if kwargs.get('B'):
-    #         B = kwargs.get('B')
-    #         ax.scatter(sensors[B,0],sensors[B,1],color='b',marker='v',label='B. elec')
-    #     if kwargs.get('Nfix'):
-    #         Nfix = kwargs.get('Nfix')
-    #         ax.scatter(sensors[Nfix,0],sensors[Nfix,1],color='g',marker='v',label='Nfix. elec')
-
-    # if kwargs.get('gridCoarse'):
-    #     gridCoarse = pg.createGrid(x=np.linspace(min(sensors[:,0]), max(sensors[:,0]),xn/2),
-    #                      y=np.linspace(min(sensors[:,1]), max(sensors[:,1]),yn/2))
-
     drawStreams(
         ax, mesh, -pg.solver.grad(mesh, data), color="green", quiver=True, linewidth=3.0
     )

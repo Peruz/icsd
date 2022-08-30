@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
+# Copyright (c) 2018 The ICSD Developers.
+# https://github.com/Peruz/icsd/graphs/contributors
+# Distributed under the terms of the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+#
 """
-Created on Mon May 11 16:22:08 2020
-@author: Benjamin
-Estimation of initial model based on the physical assumption that a single source current
-can describe the pattern of the masse anomaly
+Initial model estimations functions
 """
+
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import linalg as LA
@@ -41,7 +43,6 @@ def product_moment(A, b):
         r_{k}= \frac{\sum_{i}(D_{I}-\overline{D})(F_{i}(I_{k})-\overline{F}(I_{k}))}{\sqrt{\sum_{i}(D_{I}-\overline{D})^{2}}\sum_{i}(F_{i}(I_{k})-\overline{F}(I_{k}))^{2}}
     where $D_{i}$ is the $i^{th}$ measured transfer resistance and $F_{i}(I_{k})$ is the $i^{th}$  transfer resistance computed to unit current at location k.
     """
-    # self.icsd_init()
     # Estimate a covariance matrix, given data observation and weights and tranfert resitances measured.
     rpearson = []
     for i in range(np.shape(A)[1]):
@@ -49,11 +50,7 @@ def product_moment(A, b):
         rpearson.append(corr)
         if i == 1:
             print(A[:, i])
-    # M0=rpearson
-    # print(np.isnan(rpearson))
     M0 = rpearson / np.sum(rpearson)  # normalize such as sum equal to 1
     TranslateMIN = np.min(M0)
     M0 = M0 - TranslateMIN  # translate, then transform */
-    # check if sum equal to 1 and bounds between 0 and 1
-    # print(np.sum(rpearson))
     return M0

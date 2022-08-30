@@ -4,12 +4,11 @@
 [![Tests](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml/badge.svg)](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![PyPI version](https://badge.fury.io/py/icsd.svg)](https://badge.fury.io/py/icsd)
-![sphinx doc](https://github.com/Peruz/icsd/actions/workflows/sphinx_doc.yml/badge.svg)
+[![Documentation Status](https://readthedocs.org/projects/icsd/badge/?version=latest)](https://icsd.readthedocs.io/en/latest/?badge=latest)
 
 
 <!--
-[![Documentation Status](https://readthedocs.org/projects/tesspy/badge/?version=latest)](https://tesspy.readthedocs.io/en/latest/?badge=latest)
-![version](https://img.shields.io/badge/version-0.1.2-blue)
+![sphinx doc](https://github.com/Peruz/icsd/actions/workflows/sphinx_doc.yml/badge.svg)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tesspy.svg)](https://anaconda.org/conda-forge/tesspy)
 -->
 

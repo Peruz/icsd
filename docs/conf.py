@@ -85,6 +85,18 @@ sphinx_gallery_conf = {
     # 'reference_url': {'harmonica': None},
 }
 
+# Pyvista configurations
+# -----------------------------------------------------------------------------
+# necessary when building the sphinx gallery
+pyvista.BUILDING_GALLERY = True
+pyvista.OFF_SCREEN = True
+
+# Optional - set parameters like theme or window size
+pyvista.set_plot_theme("document")
+pyvista.global_theme.window_size = (1024 * 2, 768 * 2)
+
+
+
 # Configure the inline plots from matplotlib plot_directive
 plot_formats = [("png", 90)]
 plot_html_show_formats = False

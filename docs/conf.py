@@ -47,21 +47,28 @@ release = '0.1.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+
+
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.napoleon',
-    'numpydoc',
-    #'nbsphinx', # to include jupyter notebook as sphinx doc page
-    'sphinx_gallery.gen_gallery', # to generate the gallery
-    #'sphinx_nbexamples', # needs pandoc (apt-get install pandoc)
-    'sphinx.ext.autosectionlabel',
-    'sphinx.ext.viewcode',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.coverage",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.doctest",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.extlinks",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon",
+    "sphinx_gallery.gen_gallery",
+    "sphinx_design",
+    "sphinx_copybutton",
+    "jupyter_sphinx",
     "pyvista.ext.plot_directive",
-]
+    "myst_nb",
+    'sphinxcontrib.bibtex',
+    ]
 
-
+    
 # Produce pages for each class and function
 autosummary_generate = True
 autodoc_default_flags = ['members', 'inherited-members']
@@ -100,7 +107,7 @@ pyvista.global_theme.window_size = (1024 * 2, 768 * 2)
 
 
 # Configure the inline plots from matplotlib plot_directive
-plot_formats = [("png", 90)]
+#plot_formats = [("png", 90)]
 plot_html_show_formats = False
 plot_html_show_source_link = False
 

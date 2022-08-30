@@ -14,7 +14,14 @@ import datetime
 #sys.path.append(os.path.relpath('../icsd/'))
 #sys.path.insert(0, os.path.abspath('../icsd/'))
 
-sys.path.insert(0, os.path.abspath("../."))
+sys.path.append(os.path.relpath('../icsd/'))
+sys.path.insert(0, os.path.abspath('../icsd/'))
+sys.path.append(os.path.relpath('../'))
+sys.path.insert(0, os.path.abspath('../'))
+
+
+sys.path.append(os.path.pardir)
+
 
 # -- Project information -----------------------------------------------------
 

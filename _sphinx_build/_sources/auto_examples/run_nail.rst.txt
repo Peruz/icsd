@@ -21,19 +21,113 @@
 Inversion of current source density apply to a roots imaging
 ------------------------------------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-94
+.. GENERATED FROM PYTHON SOURCE LINES 5-59
+
+
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_001.png
+         :alt: Estimated m0  T0
+         :srcset: /auto_examples/images/sphx_glr_run_nail_001.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_002.png
+         :alt: run nail
+         :srcset: /auto_examples/images/sphx_glr_run_nail_002.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_003.png
+         :alt: run nail
+         :srcset: /auto_examples/images/sphx_glr_run_nail_003.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_004.png
+         :alt: Normalized Knee Point
+         :srcset: /auto_examples/images/sphx_glr_run_nail_004.png
+         :class: sphx-glr-multi-img
 
 
 .. rst-class:: sphx-glr-script-out
 
-.. code-block:: pytb
+ Out:
 
-    Traceback (most recent call last):
-      File "/home/ben/Documents/GitHub/icsd/examples/run_nail.py", line 90, in <module>
-        icsd.run_pareto()
-      File "/home/ben/Documents/GitHub/icsd/icsd/icsd3d.py", line 574, in run_pareto
-        self.wr = float(self.pareto_weights[self.IdPtkneew])
-    AttributeError: 'iCSD3d' object has no attribute 'IdPtkneew'
+ .. code-block:: none
+
+    no existing survey
+    initiation ICSD
+    log transformation: False
+    obs_err: sqrt
+    True
+    ./Cotton_Soil/nail1/
+    [  236.     304.     339.     326.     239.     208.     258.     314.
+       361.     373.     336.     352.     222.     337.     444.     370.
+       465.     472.     366.     320.     447.     559.     588.     564.
+       547.     528.     386.     654.     750.     673.     740.     703.
+       632.     511.     835.    1020.     950.     907.     928.     822.
+       773.    1260.    1270.    1080.    1220.    1180.    1250.    1150.
+      1570.    1650.    1440.    1320.    1460.    1840.    -286.    -423.
+      -561.    -765.    -962.    -970.    -144.    -207.    -313.    -353.
+      -585.    -533.    -661.     -66.1    -76.6   -199.    -162.    -319.
+      -280.    -281.      -8.21   -68.      19.5    -76.4    -41.3   -151.
+        83.      26.3     23.8    119.      99.5    125.     165.     178.
+        36.5    160.     194.     255.     351.     416.     457.     149.
+       174.     355.     360.     541.     839.    1050.     164.     272.
+       422.     485.     803.    1210.     603.     302.     988.      69.7
+       736.    1160.      93.8    431.     800.    1400.      23.9    397.
+       632.    1070.    1640.      51.5    245.     512.     865.    1340.
+      2300.     237.     389.     664.    1050.    1660.     169.     293.
+       584.     802.    1170.    1990.     295.     397.     666.     888.
+      1310.     365.     496.     721.     871.     362.     526.     741.
+       388.     493.     371.     -96.      65.7   -789.      29.9   -406.
+     -1000.     -26.    -281.    -763.   -1140.      35.7   -272.    -577.
+     -1060.   -1360.     -48.    -172.    -447.    -781.   -1230.   -1930.
+       -58.2   -192.    -353.    -641.    -992.   -1550.   -2230.    -202.
+      -312.    -445.    -750.   -1330.   -1800.    -300.    -441.    -569.
+      -911.   -1420.    -347.    -438.    -757.   -1010.    -370.    -521.
+      -760.    -380.    -544.    -403.  ]
+    x0_prior = False
+    wr = 1
+    run_single i=0
+    UNconstrainsted inversion
+    ********************
+    CURRENT Sum=1.0000005098857254
+    pareto weights are
+     [ 0.01  1.12  2.23  3.34  4.45  5.56  6.67  7.78  8.89 10.  ]
+    ********************
+    CURRENT Sum=1.0000005099854388
+    ********************
+    CURRENT Sum=1.0000005098603633
+    ********************
+    CURRENT Sum=1.000000509490006
+    ********************
+    CURRENT Sum=1.0000005088756687
+    ********************
+    CURRENT Sum=1.000000508019485
+    ********************
+    CURRENT Sum=1.0000005069243743
+    ********************
+    CURRENT Sum=1.0000005055939825
+    ********************
+    CURRENT Sum=1.0000005040326059
+    ********************
+    CURRENT Sum=1.00000050224511
+    ********************
+    CURRENT Sum=1.0000005002368346
+    Knee detected for wr=6.67
+    run_single i=0
+    UNconstrainsted inversion
+    ********************
+    CURRENT Sum=1.0000005055939825
 
 
 
@@ -47,46 +141,13 @@ Inversion of current source density apply to a roots imaging
     import os
     import matplotlib.pyplot as plt
 
-    # import numpy as np
-
-    # maindir='E:/Padova/Software/SourceInversion/icsd_dev/'
-    # os.chdir(maindir)
-
     # -----------------------------------#
     # Exemple cotton
     # -----------------------------------#
-    # path2files="examples/Cotton_Soil/Nail1/"
     path2files="./Cotton_Soil/nail1/"
-
-    # path2files = os.path.join(os.path.dirname('__file__'), '/Cotton_Soil/Nail1/')
-    # cwd=os.getcwd()
-
-    # path2files= '../examples/nail1/'
-    # DIR= cwd + path2files
-
-    # os.chdir(DIR)
-    # path2files = 
-    # fname = os.path.join(cwd, path2files)
-
-    # from icsd2d_class import iCSD2d_Class as i2d
-    # icsd=i2d(dirName=path2files)   
-    # icsd.icsd_init()
-
-    # # 
-    # icsd.wr=1 #weight regularization
-    # icsd.run_single()
-    # icsd.run_pareto()
-
-    # -----------------------------------#
-    # apply here a smallness contrainst to the regularisation
 
     from icsd.icsd3d import iCSD3d as i3d 
     from icsd.plotters import mpl_plot
-
-    # mpl_plot.showObs2d(path2files)
-
-
-    # import iCSD3d_Class as i3d
 
     icsd=i3d(dirName=path2files)   
     icsd.type='2d'
@@ -107,8 +168,6 @@ Inversion of current source density apply to a roots imaging
     # icsd.run_single()
 
     sol= icsd.invert(x0_prior=False,wr=1)
-    # icsd.invert(pareto=True, regMesh='strc',x0_prior=True, 
-    #             pareto_MinErr=1, pareto_MaxErr=100)
 
 
  
@@ -137,7 +196,7 @@ Inversion of current source density apply to a roots imaging
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  13.309 seconds)
+   **Total running time of the script:** ( 0 minutes  21.509 seconds)
 
 
 .. _sphx_glr_download_auto_examples_run_nail.py:

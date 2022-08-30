@@ -89,15 +89,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for importers.read</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># Copyright (c) 2018 The ICSD Developers.</span>
+<span class="c1"># https://github.com/Peruz/icsd/graphs/contributors</span>
+<span class="c1"># Distributed under the terms of the BSD 3-Clause License.</span>
+<span class="c1"># SPDX-License-Identifier: BSD-3-Clause</span>
+<span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Created on Mon May 11 15:18:31 2020</span>
-
-<span class="sd">@author: Benjamin</span>
+<span class="sd">Importers</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <div class="viewcode-block" id="load_coord"><a class="viewcode-back" href="../../content/api_core/api.html#importers.read.load_coord">[docs]</a><span class="k">def</span> <span class="nf">load_coord</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;VRTeCoord.txt&#39;</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;load coordinates of the virtual current sources</span>
@@ -115,6 +118,28 @@
         <span class="k">return</span> <span class="n">coord_x</span><span class="p">,</span> <span class="n">coord_y</span><span class="p">,</span> <span class="n">coord_z</span><span class="p">,</span> <span class="n">coord</span></div>
 
 
+<span class="k">def</span> <span class="nf">_read_pygimli</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Read pygimli data format &#39;&#39;&#39;</span>
+    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        
+    <span class="n">nb_of_sensors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">nb_of_quad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">nb_of_sensors</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">nb_of_sensors</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
+                      <span class="n">skiprows</span><span class="o">=</span><span class="n">nb_of_sensors</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span>
+                      <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">nrows</span><span class="o">=</span><span class="n">nb_of_quad</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">header</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">data</span><span class="p">[</span><span class="s2">&quot;rhoa&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        
+
 <div class="viewcode-block" id="load_obs"><a class="viewcode-back" href="../../content/api_core/api.html#importers.read.load_obs">[docs]</a><span class="k">def</span> <span class="nf">load_obs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ObsData.txt&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;load the observations file (normalised voltages)</span>
 
@@ -122,10 +147,8 @@
 <span class="sd">    ----------</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.data&quot;</span><span class="p">):</span>  <span class="c1"># TDIP data importer</span>
-        <span class="n">bfile</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">bfile</span><span class="p">[</span><span class="s2">&quot;m&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span> <span class="o">/</span> <span class="n">bfile</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
-
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.data&quot;</span><span class="p">):</span>  
+        <span class="n">b</span> <span class="o">=</span> <span class="n">_read_pygimli</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
 
@@ -135,52 +158,16 @@
 <div class="viewcode-block" id="load_sim"><a class="viewcode-back" href="../../content/api_core/api.html#importers.read.load_sim">[docs]</a><span class="k">def</span> <span class="nf">load_sim</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data_sim</span><span class="o">=</span><span class="s1">&#39;VRTeSim.txt&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;load the simulated green functions file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_sim</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">data_sim</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_sim</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.data&quot;</span><span class="p">):</span>  
+            <span class="n">A</span> <span class="o">=</span> <span class="n">_read_pygimli</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">data_sim</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">data_sim</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">A</span> <span class="o">=</span> <span class="n">data_sim</span>
 
     <span class="k">return</span> <span class="n">A</span></div>
-
-
-<div class="viewcode-block" id="load_geom"><a class="viewcode-back" href="../../content/api_core/api.html#importers.read.load_geom">[docs]</a><span class="k">def</span> <span class="nf">load_geom</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;load the geometry of the acquisition (*geom file custum for Mise-à-la-masse data)</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">geom_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.geom&quot;</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geom_files</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;should be only one geom file in the current directory&quot;</span><span class="p">)</span>
-
-    <span class="n">fileNameElec</span> <span class="o">=</span> <span class="n">geom_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">line_number</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">line_of_injection</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">line_of_remotes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># Open the file in read only mode</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">fileNameElec</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_obj</span><span class="p">:</span>
-        <span class="c1"># Read all lines in the file one by one</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">read_obj</span><span class="p">:</span>
-            <span class="c1"># For each line, check if line contains the string</span>
-            <span class="c1"># print(line)</span>
-            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;#Remote&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                <span class="c1"># If yes, then add the line number &amp; line as a tuple in the list</span>
-                <span class="n">line_of_remotes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">line_number</span><span class="p">))</span>
-            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;#Injection&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                <span class="n">line_of_injection</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">line_number</span><span class="p">))</span>
-
-    <span class="c1"># print(line_of_injection)</span>
-    <span class="c1"># print(line_of_remotes)</span>
-    <span class="n">RemLineNb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line_of_remotes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">Injection</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line_of_injection</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="n">coordE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">fileNameElec</span><span class="p">)</span>
-    <span class="n">pointsE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">coordE</span><span class="p">[:</span><span class="n">RemLineNb</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="n">RemLineNb</span><span class="p">,</span> <span class="n">Injection</span><span class="p">,</span> <span class="n">coordE</span><span class="p">,</span> <span class="n">pointsE</span></div>
-
 </pre></div>
 
            </div>

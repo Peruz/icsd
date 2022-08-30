@@ -13,48 +13,6 @@ import datetime
 #
 sys.path.append(os.path.relpath('../icsd/'))
 sys.path.insert(0, os.path.abspath('../icsd/'))
-# sys.path.append(os.path.relpath('../icsd3d'))
-# sys.path.insert(0, os.path.abspath('../icsd3d'))
-
-#sys.path.insert(0, os.path.abspath("../icsd3d/"))
-#sys.path.insert(0, os.path.abspath("../icsd3d/gridder/"))
-#sys.path.insert(0, os.path.abspath("../icsd3d/exporters/"))
-#sys.path.insert(0, os.path.abspath("../icsd3d/importers/"))
-#sys.path.insert(0, os.path.abspath("../icsd3d/inversion/"))
-#sys.path.insert(0, os.path.abspath("../icsd3d/plotters/"))
-
-#sys.path.append(os.path.pardir)
-
-
-# import sys
-
-# def add_to_path():
-
-#     partial_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../')
-#     workspace_path = os.path.abspath(partial_path)
-#     assert os.path.exists(workspace_path)
-
-#     projects = []
-
-#     for current, dirs, c in os.walk(str(workspace_path)):
-#         for dir in dirs:
-
-#             project_path = os.path.join(workspace_path, dir, 'src')
-
-#             if os.path.exists(project_path):
-#                 projects.append(project_path)
-
-#     for project_str in projects:
-#         sys.path.append(project_str)
-
-# add_to_path()
-
-
-
-#sys.path.append(os.path.abspath('..{}'.format(os.path.sep)))
-# from icsd.icsd3d import iCSD3d_Class
-# from icsd3d.gridder.mkgrid import *
-# from icsd3d.inversion.priorM0 import *
 
 
 # -- Project information -----------------------------------------------------

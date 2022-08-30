@@ -89,13 +89,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for inversion.priorM0</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># Copyright (c) 2018 The ICSD Developers.</span>
+<span class="c1"># https://github.com/Peruz/icsd/graphs/contributors</span>
+<span class="c1"># Distributed under the terms of the BSD 3-Clause License.</span>
+<span class="c1"># SPDX-License-Identifier: BSD-3-Clause</span>
+<span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Created on Mon May 11 16:22:08 2020</span>
-<span class="sd">@author: Benjamin</span>
-<span class="sd">Estimation of initial model based on the physical assumption that a single source current</span>
-<span class="sd">can describe the pattern of the masse anomaly</span>
+<span class="sd">Initial model estimations functions</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linalg</span> <span class="k">as</span> <span class="n">LA</span>
@@ -132,7 +134,6 @@
 <span class="sd">        r_{k}= \frac{\sum_{i}(D_{I}-\overline{D})(F_{i}(I_{k})-\overline{F}(I_{k}))}{\sqrt{\sum_{i}(D_{I}-\overline{D})^{2}}\sum_{i}(F_{i}(I_{k})-\overline{F}(I_{k}))^{2}}</span>
 <span class="sd">    where $D_{i}$ is the $i^{th}$ measured transfer resistance and $F_{i}(I_{k})$ is the $i^{th}$  transfer resistance computed to unit current at location k.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># self.icsd_init()</span>
     <span class="c1"># Estimate a covariance matrix, given data observation and weights and tranfert resitances measured.</span>
     <span class="n">rpearson</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">1</span><span class="p">]):</span>
@@ -140,13 +141,9 @@
         <span class="n">rpearson</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="c1"># M0=rpearson</span>
-    <span class="c1"># print(np.isnan(rpearson))</span>
     <span class="n">M0</span> <span class="o">=</span> <span class="n">rpearson</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rpearson</span><span class="p">)</span>  <span class="c1"># normalize such as sum equal to 1</span>
     <span class="n">TranslateMIN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">M0</span><span class="p">)</span>
     <span class="n">M0</span> <span class="o">=</span> <span class="n">M0</span> <span class="o">-</span> <span class="n">TranslateMIN</span>  <span class="c1"># translate, then transform */</span>
-    <span class="c1"># check if sum equal to 1 and bounds between 0 and 1</span>
-    <span class="c1"># print(np.sum(rpearson))</span>
     <span class="k">return</span> <span class="n">M0</span></div>
 </pre></div>
 

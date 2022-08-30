@@ -2,7 +2,7 @@
 API reference: The ``icsd3d`` package
 =======================================
 
-.. automodule:: icsd3d
+.. automodule:: icsd
    :members:
 
 

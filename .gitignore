@@ -14,3 +14,4 @@ doc/sample_data
 *.egg-info
 .coverage.*
 examples_inPrep
+requirements_packaging

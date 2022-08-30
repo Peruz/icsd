@@ -13,6 +13,7 @@ help:
 	@echo "  check     run code style and quality checks (black, isort and flake8)"
 	@echo "  clean     clean up build and generated files"
 	@echo "  doc       build sphinx doc"
+	@echo "  publish   publish to pypi"
 	@echo ""
 
 install:
@@ -56,3 +57,12 @@ clean:
 	
 doc: 
 	sphinx-build ./docsrc/ _sphinx_build
+	
+publish:
+	python3 setup.py sdist bdist_wheel
+        twine upload dist/*
+        grayskull pypi icsd
+
+        
+        
+        

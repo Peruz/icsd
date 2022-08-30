@@ -29,6 +29,27 @@ Gallery of example
    :hidden:
 
    /auto_examples/run_nail
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Inversion of current source density apply to a roots imaging">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_run_landfill3d_thumb.png
+     :alt: Inversion of current source density apply to a roots imaging
+
+     :ref:`sphx_glr_auto_examples_run_landfill3d.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/run_landfill3d
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

@@ -89,13 +89,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for plotters.mpl_plot</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># Copyright (c) 2018 The ICSD Developers.</span>
+<span class="c1"># https://github.com/Peruz/icsd/graphs/contributors</span>
+<span class="c1"># Distributed under the terms of the BSD 3-Clause License.</span>
+<span class="c1"># SPDX-License-Identifier: BSD-3-Clause</span>
+<span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Created on Mon May 11 14:44:26 2020</span>
-
-<span class="sd">@author: Benjamin</span>
+<span class="sd">Matplolib plotters</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
@@ -105,7 +106,7 @@
 <span class="kn">from</span> <span class="nn">icsd.importers.read</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<span class="k">def</span> <span class="nf">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;plot the interpolation of the VRTe current fractions&quot;&quot;&quot;</span>
 
     <span class="n">coord_x</span><span class="p">,</span> <span class="n">coord_y</span> <span class="o">=</span> <span class="n">parseCoord</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;2d&quot;</span><span class="p">)</span>
@@ -298,7 +299,7 @@
         <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;CSD 2d&quot;</span><span class="p">)</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
 
-    <span class="n">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data_sol</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="n">clim</span><span class="p">)</span>
+    <span class="n">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data_sol</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="n">clim</span><span class="p">)</span>
     <span class="n">_fig_VRTe_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data_sol</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="n">clim</span><span class="p">)</span>
     <span class="n">_fig_RealSources_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
     <span class="n">_fig_ReturnElec_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">retElec</span><span class="p">)</span>
@@ -344,65 +345,35 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">coord_x</span><span class="p">,</span> <span class="n">coord_y</span><span class="p">,</span> <span class="n">coord_z</span> <span class="o">=</span> <span class="n">parseCoord</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
-
+    <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;volume&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no Axis&quot;</span><span class="p">)</span>
-        <span class="c1"># ax = plt.gca()</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;volume&quot;</span><span class="p">)</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
-
     <span class="n">step</span> <span class="o">=</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">coord_x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">coord_x</span><span class="p">))</span> <span class="o">/</span> <span class="mi">10</span>
-
     <span class="n">xlin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">coord_x</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">coord_x</span><span class="p">),</span> <span class="n">step</span><span class="p">)</span>
     <span class="n">ylin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">coord_y</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">coord_y</span><span class="p">),</span> <span class="n">step</span><span class="p">)</span>
     <span class="n">zlin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">coord_z</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">coord_z</span><span class="p">),</span> <span class="n">step</span><span class="p">)</span>
     <span class="c1"># generate new grid</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xlin</span><span class="p">,</span> <span class="n">ylin</span><span class="p">,</span> <span class="n">zlin</span><span class="p">)</span>
-
-    <span class="n">data_2_plot</span> <span class="o">=</span> <span class="n">data</span>
-    <span class="c1"># fig = plt.figure()</span>
-    <span class="c1"># ax = fig.add_subplot(projection=&#39;3d&#39;)</span>
-
-    <span class="c1"># fig = plt.figure()</span>
-    <span class="c1"># ax = fig.add_subplot(projection=&#39;3d&#39;)</span>
-
-    <span class="c1"># sc=ax.scatter(coord_x, coord_y, coord_z, c=data_2_plot, cmap =&#39;coolwarm&#39;, s=data_2_plot*1e4,</span>
-    <span class="c1">#           )</span>
     <span class="n">sc</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
         <span class="n">coord_x</span><span class="p">,</span>
         <span class="n">coord_y</span><span class="p">,</span>
         <span class="n">coord_z</span><span class="p">,</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">data_2_plot</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
         <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">azim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">elev</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
-
-    <span class="c1"># sc=ax.scatter(coord_x, coord_y, coord_z, c=data_2_plot, cmap =&#39;coolwarm&#39;, s=data_2_plot*1e4,</span>
-    <span class="c1">#           )</span>
-    <span class="c1"># if self.clim is None:</span>
-    <span class="c1">#     print(&#39;none clim&#39;)</span>
-    <span class="c1"># sc.set_clim(self.clim)</span>
     <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-    <span class="c1"># self.labels()</span>
-    <span class="c1"># cbar.set_label(self.physLabel)</span>
-    <span class="c1"># ax.set_zlim([-10,0])</span>
-
-    <span class="c1"># label=kwargs.get(&#39;label_nor&#39;, &#39;normal&#39;)</span>
-
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> = </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;zlim&quot;</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">([</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">1</span><span class="p">]])</span>
-
     <span class="n">plotRemotes</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">,</span> <span class="n">pltRemotes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># plot remotes and injection position</span>
-
     <span class="k">if</span> <span class="n">title</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Scattered current sources density, wr=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wr</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="s2">&quot;, wr=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wr</span><span class="p">)</span>
-    <span class="c1"># plt.legend()</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
@@ -412,7 +383,6 @@
         <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span>
         <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>
-
     <span class="k">if</span> <span class="n">knee</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">wr</span> <span class="o">==</span> <span class="n">KneeWr</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
@@ -423,7 +393,6 @@
             <span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
     <span class="k">return</span> <span class="n">f</span><span class="p">,</span> <span class="n">ax</span></div>
 
 
@@ -431,15 +400,9 @@
 
 
 <span class="k">def</span> <span class="nf">scatter2d</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">pltRemotes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-
     <span class="n">coord_x</span><span class="p">,</span> <span class="n">coord_y</span> <span class="o">=</span> <span class="n">parseCoord</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;2d&quot;</span><span class="p">)</span>
-
-    <span class="c1"># f = plt.figure(&#39;volume&#39;)</span>
-
     <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;volume&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ax = None&quot;</span><span class="p">)</span>
-
     <span class="n">step</span> <span class="o">=</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">coord_x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">coord_x</span><span class="p">))</span> <span class="o">/</span> <span class="mi">10</span>
     <span class="n">xlin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">coord_x</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">coord_x</span><span class="p">),</span> <span class="n">step</span><span class="p">)</span>
     <span class="n">ylin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">coord_y</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">coord_y</span><span class="p">),</span> <span class="n">step</span><span class="p">)</span>
@@ -451,11 +414,8 @@
     <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-
     <span class="n">plotRemotes</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;2d&quot;</span><span class="p">,</span> <span class="n">pltRemotes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># plot remotes and injection position</span>
-
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-    <span class="c1"># plt.title(title)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
         <span class="n">path</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_icsd_scatter.png&quot;</span><span class="p">,</span>
         <span class="n">dpi</span><span class="o">=</span><span class="mi">550</span><span class="p">,</span>
@@ -463,20 +423,14 @@
         <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
     <span class="k">return</span> <span class="n">ax</span>
 
 
 <span class="k">def</span> <span class="nf">scatter3d</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">pltRemotes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-
     <span class="n">coord_x</span><span class="p">,</span> <span class="n">coord_y</span><span class="p">,</span> <span class="n">coord_z</span> <span class="o">=</span> <span class="n">parseCoord</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
-
     <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;volume&quot;</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no Axis&quot;</span><span class="p">)</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="c1"># ax=f.gca(projection=&#39;3d&#39;)</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
 
@@ -490,11 +444,7 @@
     <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-
     <span class="n">plotRemotes</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">,</span> <span class="n">pltRemotes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># plot remotes and injection position</span>
-
-    <span class="c1"># plt.legend()</span>
-    <span class="c1"># plt.title(title)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
         <span class="n">path</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_icsd_scatter.png&quot;</span><span class="p">,</span>
         <span class="n">dpi</span><span class="o">=</span><span class="mi">550</span><span class="p">,</span>
@@ -502,8 +452,7 @@
         <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">f</span>
+    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">f</span>
 
 
 <div class="viewcode-block" id="labels"><a class="viewcode-back" href="../../content/api_core/api.html#plotters.mpl_plot.labels">[docs]</a><span class="k">def</span> <span class="nf">labels</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
@@ -519,27 +468,18 @@
 <div class="viewcode-block" id="plotContour2d"><a class="viewcode-back" href="../../content/api_core/api.html#plotters.mpl_plot.plotContour2d">[docs]</a><span class="k">def</span> <span class="nf">plotContour2d</span><span class="p">(</span>
     <span class="n">coord</span><span class="p">,</span> <span class="n">data_sol</span><span class="p">,</span> <span class="n">physLabel</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">retElec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot contour in 2d, using matplotlib and scipy interpolation</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ------------</span>
-<span class="sd">    self</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="sd">&quot;&quot;&quot;Plot contour in 2d, using matplotlib and scipy interpolation&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_name&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fig_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_name&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">fig_name</span> <span class="o">=</span> <span class="s2">&quot;2d&quot;</span>
-
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fig_name</span> <span class="o">+=</span> <span class="s2">&quot;  T&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">))</span>
-        <span class="c1"># print(fig_name)</span>
-
     <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fig_name</span><span class="p">)</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
-    <span class="n">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data_sol</span><span class="p">,</span> <span class="n">lgd_label</span><span class="o">=</span><span class="n">physLabel</span><span class="p">)</span>
+    <span class="n">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data_sol</span><span class="p">,</span> <span class="n">lgd_label</span><span class="o">=</span><span class="n">physLabel</span><span class="p">)</span>
     <span class="n">_fig_VRTe_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">data_sol</span><span class="p">)</span>
     <span class="n">_fig_RealSources_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
     <span class="n">_fig_Axis_Labels_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">fig_name</span><span class="p">)</span>
@@ -554,7 +494,7 @@
     <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">f</span></div>
 
 
-<div class="viewcode-block" id="showObs2d"><a class="viewcode-back" href="../../content/api_core/api.html#plotters.mpl_plot.showObs2d">[docs]</a><span class="k">def</span> <span class="nf">showObs2d</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="showObs2d"><a class="viewcode-back" href="../../content/api_core/api.html#plotters.mpl_plot.showObs2d">[docs]</a><span class="k">def</span> <span class="nf">showObs2d</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">coords_elecs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot contour in 2d, using matplotlib and scipy interpolation.</span>
 <span class="sd">    Required surface and borehole electrode to make the 2d interpolation possible</span>
 <span class="sd">    Parameters</span>
@@ -576,13 +516,16 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="n">RemLineNb</span><span class="p">,</span> <span class="n">Injection</span><span class="p">,</span> <span class="n">coordE</span><span class="p">,</span> <span class="n">pointsE</span> <span class="o">=</span> <span class="n">load_geom</span><span class="p">(</span>
-        <span class="n">path</span>
-    <span class="p">)</span>  <span class="c1"># geometry file containing electrodes position includinf remotes</span>
+
+    <span class="c1"># try:</span>
+    <span class="c1"># RemLineNb, Injection, coordE, pointsE = load_geom(</span>
+    <span class="c1">#     path</span>
+    <span class="c1"># )  # geometry file containing electrodes position includinf remotes</span>
     <span class="n">data_obs</span> <span class="o">=</span> <span class="n">load_obs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
 
-    <span class="n">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pointsE</span><span class="p">,</span> <span class="n">data_obs</span><span class="p">,</span> <span class="n">lgd_label</span><span class="o">=</span><span class="s2">&quot;U/I&quot;</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="n">clim</span><span class="p">)</span>
-    <span class="n">_fig_VRTe_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pointsE</span><span class="p">,</span> <span class="n">data_obs</span><span class="p">)</span>
+
+    <span class="n">_fig_Interpolation_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coords_elecs</span><span class="p">,</span> <span class="n">data_obs</span><span class="p">,</span> <span class="n">lgd_label</span><span class="o">=</span><span class="s2">&quot;U/I&quot;</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="n">clim</span><span class="p">)</span>
+    <span class="n">_fig_VRTe_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coords_elecs</span><span class="p">,</span> <span class="n">data_obs</span><span class="p">)</span>
     <span class="c1"># _fig_RealSources_(ax,sc=None)</span>
     <span class="c1"># _fig_ReturnElec_(ax,retElec=None)</span>
     <span class="n">_fig_Axis_Labels_</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Obs T=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
@@ -601,24 +544,17 @@
     <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;ObsData.txt&quot;</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;ObsData&quot;</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">)</span>
 
     <span class="n">RemLineNb</span><span class="p">,</span> <span class="n">Injection</span><span class="p">,</span> <span class="n">coordE</span><span class="p">,</span> <span class="n">pointsE</span> <span class="o">=</span> <span class="n">load_geom</span><span class="p">(</span>
         <span class="n">path</span>
     <span class="p">)</span>  <span class="c1"># geometry file containing electrodes position includinf remotes</span>
-    <span class="c1"># print(path)</span>
-    <span class="c1"># print(path)</span>
-
     <span class="n">data_obs</span> <span class="o">=</span> <span class="n">load_obs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-
     <span class="n">xn</span> <span class="o">=</span> <span class="mi">30</span>
     <span class="n">yn</span> <span class="o">=</span> <span class="mi">30</span>
-
     <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">coordE</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">coordE</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">xn</span><span class="p">)</span>
     <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">coordE</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">coordE</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]),</span> <span class="n">yn</span><span class="p">)</span>
-
     <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
     <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">coordE</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">coordE</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])))</span>
     <span class="n">u_interp</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">data_obs</span><span class="p">,</span> <span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">)</span>
@@ -635,12 +571,10 @@
         <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">vmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Obs</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">):</span>
         <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">vmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">Obs</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ax&quot;</span><span class="p">):</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ax&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

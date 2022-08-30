@@ -1,3 +1,4 @@
+kneed
 numpy<1.23.0,>=1.16.5
 scipy
 pyvista
@@ -7,4 +8,4 @@ sphinx
 sphinx-gallery
 sphinx_bootstrap_theme
 numpydoc
-kneed
+

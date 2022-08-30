@@ -13,6 +13,7 @@ from copy import copy, deepcopy
 import matplotlib.pyplot as plt
 import numpy as np
 
+import kneed
 from kneed import KneeLocator
 from matplotlib.backends.backend_pdf import PdfPages
 from scipy.linalg import block_diag

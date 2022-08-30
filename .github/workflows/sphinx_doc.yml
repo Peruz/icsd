@@ -3,8 +3,7 @@
 name: Pages
 on:
   push:
-    branches:
-    - [main, doc]
+    branches: [ "main", "tests"]
 jobs:
   build:
     runs-on: ubuntu-latest

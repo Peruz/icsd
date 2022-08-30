@@ -59,8 +59,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Coverage Badge
-      uses: tj-actions/coverage-badge-py@v1.8
-        
+      - name: Coverage Badge 
         
         

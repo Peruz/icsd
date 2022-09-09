@@ -2,7 +2,7 @@ name: Paper Draft
 
 on:
   push:
-    branches: ["article"]
+    branches: ["main"]
 
 jobs:
   paper:

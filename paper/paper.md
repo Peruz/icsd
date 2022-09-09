@@ -123,6 +123,8 @@ To start with the analysis we recommand a simple preliminary visualisation of th
 Furthermore, depending the nature of the problem, the user could rapidly approximate using Binely's approach.   
 
 ![The product-moment correlation\label{fig1}](fig1_prd_moment_corr.png)
+![Nail icsd\label{fig1b}](fig1b_nail_icsd.png)
+
 
 For a full use of the package it has to be coupled with a forward geoelectrical model ERT [@blanchy_resipy_2020, @cockett_simpeg_2015, @rucker_pygimli_2017]. Typical procedure steps are:
 1. Import and filter survey data (ERT and ECI)

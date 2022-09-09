@@ -14,7 +14,7 @@ from scipy.sparse import diags
 
 #%%
 def nx_ny(coord):
-    """find number of nodes in each direction, has to be a regular grid"""
+    """Find number of nodes in each direction, has to be a regular grid"""
     nx = np.unique(np.round(coord[:, 0], 3)).shape[0]
     ny = np.unique(np.round(coord[:, 1], 3)).shape[0]
 
@@ -22,7 +22,7 @@ def nx_ny(coord):
 
 
 def nx_ny_nz(coord):
-    """find number of nodes in each direction, has to be a regular grid"""
+    """Find number of nodes in each direction, has to be a regular grid"""
     nx = np.unique(np.round(coord[:, 0], 3)).shape[0]
     ny = np.unique(np.round(coord[:, 1], 3)).shape[0]
     nz = np.unique(np.round(coord[:, 2], 3)).shape[0]
@@ -31,14 +31,12 @@ def nx_ny_nz(coord):
 
 
 #%% Smoothing methods for different mesh types
-
 #%% 2d
 
 
 def regularize_A(coord, nVRTe):
-    """create and append rows for to A,
-    for spatial regularization (simple model smoothing).
-    Working only on 2d regular meshes
+    """Create and append rows for spatial regularization to A.
+    Working only on 2d regular meshes.
     """
     reg = []
     vrte = range(1, nVRTe + 1)
@@ -67,8 +65,7 @@ def regularize_A(coord, nVRTe):
 
 #%% 3d
 def regularize_A_3d(nVRTe, coord):
-    """model smoothing consisting in creating and
-    appending rows for spatial regularization to A
+    """Create and append rows for spatial regularization to A.
     """
     nx, ny, nz = nx_ny_nz(coord)
     reg = []
@@ -96,8 +93,8 @@ def regularize_A_3d(nVRTe, coord):
 
 
 def regularize_A_UnstructuredMesh2d(coord, nVRTe, k_neighbors=2):
-    """model smoothing consisting in creating and appending rows for spatial regularization to A.
-    Adapted for unstructured mesh since it uses the k_neighbors method, default k=2. Also working on regular grid 2d"""
+    """Create and append rows for spatial regularization to A.
+    Uses the k_neighbors method, default k=4"""
     reg = []
     for VRTEnb in range(nVRTe):
         dist = np.linalg.norm(coord[VRTEnb] - coord, axis=1)
@@ -121,8 +118,8 @@ def regularize_A_UnstructuredMesh2d(coord, nVRTe, k_neighbors=2):
 
 
 def regularize_A_UnstructuredMesh3d(coord, nVRTe, k_neighbors=9):
-    """model smoothing consisting in creating and appending rows for spatial regularization to A.
-    Adapted for unstructured mesh since it uses the k_neighbors method, default k=4. Also working on regular grid 2d"""
+    """Create and append rows for spatial regularization to A.
+    Uses the k_neighbors method, default k=4"""
     reg = []
     for VRTEnb in range(nVRTe):
         dist = np.linalg.norm(coord[VRTEnb] - coord, axis=1)
@@ -148,16 +145,19 @@ def regularize_A_UnstructuredMesh3d(coord, nVRTe, k_neighbors=9):
 #%% Initiate vectors to build regularisation matrice for A, b
 
 def regularize_b(reg_A):
-    """initiate vector b with zeros, the length is determined by the number of regul rows in A"""
+    """Initiate vector b with zeros, the length is determined by the number of regul rows in A"""
     reg_b = np.zeros(reg_A.shape[0])
 
     return reg_b
 
 
 def regularize_w(reg_A, wr, x0_prior_flag, **kwargs):
-    """create vector with weights, the length is determined by the number of regul rows in A such as
-    .. math :: A = (G'*Wd*G + lambda*Wm)
-               b = G'*Wd*d + lambda*Wm*m0;
+    r"""Create vector with weights, the length is determined by the number of regul rows in A such as
+    .. math :: 
+
+        A = (G^{T}*Wd*G + lambda*Wm)  \\
+        b = G^{T}*Wd*d + lambda*Wm*m0
+
     """
     if x0_prior_flag:
         # reg Wm (smallness + spatial reg) * lambda=" + str(wr))

@@ -18,10 +18,14 @@
 .. _sphx_glr_auto_examples_run_nail.py:
 
 
-Inversion of current source density apply to a roots imaging
-------------------------------------------------------------
+ICSD: calibration in water
+==========================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-59
+This example illustrate the use of the ICSD code for a calibration experiment consisting in emerging an isolate cable in a box filled with water. 
+The tip of the cable release the current into the water. The aim is to find the location of the cable tip after measuring the potentials at different location of the box.
+For further information see Peruzzo et al. (2019)
+
+.. GENERATED FROM PYTHON SOURCE LINES 9-56
 
 
 
@@ -38,22 +42,113 @@ Inversion of current source density apply to a roots imaging
     *
 
       .. image-sg:: /auto_examples/images/sphx_glr_run_nail_002.png
-         :alt: run nail
+         :alt: Estimated m0  T0
          :srcset: /auto_examples/images/sphx_glr_run_nail_002.png
          :class: sphx-glr-multi-img
 
     *
 
       .. image-sg:: /auto_examples/images/sphx_glr_run_nail_003.png
-         :alt: run nail
+         :alt: CSD 2d T0  $\lambda$=1
          :srcset: /auto_examples/images/sphx_glr_run_nail_003.png
          :class: sphx-glr-multi-img
 
     *
 
       .. image-sg:: /auto_examples/images/sphx_glr_run_nail_004.png
-         :alt: Normalized Knee Point
+         :alt: CSD 2d T0  $\lambda$=1
          :srcset: /auto_examples/images/sphx_glr_run_nail_004.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_005.png
+         :alt: $\lambda$=0.01
+         :srcset: /auto_examples/images/sphx_glr_run_nail_005.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_006.png
+         :alt: $\lambda$=1.12
+         :srcset: /auto_examples/images/sphx_glr_run_nail_006.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_007.png
+         :alt: $\lambda$=2.23
+         :srcset: /auto_examples/images/sphx_glr_run_nail_007.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_008.png
+         :alt: $\lambda$=3.34
+         :srcset: /auto_examples/images/sphx_glr_run_nail_008.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_009.png
+         :alt: $\lambda$=4.45
+         :srcset: /auto_examples/images/sphx_glr_run_nail_009.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_010.png
+         :alt: $\lambda$=5.5600000000000005
+         :srcset: /auto_examples/images/sphx_glr_run_nail_010.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_011.png
+         :alt: $\lambda$=6.67
+         :srcset: /auto_examples/images/sphx_glr_run_nail_011.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_012.png
+         :alt: $\lambda$=7.78
+         :srcset: /auto_examples/images/sphx_glr_run_nail_012.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_013.png
+         :alt: $\lambda$=8.89
+         :srcset: /auto_examples/images/sphx_glr_run_nail_013.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_014.png
+         :alt: $\lambda$=10.0
+         :srcset: /auto_examples/images/sphx_glr_run_nail_014.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_015.png
+         :alt: run nail
+         :srcset: /auto_examples/images/sphx_glr_run_nail_015.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_016.png
+         :alt: Normalized Knee Point
+         :srcset: /auto_examples/images/sphx_glr_run_nail_016.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_nail_017.png
+         :alt: CSD 2d T0  $\lambda$=6.67
+         :srcset: /auto_examples/images/sphx_glr_run_nail_017.png
          :class: sphx-glr-multi-img
 
 
@@ -69,38 +164,12 @@ Inversion of current source density apply to a roots imaging
     obs_err: sqrt
     True
     ./Cotton_Soil/nail1/
-    [  236.     304.     339.     326.     239.     208.     258.     314.
-       361.     373.     336.     352.     222.     337.     444.     370.
-       465.     472.     366.     320.     447.     559.     588.     564.
-       547.     528.     386.     654.     750.     673.     740.     703.
-       632.     511.     835.    1020.     950.     907.     928.     822.
-       773.    1260.    1270.    1080.    1220.    1180.    1250.    1150.
-      1570.    1650.    1440.    1320.    1460.    1840.    -286.    -423.
-      -561.    -765.    -962.    -970.    -144.    -207.    -313.    -353.
-      -585.    -533.    -661.     -66.1    -76.6   -199.    -162.    -319.
-      -280.    -281.      -8.21   -68.      19.5    -76.4    -41.3   -151.
-        83.      26.3     23.8    119.      99.5    125.     165.     178.
-        36.5    160.     194.     255.     351.     416.     457.     149.
-       174.     355.     360.     541.     839.    1050.     164.     272.
-       422.     485.     803.    1210.     603.     302.     988.      69.7
-       736.    1160.      93.8    431.     800.    1400.      23.9    397.
-       632.    1070.    1640.      51.5    245.     512.     865.    1340.
-      2300.     237.     389.     664.    1050.    1660.     169.     293.
-       584.     802.    1170.    1990.     295.     397.     666.     888.
-      1310.     365.     496.     721.     871.     362.     526.     741.
-       388.     493.     371.     -96.      65.7   -789.      29.9   -406.
-     -1000.     -26.    -281.    -763.   -1140.      35.7   -272.    -577.
-     -1060.   -1360.     -48.    -172.    -447.    -781.   -1230.   -1930.
-       -58.2   -192.    -353.    -641.    -992.   -1550.   -2230.    -202.
-      -312.    -445.    -750.   -1330.   -1800.    -300.    -441.    -569.
-      -911.   -1420.    -347.    -438.    -757.   -1010.    -370.    -521.
-      -760.    -380.    -544.    -403.  ]
     x0_prior = False
     wr = 1
     run_single i=0
     UNconstrainsted inversion
     ********************
-    CURRENT Sum=1.0000005098857254
+    CURRENT Sum=1.0000005098857252
     pareto weights are
      [ 0.01  1.12  2.23  3.34  4.45  5.56  6.67  7.78  8.89 10.  ]
     ********************
@@ -108,7 +177,7 @@ Inversion of current source density apply to a roots imaging
     ********************
     CURRENT Sum=1.0000005098603633
     ********************
-    CURRENT Sum=1.000000509490006
+    CURRENT Sum=1.0000005094900062
     ********************
     CURRENT Sum=1.0000005088756687
     ********************
@@ -118,11 +187,11 @@ Inversion of current source density apply to a roots imaging
     ********************
     CURRENT Sum=1.0000005055939825
     ********************
-    CURRENT Sum=1.0000005040326059
+    CURRENT Sum=1.000000504032606
     ********************
     CURRENT Sum=1.00000050224511
     ********************
-    CURRENT Sum=1.0000005002368346
+    CURRENT Sum=1.000000500236835
     Knee detected for wr=6.67
     run_single i=0
     UNconstrainsted inversion
@@ -138,16 +207,15 @@ Inversion of current source density apply to a roots imaging
 
 .. code-block:: default
 
-    import os
+
+
+    # Import packages
     import matplotlib.pyplot as plt
-
-    # -----------------------------------#
-    # Exemple cotton
-    # -----------------------------------#
-    path2files="./Cotton_Soil/nail1/"
-
     from icsd.icsd3d import iCSD3d as i3d 
     from icsd.plotters import mpl_plot
+
+
+    path2files="./Cotton_Soil/nail1/"
 
     icsd=i3d(dirName=path2files)   
     icsd.type='2d'
@@ -156,47 +224,41 @@ Inversion of current source density apply to a roots imaging
     icsd.alphaSxy=False
     icsd.x0_prior=False
     icsd.x0_ini_guess=False # initial guess
-    #icsd.icsd_init()
 
+    # create a survey container
     icsd.createSurvey(fname_obs='ObsData.txt',fname_sim='VRTeSim.txt')
-    # icsd.plotElecs=False
 
+    # First method to estimate m0
     m0 = icsd.estimateM0(method_m0='F1',show=True)
+
+    # Second method to estimate the initial model based on Pearson analysis
     m0 = icsd.estimateM0(method_m0='Pearson',show=True)
 
-    # icsd.clim=[0,0.1]
-    # icsd.run_single()
-
+    # Invert the data
     sol= icsd.invert(x0_prior=False,wr=1)
 
 
- 
+    # Plot the results 
     fig, ax = plt.subplots()
-    ax.scatter([0.2,0.4],[0.1,0.3],color='r',marker='v')
     icsd.showResults(ax=ax)
-    # fig, ax = plt.subplots()
     plt.show()
 
 
+    # Another way to plot the result
     icsd.showResults()
 
-    # icsd.ModelResolution(jacMi=305)
 
-    # run pareto
+    # Run pareto analysis between 0.01 to 10 of regularisation weight
     icsd.pareto_MinErr=0.01
     icsd.pareto_MaxErr=10
     icsd.pareto_nSteps=10
-
-    icsd.knee=False
     icsd.run_pareto()
-
-
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  21.509 seconds)
+   **Total running time of the script:** ( 0 minutes  19.786 seconds)
 
 
 .. _sphx_glr_download_auto_examples_run_nail.py:

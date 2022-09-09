@@ -370,12 +370,11 @@ class iCSD3d(object):
         self.surveys[index].solution = self.x
 
         if show == True:
-            ax, f = self.showResults(index=index)
+            ax = self.showResults(index=index)
             self.misfit()
             plt.tight_layout()
             plt.show()
-            plt.close(f)
-            return ax, f
+            return ax 
         else:
             pass
 
@@ -428,7 +427,7 @@ class iCSD3d(object):
                 # PLOT ICSD 2d
                 #--------------
                 if self.type == "2d":
-                    self.f, _ = plotCSD2d(
+                    ax = plotCSD2d(
                         self.surveys[0].coord,
                         self.x.x,
                         self.surveys[0].b,
@@ -443,7 +442,7 @@ class iCSD3d(object):
                 # PLOT ICSD 3d
                 #--------------
                 else:
-                    self.f, _ = plotCSD3d(
+                    ax = plotCSD3d(
                         self.wr,
                         self.surveys[0].coord,
                         self.x.x,
@@ -454,7 +453,8 @@ class iCSD3d(object):
                         title=None,
                     )
 
-                pdf.savefig(self.f)
+                f = plt.gcf()
+                pdf.savefig(f)
                 self.residualAnalysis()
                 self.misfit()
 
@@ -759,34 +759,36 @@ class iCSD3d(object):
             solution = self.surveys[index].solution.x
 
         if self.type == "2d":
-            f, ax = plotCSD2d(
-                self.surveys[index].coord,
-                solution,
-                self.surveys[index].b,
-                self.b_w,
-                self.surveys[index].path2load,
-                self.pareto,
-                retElec=None,
-                sc=None,
-                ax=ax,
-                title_wr=self.wr,
-                index=index,
-                clim=self.clim,
-            )
+            ax = plotCSD2d(
+                            self.surveys[index].coord,
+                            solution,
+                            self.surveys[index].b,
+                            self.b_w,
+                            self.surveys[index].path2load,
+                            self.pareto,
+                            retElec=None,
+                            sc=None,
+                            ax=ax,
+                            title_wr=self.wr,
+                            index=index,
+                            clim=self.clim,
+                        )
         else:
-            f, ax = plotCSD3d(
-                self.wr,
-                self.surveys[index].coord,
-                solution,
-                self.surveys[index].path2load,
-                self.surveys[index].obs,
-                self.surveys[index].knee,
-                self.surveys[index].KneeWr,
-                ax=ax,
-                title=None,
-                **kwargs
-            )
             
+            # if use_mpl:
+                # f, ax = plotCSD3d(
+                #     self.wr,
+                #     self.surveys[index].coord,
+                #     solution,
+                #     self.surveys[index].path2load,
+                #     self.surveys[index].obs,
+                #     self.surveys[index].knee,
+                #     self.surveys[index].KneeWr,
+                #     ax=ax,
+                #     title=None,
+                #     **kwargs
+                # )
+                
             plotCSD3d_pv(
             solution,
             self.surveys[index].coord,
@@ -800,7 +802,7 @@ class iCSD3d(object):
             **kwargs
                 )
             
-        return ax, f
+        return ax
 
     # ----------------------------------------------
     #  POST inversion analysis

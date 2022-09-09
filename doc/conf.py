@@ -33,7 +33,18 @@ author = 'L. Peruzzo and B. Mary'
 # The short X.Y version
 version = '0.1.1'
 # The full version, including alpha/beta/rc tags
-release = '0.1.1'
+#release = '0.1.1'
+
+
+#import iscd
+# Project information
+# -----------------------------------------------------------------------------
+#copyright_info = f"2018-{datetime.date.today().year}, The {project} Developers"
+#if len(icsd.__version__.split("+")) > 1 or icsd.__version__ == "unknown":
+#    version = "dev"
+#else:
+#    version = icsd.__version__
+
 
 
 # -- General configuration ---------------------------------------------------

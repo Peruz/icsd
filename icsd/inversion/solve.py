@@ -18,16 +18,17 @@ def iCSD(A_w, b_w, dim, coord, path, **kwargs):
 
     Parameters
     ----------
-    * x0_ini_guess : 1D-arrays
+    x0_ini_guess : 1D-arrays
         Initial guess
-    * A_w : 1D-arrays
+    A_w : 1D-arrays
         Kernel of green functions
-    * b_w : 1D-array
+    b_w : 1D-array
         Weigted observations
-    * dim : int
+    dim : int
         Survey dimension i.e 2d or 3d
-    * coord : 1D-arrays
+    coord : 1D-arrays
         Coordinates of the virtual sources
+    **kwargs
     Returns
     -------
     x : 1D-arrays
@@ -69,7 +70,7 @@ def reshape_A(A, nVRTe):
 
 
 def obs_w_f(obs_err, b, errRmin, sd_rec=None):
-    """weight the observations, can also ignore observations by setting w = 0"""
+    """Weight the observations, can also ignore observations by setting w = 0"""
     if obs_err == "const":
         obs_w = np.ones(b.shape[0])
     elif obs_err == "sqrt":
@@ -121,7 +122,7 @@ def stack_b(b, con_b, reg_b):
 
 
 def stack_w(obs_w, con_w, x0_prior, **kwargs):
-    """create vector with weights for observation, constrain, and regularization
+    """Create vector with weights for observation, constrain, and regularization
     then use it as diagonal for the weight matrix"""
     # con_w = _con_w_f(wc)
     reg_w = kwargs.get("reg_w")

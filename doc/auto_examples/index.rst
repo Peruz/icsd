@@ -11,12 +11,12 @@ Gallery of example
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Inversion of current source density apply to a roots imaging">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrate the use of the ICSD code for a calibration experiment consisting in eme...">
 
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_run_nail_thumb.png
-     :alt: Inversion of current source density apply to a roots imaging
+     :alt: ICSD: calibration in water
 
      :ref:`sphx_glr_auto_examples_run_nail.py`
 
@@ -32,12 +32,12 @@ Gallery of example
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Inversion of current source density apply to a roots imaging">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrate the use of the ICSD code for a synthetic experiment mimicking a landfil...">
 
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_run_landfill3d_thumb.png
-     :alt: Inversion of current source density apply to a roots imaging
+     :alt: ICSD: landfill leakage
 
      :ref:`sphx_glr_auto_examples_run_landfill3d.py`
 

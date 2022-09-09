@@ -15,7 +15,7 @@ from scipy.stats import pearsonr
 
 ### Individual Misfit
 def _normF1(A, b, **kwargs):
-    """compute the norm between observation data and individual green functions"""
+    """Compute the norm between observation data and individual green functions"""
     F1 = []
     for i in range(np.shape(A)[1]):
         F1i = LA.norm(
@@ -37,10 +37,12 @@ def misfitF1_2_initialX0(A, b, **kwargs):
 
 
 def product_moment(A, b):
-    """Compute the product moment correlation after Binley et al. 1999
+    r"""Compute the product moment correlation after Binley et al. 1999
+
     .. math::
 
         r_{k}= \frac{\sum_{i}(D_{I}-\overline{D})(F_{i}(I_{k})-\overline{F}(I_{k}))}{\sqrt{\sum_{i}(D_{I}-\overline{D})^{2}}\sum_{i}(F_{i}(I_{k})-\overline{F}(I_{k}))^{2}}
+
     where $D_{i}$ is the $i^{th}$ measured transfer resistance and $F_{i}(I_{k})$ is the $i^{th}$  transfer resistance computed to unit current at location k.
     """
     # Estimate a covariance matrix, given data observation and weights and tranfert resitances measured.
@@ -48,8 +50,6 @@ def product_moment(A, b):
     for i in range(np.shape(A)[1]):
         corr, _ = pearsonr(b, A[:, i])
         rpearson.append(corr)
-        if i == 1:
-            print(A[:, i])
     M0 = rpearson / np.sum(rpearson)  # normalize such as sum equal to 1
     TranslateMIN = np.min(M0)
     M0 = M0 - TranslateMIN  # translate, then transform */

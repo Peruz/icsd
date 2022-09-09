@@ -165,9 +165,7 @@ Oldenburg, 1996a, Li and Oldenburg, 2000c).
 
 A depth weighting matrix is generally applied to the kernel during
 inversion to counteract the sensitivity of the kernel matrix to near
-surface model parameters
-
-cite Zhenlu Shao, Revil 2018
+surface model parameters.
 
 Compactness
 ^^^^^^^^^^^
@@ -186,11 +184,11 @@ Spatial regularization
    added for the entire VRTe grid and set to 0 by adding corresponding
    0’s to b.
 
--  NEW: a second order spatial regularization with differentiation
+-  A second order spatial regularization with differentiation
    between x and y directions to obtain two different matrices (of the
    same size) such as :math:`D_{x}` and :math:`D_{y}`
 
--  NEW: for the 3d case, a k-mean with 4 (or more) neighbors sources
+-  For the 3d case, a k-mean with 4 (or more) neighbors sources
    regularization can be used. In that case each source is weighted so
    the sum is equal to 0.
 
@@ -201,7 +199,7 @@ function:
 .. math::
 
    \label{eq:ObjFctFull}
-       \widetilde{\mathbit{m}}=\ min \left\{\left\|Lr\right\|^{2} + \lambda(\alpha_{s}\left\|m-m0\right\|^{2}+ \alpha_{x}\left\|D_{x}(m-m0)\right\|^{2} + \alpha_{z}\left\|D_{z}(m-m0)\right\|^{2})\right\}
+       \widetilde{m}=\ min \left\{\left\|Lr\right\|^{2} + \lambda(\alpha_{s}\left\|m-m0\right\|^{2}+ \alpha_{x}\left\|D_{x}(m-m0)\right\|^{2} + \alpha_{z}\left\|D_{z}(m-m0)\right\|^{2})\right\}
 
 where :math:`\textbf{m}_{0}` is a reference model to which we believe
 the physical property distribution should be close. Often
@@ -285,12 +283,7 @@ by solving the system Am=b, with:
    \label{eq:Bside}
    b=(G^{T}W_{d}d\ +\ \lambda W_{m}m_{0})
 
-Model appraisal
----------------
 
-TO WRITE
-
-.. _ssec:OthersApproaches:
 
 Other approaches
 ----------------
@@ -333,85 +326,3 @@ synthetic test.
 .. image:: ./images/F1misfitM02d_nail2.png
 
 .. image:: ./images/ICSD_2d_nail2.png
-
-
-Imaging methods derived from gravity methods
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-We describe here approaches than can help to interpret the
-mise-à-la-masse prospection. At most, they indicate an approximate
-source location. It is crucial to remember that these solutions are
-subject to non uniqueness and bias just like any other geophysical
-inverse problem.
-
-The voltage as a potential in resistivity methods is actually a
-pseudo-potential since it is modulated by the conductivity. If the
-conductivity is homogeneous (case where CT=1, in figure 1), the partial
-differential equation (PDE) that is regulating the flux of current in
-steady state (DC), boils down to Laplace’s equation because the
-conductivity goes out from the derivative.
-
-In steady state, we introduced the governing equations for the direct
-current problem (i.e. Poisson equation, Eq.
-`[eq:PoissonEq] <#eq:PoissonEq>`__).
-
-.. math::
-
-   \label{PoissonEq}
-   \Delta \cdot (\sigma \Delta V) = -I \varsigma(r)
-
-Poisson’s Equation simplifies to Laplace’s Equation. If there is no
-current sources into the soil:
-
-.. math::
-
-   \label{LaplaceEq}
-   \Delta^{2} V = 0
-
-If on the other hand there is a particule of mass m into the soil and in
-particular, if we consider it to be at the center of a sphere of radius
-r, the Laplace equation for the gravitational potential becomes:
-
-.. math::
-
-   \label{LaplaceEq2}
-   \Delta^{2} U = -4\pi\gamma\sigma
-
-With :math:`\sigma` the density of the mass and where :math:`\gamma` is
-the gravitational constant (eq. 2.10 of Applied Geophysics book).
-
-Ultimately, we get a similar equation than for pure potential methods
-(like gravity of magnetism) if we consider a charge of current instead
-of a particle of mass.
-
-Imaging methods may be defined in terms of the self-adjoint operator GT
-only [18], leading to some sort of approximation of the inversion
-approach.
-
-.. math:: \textbf{m} \approx \textbf{G}^{T}\textbf{d}.
-
-As first observed in [17] and [18], :math:`\textbf{G}^{T}` is the upward
-continuation operator.
-
-[17] M. Fedi and M. Pilkington, “Understanding imaging methods for
-potential field data,” Geophysics, vol. 77, no. 1, pp. G13–G24, 2012. M.
-S. Zhdanov, Inverse Theory and Applications in Geophysics, 2nd ed.
-Amsterdam, The Netherlands: Elsevier, 2015.
-
-A number of imaging methods rely on the use of upward continuation
-operator and a depth weigting functions in order to provide an estimate
-of the source depth causing the potential field. The most common are:
-
--  Euler deconvolution;
-
--  dEXP, Sandwich, Migrate ...;
-
--  CWT: continuous wavelets transformations.
-
-cite paper in prep: “The dEXP and wawelets algorithm applied to current
-source inversion for Mise-à-la-masse prospection”
-
-Continuous wavelets transformation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-See Manual G. Mauri

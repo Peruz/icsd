@@ -201,12 +201,12 @@ def plotCSD2d(
         fig_name = "CSD 2d"
 
     if ax == None:
-        f = plt.figure("CSD 2d")
-        ax = plt.subplot()
+        # f = plt.figure("CSD 2d")
+        f, ax = plt.subplots()
         # ax = plt.gca()
-    else:
-        f = plt.figure("CSD 2d")
-        ax = plt.subplot()
+    # else:
+        # f = plt.figure("CSD 2d")
+    #     ax = plt.subplot()
 
     _fig_Interpolation_(ax, coord, data_sol, clim=clim)
     _fig_VRTe_(ax, coord, data_sol, clim=clim)
@@ -220,7 +220,7 @@ def plotCSD2d(
             title = r"$\lambda$=" + str(kwargs.get("title_wr"))
         _fig_Axis_Labels_(ax, title)
 
-    return f, ax
+    return ax
 
     if kwargs.get("xfun") is not None:
         xfun = kwargs.get("xfun")
@@ -302,7 +302,7 @@ def plotCSD3d(
             )
 
     plt.show()
-    return f, ax
+    return ax
 
 
 #%% Generic plot functions
@@ -385,8 +385,9 @@ def plotContour2d(
     if kwargs.get("index") is not None:
         fig_name += "  T" + str(kwargs.get("index"))
     if ax == None:
-        f = plt.figure(fig_name)
-        ax = plt.gca()
+        # f = plt.figure(fig_name)
+        # ax = plt.gca()
+        f, ax = plt.subplots()
 
     _fig_Interpolation_(ax, coord, data_sol, lgd_label=physLabel)
     _fig_VRTe_(ax, coord, data_sol)

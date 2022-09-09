@@ -1,11 +1,10 @@
 # ICSD: Inversion of current source density
 **for Geophysicists**
 
-[![Tests](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml/badge.svg)](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![PyPI version](https://badge.fury.io/py/icsd.svg)](https://badge.fury.io/py/icsd)
-[![Documentation Status](https://readthedocs.org/projects/icsd/badge/?version=latest)](https://icsd.readthedocs.io/en/latest/?badge=latest)
-
+[![Docs](https://github.com/Peruz/icsd/actions/workflows/documentation.yml/badge.svg)](https://github.com/Peruz/icsd/actions/workflows/documentation.yml)
+[![Tests](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml/badge.svg)](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml)
 
 <!--
 ![sphinx doc](https://github.com/Peruz/icsd/actions/workflows/sphinx_doc.yml/badge.svg)

@@ -1,8 +1,8 @@
 ---
-title: 'icsd: A Python package for current source density inversion'
+title: 'pyGeoCSD (?): a python package for Current Source Density inversion'
 tags:
   - Python
-  - geophysic
+  - Geophysic
 authors:
   - name: Benjamin Mary
     orcid: 0000-0001-7199-2885
@@ -42,9 +42,9 @@ For a quick reference, the following citation commands can be used:
 
 Most of the codes available for the interpretation of geoelectrical survey focus on revovering the subsurface electrical resistivity. 
 For some specific cases, when a direct excitation of the a conductive body (or mass) is applied, it is more relevant to map the electrical current density within the subsurface. 
-The `icsd` open-source generic algorithm provide a scheme for the inversion of subsurface current source density. 
+The `pyGeoCSD` open-source generic algorithm provide a scheme for the inversion of subsurface current source density. 
 It targets the geophysical community in primary and provide readers and parsers for two of the most widely used libraries for forward/inversion geoelectrical libraries i.e. pyGIMLI and Resipy. 
-The `icsd` package keep the dependencies to the bare minimum to encourage other libraries to depend on. 
+The `pyGeoCSD` package keep the dependencies to the bare minimum to encourage other libraries to depend on. 
 The technique adopted is a logical extension of the work of [@binley_detecting_1997; @binley_detecting_1999]. 
 The mathematical formulation is also borrowed from the neurosciences community who develop the same approach for the medical imaging.
 
@@ -67,7 +67,7 @@ Other non geohysical application exists. For instance, the current source densit
 
 
 Although the large adoption of the method, very few codes are available. 
-The `icsd` algorithm is part of the familly of mathematical minimisation problem and follow the same mechanism than other methods i.e. linerisation of the problem, least square optimisation. 
+The `pyGeoCSD` algorithm is part of the familly of mathematical minimisation problem and follow the same mechanism than other methods i.e. linerisation of the problem, least square optimisation. 
 For the mathematical formulation of the problem the reader must refer to @peruzzo_imaging_2020. 
 Compare to classical inversion of ERT [@rubin_dc_2005], the current source inversion looks to minimize the measured voltage with Green functions (solution of for a user-defined grid of current sources distributed in the subsurface) with the inverted ERT values as a background initial resistivity. Also one additionnal constraints must be accounted for the conservation of the current (sum equal to 1). 
 Authors used custum procedure to interpret ECI data, varying from simple qualitative analysis to classical. 
@@ -113,7 +113,7 @@ The current implementation allows for:
 
 <!--
 Quality of the result is evaluate using RMS. 
-Morevover, the potential of the `icsd` algortim can be extended to all the inclusion of a-priori information in the form of model depth-weighting [@cella_inversion_2012], (Oldenburg and Li, n.d.), refined optimisation spatial procedure taking into account the anisotropy (de Villiers et al., 2019), or even time lapse inversion. 
+Morevover, the potential of the `pyGeoCSD` algortim can be extended to all the inclusion of a-priori information in the form of model depth-weighting [@cella_inversion_2012], (Oldenburg and Li, n.d.), refined optimisation spatial procedure taking into account the anisotropy (de Villiers et al., 2019), or even time lapse inversion. 
 -->
 
 # Example Usage 
@@ -125,16 +125,17 @@ Furthermore, depending the nature of the problem, the user could rapidly approxi
 ![The product-moment correlation and the inverted current density\label{fig1}](joss_fig1.png)
 
 
-For a full use of the package it has to be coupled with a forward geoelectrical model ERT [@blanchy_resipy_2020, @cockett_simpeg_2015, @rucker_pygimli_2017]. Typical procedure steps are:
+For a full use of the package it has to be coupled with a forward geoelectrical model ERT [@blanchy_resipy_2020, @cockett_simpeg_2015, @rucker_pygimli_2017]. 
+Typical procedure steps are:
+
 1. Import and filter survey data (ERT and ECI)
 2. Invert the ERT data
-3. Calculate Green functions (solution of for a user-defined grid of current sources distributed in the subsurface) with the inverted ERT values as a background initial resistivity.
+3. Calculate Green functions using the inverted ERT values as a background initial resistivity. The Green functions are the solution of punctual current sources distributed in the subsurface by a user-defined grid.
 
-After the three previous steps, the icsd code can be used to invert for current source density (see the following examples)
+After the three previous steps, the pyGeoCSD code can be used to invert for current source density (see the following examples)
 
-In the current literature, the `icsd` code has been used mainly for plant roots prospection [@mary_time-lapse_2020; @peruzzo_imaging_2020]. 
+In the current literature, the `pyGeoCSD` code has been used mainly for plant roots prospection [@mary_time-lapse_2020; @peruzzo_imaging_2020]. 
 We nevertheless provide a variety of synthetic example in the documentation targeting varying disciplines of the geophysics.
-- Case of a synthetic landfill leakage
 
 <!--
 ![Current source density for the leakage detection case\label{fig2}](fig2_leakage_ICSD.png)
@@ -159,7 +160,7 @@ Figure sizes can be customized by adding an optional second parameter:
 # Related Software Packages
 
 The neurosciences community developed similar algortim applied for medical imaging. 
-There is a MATLAB scripts for the 2D current-source density analysis together with a GUI toolbox can be downloaded here based on the article [@leski_inverse_2011]. That iCSD has been generalized, the new kernel Current Source Density [@potworowski_kernel_2012] takes care of noise and allows reconstruction from arbitrary distribution of electrodes with a Python code available.
+There is a MATLAB scripts for the 2D current-source density analysis together with a GUI toolbox can be downloaded here based on the article [@leski_inverse_2011]. The iCSD has been generalized, the new kernel Current Source Density [@potworowski_kernel_2012] takes care of noise and allows reconstruction from arbitrary distribution of electrodes with a Python code available.
 
 
 # Acknowledgements

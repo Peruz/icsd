@@ -1,4 +1,4 @@
-# ICSD: Inversion of current source density
+# pyGeoCSD: Inversion of current source density
 **for Geophysicists**
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -11,44 +11,44 @@
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tesspy.svg)](https://anaconda.org/conda-forge/tesspy)
 -->
 
-`iCSD` is a python library for current source density inversion.
+`pyGeoCSD` is a python library for current source density inversion.
 
 
 ## Installation
-You can install ``iCSD`` from PyPI using pip (**Not Recommended**):
+You can install ``pyGeoCSD`` from PyPI using pip (**Not Recommended**):
 ```
-pip install iCSD
+pip install pyGeoCSD
 ```
 
 and from conda (**Recommended**):
 ```
-conda install -c conda-forge iCSD
+conda install -c conda-forge pyGeoCSD
 ```
 
 
-### Creating a new environment for icsd
+### Creating a new environment for pyGeoCSD
 
-`iCSD` depends on `?`, which could make the installation sometimes tricky because of the conflicts with the current packages. Therefore, we recommend creating a new clean environment and installing the dependencies from the conda-forge channel.
+`pyGeoCSD` depends on `?`, which could make the installation sometimes tricky because of the conflicts with the current packages. Therefore, we recommend creating a new clean environment and installing the dependencies from the conda-forge channel.
 
 
 Create a new environment:
 ```shell
-conda create -n icsd_env -c conda-forge
+conda create -n pyGeoCSD -c conda-forge
 ```
 
 Activate this environment:
 ```shell
-conda activate icsd_env
+conda activate pyGeoCSD
 ```
 
-Install iCSD from conda-forge channel:
+Install pyGeoCSD from conda-forge channel:
 ```shell
-conda install -c conda-forge iCSD
+conda install -c conda-forge pyGeoCSD
 ```
 
 
 
-### Developement environment for icsd
+### Developement environment for pyGeoCSD
 
 Create a new environment:
 ```shell
@@ -57,15 +57,15 @@ conda env create -f environment.yml
 
 Activate this environment:
 ```shell
-conda activate icsd_env
+conda activate pyGeoCSD
 ```
 
-Install iCSD from setup.cfg:
+Install pyGeoCSD from setup.cfg:
 ```shell
 pip install -e .
 ```
 
-Update iCSD:
+Update pyGeoCSD:
 ```shell
 conda env update --file environment.yml --prune
 ```
@@ -74,19 +74,19 @@ conda env update --file environment.yml --prune
 
 
 ```shell
-pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-report term-missing --cov-report xml tests
+pytest -v --color yes --cov-config .coveragerc --cov pyGeoCSD --cov-append --cov-report term-missing --cov-report xml tests
 ```
 
 
 ## Dependencies
 
-`iCSD`'s dependencies are: `?`, `?`
+`pyGeoCSD`'s dependencies are: `?`, `?`
 
 ## Documentation
 The official documentation is hosted on **[ReadTheDocs](?)**.
 
 ## Examples
 
-some examples of laboratory acquisitions and iCSD (based on cotton experiments)
+some examples of laboratory acquisitions and pyGeoCSD (based on cotton experiments)
 
 

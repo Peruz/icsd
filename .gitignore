@@ -15,3 +15,4 @@ doc/sample_data
 .coverage.*
 examples_inPrep
 requirements_packaging
+.mydotfiles

@@ -24,20 +24,95 @@ Inversion of current source density apply to a roots imaging
 .. GENERATED FROM PYTHON SOURCE LINES 5-66
 
 
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_landfill3d_001.png
+          :alt: run landfill3d
+          :srcset: /auto_examples/images/sphx_glr_run_landfill3d_001.png
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_landfill3d_002.png
+          :alt: run landfill3d
+          :srcset: /auto_examples/images/sphx_glr_run_landfill3d_002.png
+          :class: sphx-glr-multi-img
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_landfill3d_003.png
+         :alt: Obs T=0
+         :srcset: /auto_examples/images/sphx_glr_run_landfill3d_003.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_landfill3d_004.png
+         :alt: run landfill3d
+         :srcset: /auto_examples/images/sphx_glr_run_landfill3d_004.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_landfill3d_005.png
+         :alt: run landfill3d
+         :srcset: /auto_examples/images/sphx_glr_run_landfill3d_005.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_run_landfill3d_006.png
+         :alt: Scattered current sources density, wr=1
+         :srcset: /auto_examples/images/sphx_glr_run_landfill3d_006.png
+         :class: sphx-glr-multi-img
+
+
 .. rst-class:: sphx-glr-script-out
 
-.. code-block:: pytb
+ Out:
 
-    Traceback (most recent call last):
-      File "/home/ben/Documents/GitHub/icsd/examples/run_landfill3d.py", line 35, in <module>
-        icsd3d_landfill.invert(show=True)
-      File "/home/ben/Documents/GitHub/icsd/icsd/icsd3d.py", line 528, in invert
-        ax, f = self.run_single(show=show)
-      File "/home/ben/Documents/GitHub/icsd/icsd/icsd3d.py", line 377, in run_single
-        plt.close(f)
-      File "/home/ben/miniconda3/lib/python3.9/site-packages/matplotlib/pyplot.py", line 952, in close
-        raise TypeError("close() argument must be a Figure, an int, a string, "
-    TypeError: close() argument must be a Figure, an int, a string, or None, not <class 'tuple'>
+ .. code-block:: none
+
+    no existing survey
+    initiation ICSD
+    log transformation: False
+    obs_err: sqrt
+    errRmin not correctly set, adjust
+    False
+    ./Landfill_3d/
+    run_single i=0
+    UNconstrainsted inversion
+    ********************
+    CURRENT Sum=1.0000000004516265
+    index = 0
+    interpolation spacing=3.55
+    wr = 1
+    x0_prior = False
+    run_single i=0
+    UNconstrainsted inversion
+    ********************
+    CURRENT Sum=1.0000000004516265
+    run_single i=0
+    UNconstrainsted inversion
+    ********************
+    CURRENT Sum=1.0000000004516265
+    regMesh = strc
+    wr = 1
+    x0_prior = False
+    run_single i=0
+    UNconstrainsted inversion
+    ********************
+    CURRENT Sum=1.0000000004516265
+    /home/ben/Documents/GitHub/icsd/examples/run_landfill3d.py:55: MatplotlibDeprecationWarning: Calling gca() with keyword arguments was deprecated in Matplotlib 3.4. Starting two minor releases later, gca() will take no keyword arguments. The gca() function should only be used to get the current axes, or if no axes exist, create new axes with default keyword arguments. To create a new axes with non-default arguments, use plt.axes() or plt.subplot().
+      ax=fig.gca(projection='3d')
+    interpolation spacing=3.55
 
 
 
@@ -113,7 +188,7 @@ Inversion of current source density apply to a roots imaging
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.176 seconds)
+   **Total running time of the script:** ( 0 minutes  8.288 seconds)
 
 
 .. _sphx_glr_download_auto_examples_run_landfill3d.py:

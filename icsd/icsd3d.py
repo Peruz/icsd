@@ -774,7 +774,7 @@ class iCSD3d(object):
                 clim=self.clim,
             )
         else:
-            f = plotCSD3d(
+            f, ax = plotCSD3d(
                 self.wr,
                 self.surveys[index].coord,
                 solution,

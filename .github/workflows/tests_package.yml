@@ -5,7 +5,7 @@ name: Tests
 
 on:
   push:
-    branches: [ "main", "test_branch"]
+    branches: [ "main", "tests"]
   pull_request:
     branches: [ "main"]
 
@@ -44,7 +44,7 @@ jobs:
           use-mamba: true
 
       - name: Install icsd
-        run: pip install .
+        run: pip install -e .
 
       - name: Check environment
         run: |
@@ -54,4 +54,11 @@ jobs:
         run: |
           pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-report term-missing --cov-report xml tests
 
-      - uses: codecov/codecov-action@v2
+  Badge:
+    name: Badge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: tj-actions/coverage-badge-py@v1.8 
+        
+        

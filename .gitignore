@@ -2,6 +2,7 @@
 *~
 *.pyd
 .pytest_cache/
+_sphinx_build/
 build/
 dist/
 .coverage
@@ -13,3 +14,6 @@ doc/sample_data
 *.egg-info
 .coverage.*
 paper/3_Article_MALM_ICSD_CompAndGeo_Joss
+examples_inPrep
+requirements_packaging
+.mydotfiles

@@ -1,5 +1,5 @@
 ---
-title: 'pyGeoCSD (?): a python package for Current Source Density inversion'
+title: 'pyGeoCSD (?): a python package for Geophysical Current Source Density inversion'
 tags:
   - Python
   - Geophysic

@@ -35,16 +35,16 @@ Update pyGeoCSD:
 conda env update --file environment.yml --prune
 ```
 
-### Run Tests
+#### Run Tests
 
 ```shell
 pytest -v --color yes --cov-config .coveragerc --cov pyGeoCSD --cov-append --cov-report term-missing --cov-report xml tests
 ```
 
 
-### Dependencies
+#### Dependencies
 
-`pyGeoCSD`'s dependencies are limited to`numpy, scipy and kneed.
+`pyGeoCSD`'s dependencies are limited to numpy, scipy, matplotlib, pyvista and kneed.
 
 ## Documentation
 The official documentation is hosted on **[ReadTheDocs](?)**.

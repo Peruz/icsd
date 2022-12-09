@@ -48,8 +48,6 @@ def product_moment(A, b):
     for i in range(np.shape(A)[1]):
         corr, _ = pearsonr(b, A[:, i])
         rpearson.append(corr)
-        if i == 1:
-            print(A[:, i])
     M0 = rpearson / np.sum(rpearson)  # normalize such as sum equal to 1
     TranslateMIN = np.min(M0)
     M0 = M0 - TranslateMIN  # translate, then transform */

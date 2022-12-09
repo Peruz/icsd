@@ -370,12 +370,10 @@ class iCSD3d(object):
         self.surveys[index].solution = self.x
 
         if show == True:
-            ax, f = self.showResults(index=index)
+            ax = self.showResults(index=index)
             self.misfit()
             plt.tight_layout()
-            plt.show()
-            plt.close(f)
-            return ax, f
+            return ax
         else:
             pass
 
@@ -525,8 +523,8 @@ class iCSD3d(object):
         if self.pareto == False:
             if len(self.surveys) < 2:
                 if show:
-                    ax, f = self.run_single(show=show)
-                    return self.x, ax, f
+                    ax = self.run_single(show=show)
+                    return self.x, ax
                 else:
                     self.run_single(show=show)
                     return self.x
@@ -535,7 +533,7 @@ class iCSD3d(object):
 
         else:
             self.run_pareto()
-
+        pass
         # return self.surveys
 
     #%% DEFINE SURVEY container for observations and simulations
@@ -601,12 +599,12 @@ class iCSD3d(object):
 
     #%% INITIAL MODEL
 
-    def estimateM0(self, method_m0="F1", show=True, ax=None, index=None):
+    def estimateM0(self, methodM0="F1", show=True, ax=None, index=None):
         """Estimate initial M0 model for constrainsted inversion
 
         Parameters
         ----------
-        * method_m0: str
+        * methodM0: str
             Specify the method to estimate the initial M0. Options are 'F1' OR 'Pearson'.
         * show: bool
             Show M0 misfit
@@ -617,39 +615,39 @@ class iCSD3d(object):
         """
         if index is not None:
             m0 = self._parseM0_(
-                method_m0, index=index
+                methodM0, index=index
             )  # define the method to estimate M0
             self.surveys[index].physLabel = labels(
-                method_m0
+                methodM0
             )  # lgd labeling for the plot
         else:
             for i, survey in enumerate(self.surveys):
                 m0 = self._parseM0_(
-                    method_m0, index=i
+                    methodM0, index=i
                 )  # define the method to estimate M0
                 self.surveys[i].physLabel = labels(
-                    method_m0
+                    methodM0
                 )  # lgd labeling for the plot
                 if show == True:
-                    ax, f = self.showEstimateM0(index=i, ax=ax)
-                    return m0, ax, f
+                    self.showEstimateM0(index=i, ax=ax)
+                    return m0
 
         return m0
 
     def _estimateM0_(self, show=True, index=None):
-        self.estimateM0(method_m0=self.method_m0, index=index)
+        self.estimateM0(methodM0=self.method_m0, index=index)
 
-    def _parseM0_(self, method_m0, index=0):
+    def _parseM0_(self, methodM0, index=0):
         """Parse M0 parameters"""
         survey = self.surveys[index]
-        if method_m0 is not None:
-            if method_m0 == "F1":
+        if methodM0 is not None:
+            if methodM0 == "F1":
                 survey.path2load = self.dirName
                 (
                     self.surveys[index].norm_F1,
                     self.surveys[index].x0,
                 ) = misfitF1_2_initialX0(survey.A, survey.b)
-            elif method_m0 == "Pearson":
+            elif methodM0 == "Pearson":
                 self.surveys[index].x0 = product_moment(survey.A, survey.b)
         elif self.inix0 is not None:
             if survey.inix0 == "cst":
@@ -674,7 +672,7 @@ class iCSD3d(object):
 
         # fig, ax = plt.subplots()
         if self.type == "2d":
-            ax, f = plotContour2d(
+                plotContour2d(
                 self.surveys[index].coord,
                 self.surveys[index].x0,
                 self.surveys[index].physLabel,
@@ -686,7 +684,7 @@ class iCSD3d(object):
                 fig_name="Estimated m0",
             )
         else:
-            ax, f = scatter3d(
+                scatter3d(
                 self.surveys[index].coord,
                 self.surveys[index].x0,
                 self.surveys[index].physLabel,
@@ -696,9 +694,8 @@ class iCSD3d(object):
                 fig_name="Estimated m0",
             )
         plt.tight_layout()
-        plt.show()
 
-        return ax, f
+        pass
 
     def showResults(
         self,
@@ -759,7 +756,7 @@ class iCSD3d(object):
             solution = self.surveys[index].solution.x
 
         if self.type == "2d":
-            f, ax = plotCSD2d(
+            ax = plotCSD2d(
                 self.surveys[index].coord,
                 solution,
                 self.surveys[index].b,
@@ -775,32 +772,32 @@ class iCSD3d(object):
             )
         else:
             f = plotCSD3d(
-                self.wr,
-                self.surveys[index].coord,
-                solution,
-                self.surveys[index].path2load,
-                self.surveys[index].obs,
-                self.surveys[index].knee,
-                self.surveys[index].KneeWr,
-                ax=ax,
-                title=None,
-                **kwargs
+                            self.wr,
+                            self.surveys[index].coord,
+                            solution,
+                            self.surveys[index].path2load,
+                            self.surveys[index].obs,
+                            self.surveys[index].knee,
+                            self.surveys[index].KneeWr,
+                            ax=ax,
+                            title=None,
+                            **kwargs
             )
             
             plotCSD3d_pv(
-            solution,
-            self.surveys[index].coord,
-            path=self.surveys[index].path2load,
-            knee=self.surveys[index].knee,
-            wr=self.surveys[index].wr,
-            KneeWr=self.surveys[index].KneeWr,
-            mesh=self.mesh_over,
-            plotElecs=plotElecs,
-            gif3d=self.surveys[index].gif3d,
-            **kwargs
+                        solution,
+                        self.surveys[index].coord,
+                        path=self.surveys[index].path2load,
+                        knee=self.surveys[index].knee,
+                        wr=self.surveys[index].wr,
+                        KneeWr=self.surveys[index].KneeWr,
+                        mesh=self.mesh_over,
+                        plotElecs=plotElecs,
+                        gif3d=self.surveys[index].gif3d,
+                        **kwargs
                 )
             
-        return ax, f
+        return ax
 
     # ----------------------------------------------
     #  POST inversion analysis

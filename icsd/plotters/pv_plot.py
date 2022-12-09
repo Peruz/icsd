@@ -47,11 +47,16 @@ def plotCSD3d_pv(solution,
     pvfig = pv.Plotter(notebook=False, window_size=[600, 600])
 
     if kwargs.get("mesh") is not None:
+        
+        scalars = "_Marker"
+        if 'scalars' in kwargs:
+            scalars = kwargs['scalars']
+            
         ModelVtk = pv.read(path + kwargs.get("mesh"))
         cmap = plt.cm.get_cmap("viridis", 2)
         pvfig.add_bounding_box()
         pvfig.add_mesh(
-            cmap=cmap, mesh=ModelVtk, scalars="Marker", opacity=0.2
+            cmap=cmap, mesh=ModelVtk, scalars=scalars, opacity=0.2
         )  # add a dataset to the scene
 
     pvfig.add_mesh(

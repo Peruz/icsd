@@ -51,10 +51,11 @@ Gallery of examples
 ===================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Gallery of examples
 
-   auto_examples/index
+   content/auto_examplesSynth/index   
+   content/auto_examplesPub/index
    
 API documentation
 =================
@@ -66,6 +67,17 @@ API documentation
    content/api_core/api
    
 
+Licence
+=======
+
+.. toctree::
+   :maxdepth: 5
+   :caption: API
+
+   ../LICENSE.md
+   
+   
+   
 Indices and tables
 ==================
 

@@ -14,6 +14,10 @@
 
 `pyGeoCSD` is a python library for current source density inversion **for Geophysicists**. 
 
+The project has reached a stable, usable state and is being actively developed. A log of the project evolution is provided in
+[`log.md`](https://github.com/Peruz/icsd/blob/main/log.md).
+
+
 ## Documentation
 The official documentation is hosted on **[ReadTheDocs](?)**.
 
@@ -59,6 +63,6 @@ By participating in this project you agree to abide by its terms.
 
 This is free software: you can redistribute it and/or modify it under the terms
 of the **BSD 3-clause License**. A copy of this license is provided in
-[`LICENSE.txt`](https://github.com/Peruz/icsd/blob/main/LICENSE.md).
+[`LICENSE.md`](https://github.com/Peruz/icsd/blob/main/LICENSE.md).
 
 

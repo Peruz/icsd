@@ -15,53 +15,17 @@
 
 
 ## Installation
-You can install ``iCSD`` from PyPI using pip (**Not Recommended**):
+You can install ``iCSD`` from PyPI using pip:
 ```
 pip install iCSD
 ```
 
-and from conda (**Recommended**):
-```
-conda install -c conda-forge iCSD
-```
-
-
-### Creating a new environment for icsd
-
-`iCSD` depends on `?`, which could make the installation sometimes tricky because of the conflicts with the current packages. Therefore, we recommend creating a new clean environment and installing the dependencies from the conda-forge channel.
-
-
-Create a new environment:
-```shell
-conda create -n icsd_env -c conda-forge
-```
-
-Activate this environment:
-```shell
-conda activate icsd_env
-```
-
-Install iCSD from conda-forge channel:
-```shell
-conda install -c conda-forge iCSD
-```
-
-
-
 ### Developement environment for icsd
 
-Create a new environment:
+Create a new environment, activate it and install the package:
 ```shell
 conda env create -f environment.yml
-```
-
-Activate this environment:
-```shell
 conda activate icsd_env
-```
-
-Install iCSD from setup.cfg:
-```shell
 pip install -e .
 ```
 
@@ -71,7 +35,6 @@ conda env update --file environment.yml --prune
 ```
 
 ### Run Tests
-
 
 ```shell
 pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-report term-missing --cov-report xml tests
@@ -87,6 +50,6 @@ The official documentation is hosted on **[ReadTheDocs](?)**.
 
 ## Examples
 
-some examples of laboratory acquisitions and iCSD (based on cotton experiments)
+Some examples of laboratory acquisitions and iCSD (based on cotton experiments)
 
 

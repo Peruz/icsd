@@ -38,7 +38,7 @@ conda env update --file environment.yml --prune
 ### Run Tests
 
 ```shell
-pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-report term-missing --cov-report xml tests
+pytest -v --color yes --cov-config .coveragerc --cov pyGeoCSD --cov-append --cov-report term-missing --cov-report xml tests
 ```
 
 
@@ -54,4 +54,3 @@ The official documentation is hosted on **[ReadTheDocs](?)**.
 Some examples of laboratory acquisitions and pyGeoCSD (based on cotton experiments)
 
 <!-- ![Drag Racing](Dragster.jpg) -->
-

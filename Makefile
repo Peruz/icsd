@@ -60,9 +60,5 @@ doc:
 	
 publish:
 	python3 setup.py sdist bdist_wheel
-        twine upload dist/*
-        grayskull pypi icsd
-
-        
-        
-        
+	twine upload dist/*
+	grayskull pypi icsd

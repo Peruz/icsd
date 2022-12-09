@@ -7,7 +7,7 @@ For the moment, Icsd3d is only tested on Python 3.7 to 3.9. First, make sure you
 
 Clone the gitlab repository::
 
-    git clone https://github.com/Peruz/icsd
+    git clone https://github.com/Peruz/pyGeoCSD
 
 From the same `Icsd3d` directory you can import the module from source using python. 
 

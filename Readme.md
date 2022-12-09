@@ -1,5 +1,4 @@
-# ICSD: Inversion of current source density
-**for Geophysicists**
+# pyGeoCSD 
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![PyPI version](https://badge.fury.io/py/icsd.svg)](https://badge.fury.io/py/icsd)
@@ -11,25 +10,27 @@
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tesspy.svg)](https://anaconda.org/conda-forge/tesspy)
 -->
 
-`iCSD` is a python library for current source density inversion.
+## Inversion of current source density **for Geophysicists**
+
+`pyGeoCSD` is a python library for current source density inversion.
 
 
-## Installation
-You can install ``iCSD`` from PyPI using pip:
+### Installation
+You can install ``pyGeoCSD`` from PyPI using pip:
 ```
-pip install iCSD
+pip install pyGeoCSD
 ```
 
-### Developement environment for icsd
+#### Developement environment for pyGeoCSD
 
 Create a new environment, activate it and install the package:
 ```shell
 conda env create -f environment.yml
-conda activate icsd_env
+conda activate pyGeoCSD_env
 pip install -e .
 ```
 
-Update iCSD:
+Update pyGeoCSD:
 ```shell
 conda env update --file environment.yml --prune
 ```
@@ -41,15 +42,15 @@ pytest -v --color yes --cov-config .coveragerc --cov icsd --cov-append --cov-rep
 ```
 
 
-## Dependencies
+### Dependencies
 
-`iCSD`'s dependencies are: `?`, `?`
+`pyGeoCSD`'s dependencies are limited to`numpy, scipy and kneed.
 
 ## Documentation
 The official documentation is hosted on **[ReadTheDocs](?)**.
 
-## Examples
+### Examples
 
-Some examples of laboratory acquisitions and iCSD (based on cotton experiments)
+Some examples of laboratory acquisitions and pyGeoCSD (based on cotton experiments)
 
 

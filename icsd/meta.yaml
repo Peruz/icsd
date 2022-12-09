@@ -1,0 +1,43 @@
+{% set name = "icsd" %}
+{% set version = "0.1.0rc3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/icsd-{{ version }}.tar.gz
+  sha256: ddad192b497a82ab4f4c6bcc227bee8c15fa419154e219ca87b11d2cce5f497e
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+requirements:
+  host:
+    - python >=3.7
+    - pip
+  run:
+    - python >=3.7
+    - numpy <1.23.0,>=1.16.5
+    - scipy
+    - kneed
+
+test:
+  imports:
+    - icsd
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://pypi.org/project/icsd/
+  summary: "'Inversion of current source density'"
+  license: BSD-3-Clause
+  license_file: LICENSE.md
+
+extra:
+  recipe-maintainers:
+    - BenjMy

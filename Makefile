@@ -61,4 +61,6 @@ doc:
 publish:
 	python3 setup.py sdist bdist_wheel
 	twine upload dist/*
+	@echo "BenjM"
+	@echo "f@EZ6xU4US6h5@@"
 	grayskull pypi icsd

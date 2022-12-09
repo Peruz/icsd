@@ -53,4 +53,5 @@ The official documentation is hosted on **[ReadTheDocs](?)**.
 
 Some examples of laboratory acquisitions and pyGeoCSD (based on cotton experiments)
 
+<!-- ![Drag Racing](Dragster.jpg) -->
 

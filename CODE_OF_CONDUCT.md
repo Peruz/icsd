@@ -1,4 +1,4 @@
-# Code of Conduct - icsd
+# Code of Conduct - pyGeoCSD
 
 ## Our Pledge
 

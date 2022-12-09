@@ -17,30 +17,25 @@ where $D_{i}$ is the $i^{th}$ measured transfer resistance and $F_{i}(I_{k})$ is
 """
 
 
-
 # %%
 # **Import the icsd package**
 import matplotlib.pyplot as plt
-from icsd.icsd3d import iCSD3d as i3d 
+from icsd.icsd3d import iCSD3d as i3d
 
 # %%
-# **Change inversion parameters** 
+# **Change inversion parameters**
 # The default dimension type is 2d
-path2files="./iCSD_fig7/"
-icsd=i3d(dirName=path2files)   
+path2files = "./iCSD_fig7/"
+icsd = i3d(dirName=path2files)
 
-icsd.createSurvey(fname_obs='ObsData.txt',fname_sim='VRTeSim.txt')
-m0 = icsd.estimateM0(methodM0='F1',show=True)
+icsd.createSurvey(fname_obs="ObsData.txt", fname_sim="VRTeSim.txt")
+m0 = icsd.estimateM0(methodM0="F1", show=True)
 
 # %%
-# **Change inversion parameters** 
+# **Change inversion parameters**
 # Change the estimate to Pearson
 
-m0 = icsd.estimateM0(methodM0='Pearson',show=False)
+m0 = icsd.estimateM0(methodM0="Pearson", show=False)
 
 fig, ax = plt.subplots(1)
 icsd.showEstimateM0(ax=ax)
-
-
-
-

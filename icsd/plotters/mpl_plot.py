@@ -179,8 +179,7 @@ def plotPareto(wr, pareto_list_FitRes, pareto_list_RegRes, IdPtkneew, path):
 
 
 def plot_knee_icsd(wr, kn):
-    """Plot CSD for the best regularisation parameter after L-curve automatic analysis using a knee-locator
-    """
+    """Plot CSD for the best regularisation parameter after L-curve automatic analysis using a knee-locator"""
     KneeWr = wr
     kn.plot_knee_normalized()
 
@@ -188,8 +187,7 @@ def plot_knee_icsd(wr, kn):
 def plotCSD2d(
     coord, data_sol, b, b_w, path, pareto, retElec=None, sc=None, ax=None, **kwargs
 ):
-    """Plot CSD in 2d, using matplotlib and scipy interpolation
-    """
+    """Plot CSD in 2d, using matplotlib and scipy interpolation"""
 
     clim = None
     if kwargs.get("clim") is not None:
@@ -423,13 +421,11 @@ def showObs2d(path, coords_elecs, ax=None, **kwargs):
     else:
         index = 0
 
-
     # try:
     # RemLineNb, Injection, coordE, pointsE = load_geom(
     #     path
     # )  # geometry file containing electrodes position includinf remotes
     data_obs = load_obs(path, filename, index)
-
 
     _fig_Interpolation_(ax, coords_elecs, data_obs, lgd_label="U/I", clim=clim)
     _fig_VRTe_(ax, coords_elecs, data_obs)

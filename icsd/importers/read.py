@@ -11,7 +11,8 @@ import os
 import numpy as np
 import pandas as pd
 
-def load_coord(path, filename='VRTeCoord.txt', dim=2):
+
+def load_coord(path, filename="VRTeCoord.txt", dim=2):
     """load coordinates of the virtual current sources
 
     Parameters
@@ -28,35 +29,34 @@ def load_coord(path, filename='VRTeCoord.txt', dim=2):
 
 
 def _read_pygimli(filename):
-    ''' Read pygimli data format '''
-    
+    """Read pygimli data format"""
+
     with open(filename) as f:
         lines = f.readlines()
-        
+
     nb_of_sensors = int(lines[0])
-    nb_of_quad = int(lines[nb_of_sensors+2])
-    header = lines[nb_of_sensors+3]
+    nb_of_quad = int(lines[nb_of_sensors + 2])
+    header = lines[nb_of_sensors + 3]
     header = header.split(" ")
     header = header[1:-1]
-    
-    data = pd.read_csv(filename,sep='\t',
-                      skiprows=nb_of_sensors+4,
-                      header=None,
-                      nrows=nb_of_quad)
-    data.columns = header
-    data["r"] =  data["rhoa"]/data["k"]
-    
-    return data["r"].to_numpy()
-        
 
-def load_obs(path, filename='ObsData.txt', index=None):
+    data = pd.read_csv(
+        filename, sep="\t", skiprows=nb_of_sensors + 4, header=None, nrows=nb_of_quad
+    )
+    data.columns = header
+    data["r"] = data["rhoa"] / data["k"]
+
+    return data["r"].to_numpy()
+
+
+def load_obs(path, filename="ObsData.txt", index=None):
     """load the observations file (normalised voltages)
 
     Parameters
     ----------
 
     """
-    if filename.endswith(".data"):  
+    if filename.endswith(".data"):
         b = _read_pygimli(path + filename)
     else:
         b = np.loadtxt(path + filename)
@@ -64,12 +64,11 @@ def load_obs(path, filename='ObsData.txt', index=None):
     return b
 
 
-def load_sim(path, data_sim='VRTeSim.txt'):
-    """load the simulated green functions file
-    """
+def load_sim(path, data_sim="VRTeSim.txt"):
+    """load the simulated green functions file"""
 
     if isinstance(data_sim, str):
-        if data_sim.endswith(".data"):  
+        if data_sim.endswith(".data"):
             A = _read_pygimli(path + data_sim)
         else:
             A = np.loadtxt(path + data_sim)

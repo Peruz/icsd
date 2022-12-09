@@ -44,6 +44,7 @@ def iCSD(A_w, b_w, dim, coord, path, **kwargs):
         # Initial guess x0 use least_squares solver
         a = A_w
         b = b_w
+
         def func(x, a, b):
             return b - np.dot(a, x)
 

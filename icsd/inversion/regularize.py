@@ -63,10 +63,10 @@ def regularize_A(coord, nVRTe):
 
     return reg_A
 
+
 #%% 3d
 def regularize_A_3d(nVRTe, coord):
-    """Create and append rows for spatial regularization to A.
-    """
+    """Create and append rows for spatial regularization to A."""
     nx, ny, nz = nx_ny_nz(coord)
     reg = []
     vrte = range(1, nVRTe + 1)
@@ -143,6 +143,7 @@ def regularize_A_UnstructuredMesh3d(coord, nVRTe, k_neighbors=9):
 
 
 #%% Initiate vectors to build regularisation matrice for A, b
+
 
 def regularize_b(reg_A):
     """Initiate vector b with zeros, the length is determined by the number of regul rows in A"""

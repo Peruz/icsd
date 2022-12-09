@@ -46,7 +46,7 @@ class iCSD3d(object):
 
     def __init__(self, dirName):
 
-        self.surveys = [] # list of survey object
+        self.surveys = []  # list of survey object
 
         # input files directory
         self.dirName = dirName
@@ -131,11 +131,15 @@ class iCSD3d(object):
         # load virtual sources coordinates
         if self.type == "2d":
             self.coord_x, self.coord_y, survey.coord = load_coord(
-                survey.path2load, self.coord_file, dim=2,
+                survey.path2load,
+                self.coord_file,
+                dim=2,
             )
         else:
             self.coord_x, self.coord_y, self.coord_z, survey.coord = load_coord(
-                survey.path2load, self.coord_file, dim=3,
+                survey.path2load,
+                self.coord_file,
+                dim=3,
             )
 
         # load observations resistances b
@@ -200,7 +204,7 @@ class iCSD3d(object):
 
     ### mkdirs
     def createdirs(self, survey):
-        ''' create directory for figure outputs'''
+        """create directory for figure outputs"""
         survey.path2load = self.dirName
         survey.path2save = survey.path2load + "figs"
 
@@ -324,7 +328,6 @@ class iCSD3d(object):
 
         return self.reg_A
 
-
     def run_single(self, index=0, show=False):
         """Run a single inversion (unique regularisation weight)
         Equivalent to several steps::
@@ -424,7 +427,7 @@ class iCSD3d(object):
                     )
 
                 # PLOT ICSD 2d
-                #--------------
+                # --------------
                 if self.type == "2d":
                     ax = plotCSD2d(
                         self.surveys[0].coord,
@@ -439,7 +442,7 @@ class iCSD3d(object):
                     )
 
                 # PLOT ICSD 3d
-                #--------------
+                # --------------
                 else:
                     ax = plotCSD3d(
                         self.wr,
@@ -530,7 +533,7 @@ class iCSD3d(object):
                     self.run_single(show=show)
                     return self.x
             else:
-                raise ValueError('Time lapse survey not implemented yet')
+                raise ValueError("Time lapse survey not implemented yet")
 
         else:
             self.run_pareto()
@@ -586,7 +589,7 @@ class iCSD3d(object):
         fnames_obs : list of str
             List of file to be parsed or directory where the files are.
         """
-        return ValueError('Not yet implemented')
+        return ValueError("Not yet implemented")
 
     def createTDIPSurvey(self, fname_obs, fname_sim, **kwargs):
         """create TDIP survey and return a survey object.
@@ -595,8 +598,7 @@ class iCSD3d(object):
         ----------
         fname : *.bin file containing TDIP infos
         """
-        return ValueError('Not yet implemented')
-
+        return ValueError("Not yet implemented")
 
     #%% INITIAL MODEL
 
@@ -673,7 +675,7 @@ class iCSD3d(object):
 
         # fig, ax = plt.subplots()
         if self.type == "2d":
-                plotContour2d(
+            plotContour2d(
                 self.surveys[index].coord,
                 self.surveys[index].x0,
                 self.surveys[index].physLabel,
@@ -685,7 +687,7 @@ class iCSD3d(object):
                 fig_name="Estimated m0",
             )
         else:
-                scatter3d(
+            scatter3d(
                 self.surveys[index].coord,
                 self.surveys[index].x0,
                 self.surveys[index].physLabel,
@@ -773,44 +775,44 @@ class iCSD3d(object):
             )
         else:
             f = plotCSD3d(
-                            self.wr,
-                            self.surveys[index].coord,
-                            solution,
-                            self.surveys[index].path2load,
-                            self.surveys[index].obs,
-                            self.surveys[index].knee,
-                            self.surveys[index].KneeWr,
-                            ax=ax,
-                            title=None,
-                            **kwargs
+                self.wr,
+                self.surveys[index].coord,
+                solution,
+                self.surveys[index].path2load,
+                self.surveys[index].obs,
+                self.surveys[index].knee,
+                self.surveys[index].KneeWr,
+                ax=ax,
+                title=None,
+                **kwargs
             )
 
             # if use_mpl:
-                # f, ax = plotCSD3d(
-                #     self.wr,
-                #     self.surveys[index].coord,
-                #     solution,
-                #     self.surveys[index].path2load,
-                #     self.surveys[index].obs,
-                #     self.surveys[index].knee,
-                #     self.surveys[index].KneeWr,
-                #     ax=ax,
-                #     title=None,
-                #     **kwargs
-                # )
+            # f, ax = plotCSD3d(
+            #     self.wr,
+            #     self.surveys[index].coord,
+            #     solution,
+            #     self.surveys[index].path2load,
+            #     self.surveys[index].obs,
+            #     self.surveys[index].knee,
+            #     self.surveys[index].KneeWr,
+            #     ax=ax,
+            #     title=None,
+            #     **kwargs
+            # )
 
             plotCSD3d_pv(
-                        solution,
-                        self.surveys[index].coord,
-                        path=self.surveys[index].path2load,
-                        knee=self.surveys[index].knee,
-                        wr=self.surveys[index].wr,
-                        KneeWr=self.surveys[index].KneeWr,
-                        mesh=self.mesh_over,
-                        plotElecs=plotElecs,
-                        gif3d=self.surveys[index].gif3d,
-                        **kwargs
-                )
+                solution,
+                self.surveys[index].coord,
+                path=self.surveys[index].path2load,
+                knee=self.surveys[index].knee,
+                wr=self.surveys[index].wr,
+                KneeWr=self.surveys[index].KneeWr,
+                mesh=self.mesh_over,
+                plotElecs=plotElecs,
+                gif3d=self.surveys[index].gif3d,
+                **kwargs
+            )
 
         return ax
 

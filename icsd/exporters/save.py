@@ -29,9 +29,7 @@ def export_sol(coord, vec_sol, dim, path=None, filename_root="ICSDsol.dat"):
     if dim == "2d":
         ExpSOL = np.vstack([coord[:, 0], coord[:, 1], vec_sol.x])
         f = open(filename, "w")
-        np.savetxt(
-            f, ExpSOL.T, fmt="%1.2f %1.2f %1.6f", delimiter="\t", header="X Y i"
-        )
+        np.savetxt(f, ExpSOL.T, fmt="%1.2f %1.2f %1.6f", delimiter="\t", header="X Y i")
         f.close()
     else:
         ExpSOL = np.vstack([coord[:, 0], coord[:, 1], coord[:, 2], vec_sol.x])

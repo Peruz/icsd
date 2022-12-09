@@ -15,8 +15,9 @@ import pyvista as pv
 
 #%% Plot CSD in 3d using pyvista package
 
-def plotCSD3d_pv(solution,
-    coords, path=None, **kwargs
+
+def plotCSD3d_pv(
+    solution, coords, path=None, **kwargs
 ):  # add kwards or *args for pyvista plot
 
     if path is None:
@@ -47,11 +48,11 @@ def plotCSD3d_pv(solution,
     pvfig = pv.Plotter(notebook=False, window_size=[600, 600])
 
     if kwargs.get("mesh") is not None:
-        
+
         scalars = "_Marker"
-        if 'scalars' in kwargs:
-            scalars = kwargs['scalars']
-            
+        if "scalars" in kwargs:
+            scalars = kwargs["scalars"]
+
         ModelVtk = pv.read(path + kwargs.get("mesh"))
         cmap = plt.cm.get_cmap("viridis", 2)
         pvfig.add_bounding_box()

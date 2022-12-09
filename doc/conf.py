@@ -74,7 +74,7 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "jupyter_sphinx",
-    "pyvista.ext.plot_directive",
+    #"pyvista.ext.plot_directive",
     "myst_nb",
     'sphinxcontrib.bibtex',
     ]
@@ -90,9 +90,13 @@ autodoc_default_flags = ['members', 'inherited-members']
 
 sphinx_gallery_conf = {
     # path to your examples scripts
-    'examples_dirs': ['../examples'],
+    #'examples_dirs': ['../examples'],
+    "examples_dirs": ["../examples/synthetic", "../examples/published"],
+
     # path where to save gallery generated examples
-    'gallery_dirs': 'auto_examples',
+    #'gallery_dirs': 'auto_examples',
+    "gallery_dirs": ["content/auto_examplesSynth", "content/auto_examplesPub"],
+
     'filename_pattern': '\.py',
     # Remove the "Download all examples" button from the top level gallery
     'download_all_examples': False,
@@ -171,7 +175,7 @@ html_theme = 'sphinx_book_theme' #sphinx_book_theme
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

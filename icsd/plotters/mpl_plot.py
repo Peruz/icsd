@@ -204,9 +204,6 @@ def plotCSD2d(
         # f = plt.figure("CSD 2d")
         f, ax = plt.subplots()
         # ax = plt.gca()
-    # else:
-        # f = plt.figure("CSD 2d")
-    #     ax = plt.subplot()
 
     _fig_Interpolation_(ax, coord, data_sol, clim=clim)
     _fig_VRTe_(ax, coord, data_sol, clim=clim)
@@ -401,7 +398,7 @@ def plotContour2d(
         title = r"$\lambda$=" + str(title_wr)
         _fig_Axis_Labels_(title)
 
-    return ax, f
+    return ax
 
 
 def showObs2d(path, coords_elecs, ax=None, **kwargs):

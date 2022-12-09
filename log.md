@@ -4,19 +4,20 @@
 ## December, 2022
 
 Contributors: 
-- B. Mary
+- B. Mary @BenjMy
+- L. Peruzzo @Peruz
 
 Main improvements:
 - Rename package to **pyGeoCSD**;
 - Submit Article for **JOSS**;
-- First release to **Zenodo**.
+- First release to **Zenodo**;
 - Bugs corrections.
 
 ## April, 2020
 
 Contributors: 
-- B. Mary
-- L. Peruzzo
+- B. Mary @BenjMy
+- L. Peruzzo @Peruz
 
 Main improvements:
 - From 2d to **3d inversion** analysis (Merging icsd forked dev repository into icsd);
@@ -31,8 +32,8 @@ Main improvements:
 ## Date 3
 
 Contributors: 
-- B. Mary
-- L. Peruzzo
+- B. Mary @BenjMy
+- L. Peruzzo @Peruz
 
 Main improvements:
 - From **CLI to python API** for better integration with other softs.
@@ -43,7 +44,7 @@ Main improvements:
 ## Date 2
 
 Contributors: 
-- L. Peruzzo
+- L. Peruzzo @Peruz
 
 Main improvements:
 - Add **pareto** analysis controlling the tradeoff between data and model smoothing;
@@ -54,8 +55,8 @@ Main improvements:
 ## Date 1
 
 Contributors: 
-- L. Peruzzo
+- L. Peruzzo @Peruz
 
 Main improvements:
-- 1st version of the ICSD code using CLI
+- **1st public version** of the ICSD code using CLI
   - 2D inversion of MALM data

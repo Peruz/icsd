@@ -1,18 +1,21 @@
-# pyGeoCSD 
+<h2 align="center">pyGeoCSD</h2>
 
+<p align="center">
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![PyPI version](https://badge.fury.io/py/icsd.svg)](https://badge.fury.io/py/icsd)
 [![Docs](https://github.com/Peruz/icsd/actions/workflows/documentation.yml/badge.svg)](https://github.com/Peruz/icsd/actions/workflows/documentation.yml)
 [![Tests](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml/badge.svg)](https://github.com/Peruz/icsd/actions/workflows/tests_package.yml)
+</p>
 
 <!--
 ![sphinx doc](https://github.com/Peruz/icsd/actions/workflows/sphinx_doc.yml/badge.svg)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tesspy.svg)](https://anaconda.org/conda-forge/tesspy)
 -->
 
-## Inversion of current source density **for Geophysicists**
+## About 
 
-`pyGeoCSD` is a python library for current source density inversion.
+`pyGeoCSD` is a python library for current source density inversion **for Geophysicists**. 
+
 
 
 ### Installation
